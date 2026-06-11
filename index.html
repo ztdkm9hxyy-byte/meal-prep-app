@@ -5,196 +5,185 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meal Prep — Gabriel & Brenda</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #ffffff; --bg2: #f5f5f3; --bg3: #ebebeb;
-  --text: #1a1a18; --text2: #6b6b67; --text3: #9b9b96;
-  --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
-  --info-bg: #e6f1fb; --info-text: #0c447c;
-  --success-bg: #eaf3de; --success-text: #3b6d11;
-  --warn-bg: #faeeda; --warn-text: #854f0b;
-  --danger-bg: #fceaea; --danger-text: #a32d2d;
-  --radius: 10px; --radius-sm: 6px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#ffffff;--bg2:#f5f5f3;--bg3:#ebebeb;
+  --text:#1a1a18;--text2:#6b6b67;--text3:#9b9b96;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
+  --info-bg:#e6f1fb;--info-text:#0c447c;
+  --success-bg:#eaf3de;--success-text:#3b6d11;
+  --warn-bg:#faeeda;--warn-text:#854f0b;
+  --danger-bg:#fceaea;--danger-text:#a32d2d;
+  --radius:10px;--radius-sm:6px;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1c1a; --bg2: #252523; --bg3: #2e2e2b;
-    --text: #f0f0ec; --text2: #a0a09a; --text3: #6a6a65;
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.15);
-    --info-bg: #042c53; --info-text: #85b7eb;
-    --success-bg: #173404; --success-text: #97c459;
-    --warn-bg: #412402; --warn-text: #ef9f27;
-    --danger-bg: #3a0a0a; --danger-text: #e87070;
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;
+    --text:#f0f0ec;--text2:#a0a09a;--text3:#6a6a65;
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);
+    --info-bg:#042c53;--info-text:#85b7eb;
+    --success-bg:#173404;--success-text:#97c459;
+    --warn-bg:#412402;--warn-text:#ef9f27;
+    --danger-bg:#3a0a0a;--danger-text:#e87070;
   }
 }
-html,body { height:100%; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; background:var(--bg3); color:var(--text); font-size:15px; line-height:1.5; }
-.shell { display:flex; flex-direction:column; min-height:100vh; max-width:780px; margin:0 auto; background:var(--bg); border-left:0.5px solid var(--border); border-right:0.5px solid var(--border); }
-
-.header { padding:20px 24px 0; border-bottom:0.5px solid var(--border); }
-.header-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
-.header-title { font-size:20px; font-weight:500; }
-.header-sub { font-size:13px; color:var(--text3); margin-top:2px; }
-.header-right { text-align:right; font-size:12px; color:var(--text3); }
-.header-quinzena { font-size:12px; font-weight:500; color:var(--text2); margin-top:2px; }
-
-.step-nav { display:flex; overflow-x:auto; }
-.step-btn { flex:1; min-width:70px; padding:10px 6px 12px; font-size:12px; font-weight:500; text-align:center; cursor:pointer; border:none; background:transparent; color:var(--text3); border-bottom:2px solid transparent; transition:all 0.15s; font-family:inherit; }
-.step-btn:hover { color:var(--text2); }
-.step-btn.active { color:var(--text); border-bottom-color:var(--text); }
-.step-icon { display:block; font-size:18px; margin-bottom:3px; }
-
-.main { flex:1; padding:24px; }
-.screen { display:none; }
-.screen.active { display:block; }
-.screen-title { font-size:18px; font-weight:500; margin-bottom:4px; }
-.screen-sub { font-size:14px; color:var(--text2); margin-bottom:20px; line-height:1.5; }
-
-.card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:16px 18px; margin-bottom:12px; }
-.card-title { font-size:14px; font-weight:500; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-
-.btn { display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border-radius:var(--radius-sm); border:0.5px solid var(--border2); background:var(--bg); color:var(--text); font-size:14px; cursor:pointer; font-family:inherit; font-weight:500; transition:background 0.12s; white-space:nowrap; }
-.btn:hover { background:var(--bg2); }
-.btn-primary { background:var(--text); color:var(--bg); border-color:var(--text); }
-.btn-primary:hover { opacity:0.88; background:var(--text); }
-.btn-sm { padding:6px 12px; font-size:13px; }
-.btn-ghost { border-color:transparent; }
-.btn-ghost:hover { background:var(--bg2); border-color:var(--border); }
-.btn-danger { border-color:var(--danger-text); color:var(--danger-text); }
-.btn-danger:hover { background:var(--danger-bg); }
-
-.tag-grid { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
-.tag { padding:7px 14px; border-radius:99px; border:0.5px solid var(--border2); font-size:13px; cursor:pointer; background:var(--bg); color:var(--text2); transition:all 0.12s; user-select:none; font-family:inherit; }
-.tag:hover { border-color:var(--text); color:var(--text); }
-.tag.on { background:var(--bg2); color:var(--text); border-color:var(--text); font-weight:500; }
-
-textarea,input[type="text"],select { width:100%; padding:10px 12px; border:0.5px solid var(--border2); border-radius:var(--radius-sm); font-size:14px; font-family:inherit; color:var(--text); background:var(--bg); resize:vertical; line-height:1.5; }
-textarea { min-height:72px; }
-textarea:focus,input[type="text"]:focus,select:focus { outline:none; border-color:var(--text); }
-input[type="checkbox"] { width:15px; height:15px; accent-color:var(--text); flex-shrink:0; cursor:pointer; }
-select { padding:8px 10px; }
-
-.ingr-grid { display:grid; grid-template-columns:1fr; gap:8px; }
-.ingr-row { display:flex; align-items:center; gap:8px; padding:8px 10px; border:0.5px solid var(--border); border-radius:var(--radius-sm); }
-.ingr-check-wrap { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
-.ingr-label { font-size:13px; color:var(--text); cursor:pointer; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.ingr-qty { width:62px !important; min-width:62px; max-width:62px; padding:4px 6px; font-size:12px; border:0.5px solid var(--border2); border-radius:4px; background:var(--bg2); color:var(--text); font-family:inherit; text-align:center; flex-shrink:0; }
-.ingr-del { background:none; border:none; cursor:pointer; color:var(--text3); font-size:18px; padding:0; line-height:1; flex-shrink:0; }
-.ingr-del:hover { color:var(--danger-text); }
-
-.add-row { display:flex; gap:6px; margin-top:10px; align-items:stretch; }
-.add-row input[type="text"] { flex:1; padding:8px 10px; }
-.add-row select { width:90px; flex-shrink:0; }
-.add-row .btn { flex-shrink:0; }
-
-/* Cardápio */
-.week-label { font-size:11px; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; margin:16px 0 8px; }
-.day-block { margin-bottom:10px; }
-.day-name { font-size:12px; font-weight:500; color:var(--text2); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
-.meal-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.meal-cell { padding:10px 12px; border:0.5px solid var(--border); border-radius:var(--radius-sm); position:relative; }
-.meal-cell.skip { background:var(--bg2); }
-.meal-cell-label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
-.meal-cell-name { font-size:13px; font-weight:500; color:var(--text); margin-bottom:6px; line-height:1.3; }
-.meal-cell-name.muted { color:var(--text3); font-weight:400; font-style:italic; }
-.meal-badges { display:flex; flex-wrap:wrap; gap:4px; }
-.badge { font-size:11px; padding:2px 8px; border-radius:99px; font-weight:500; }
-.badge-g { background:var(--info-bg); color:var(--info-text); }
-.badge-b { background:var(--success-bg); color:var(--success-text); }
-.badge-skip { background:var(--bg3); color:var(--text3); }
-.badge-tipo { background:var(--bg2); color:var(--text3); font-size:10px; }
-
-/* Prato manager */
-.prato-list { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
-.prato-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border:0.5px solid var(--border); border-radius:var(--radius-sm); }
-.prato-emoji { font-size:18px; flex-shrink:0; }
-.prato-info { flex:1; min-width:0; }
-.prato-name { font-size:13px; font-weight:500; color:var(--text); }
-.prato-meta { font-size:11px; color:var(--text3); margin-top:1px; }
-.prato-del { background:none; border:none; cursor:pointer; color:var(--text3); font-size:18px; padding:0; flex-shrink:0; }
-.prato-del:hover { color:var(--danger-text); }
-.prato-add-form { display:grid; grid-template-columns:1fr auto auto; gap:8px; align-items:end; }
-.prato-add-form label { font-size:12px; color:var(--text2); display:block; margin-bottom:4px; }
-
-.summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-.summary-card { background:var(--bg2); border-radius:var(--radius-sm); padding:14px 16px; }
-.summary-label { font-size:12px; color:var(--text2); margin-bottom:4px; }
-.summary-val { font-size:26px; font-weight:500; color:var(--text); line-height:1; }
-.summary-sub { font-size:12px; color:var(--text3); margin-top:4px; }
-
-.shop-section { margin-bottom:12px; }
-.shop-section-title { font-size:11px; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid var(--border); }
-.shop-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:0.5px solid var(--border); }
-.shop-item:last-child { border-bottom:none; }
-.shop-item.have .shop-item-name { text-decoration:line-through; color:var(--text3); }
-.shop-item.have .shop-item-qty { color:var(--success-text); font-size:12px; }
-
-.prep-row { display:flex; gap:14px; padding:12px 0; border-bottom:0.5px solid var(--border); }
-.prep-row:last-child { border-bottom:none; }
-.prep-time { font-size:12px; font-weight:600; color:var(--text2); min-width:48px; padding-top:1px; }
-.prep-body { flex:1; }
-.prep-action { font-size:14px; font-weight:500; margin-bottom:3px; }
-.prep-detail { font-size:13px; color:var(--text2); line-height:1.4; margin-bottom:6px; }
-.prep-equip-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; background:var(--bg2); color:var(--text2); padding:3px 10px; border-radius:99px; border:0.5px solid var(--border); }
-
-.recipe-block { margin-bottom:4px; }
-.recipe-title { font-size:15px; font-weight:500; margin-bottom:8px; padding-bottom:8px; border-bottom:0.5px solid var(--border); }
-.recipe-section { font-size:12px; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; margin:10px 0 6px; }
-.recipe-list { list-style:none; }
-.recipe-list li { font-size:13px; color:var(--text2); padding:4px 0; border-bottom:0.5px solid var(--border); display:flex; justify-content:space-between; }
-.recipe-list li:last-child { border-bottom:none; }
-.recipe-steps { counter-reset:step; list-style:none; }
-.recipe-steps li { font-size:13px; color:var(--text2); padding:6px 0 6px 28px; border-bottom:0.5px solid var(--border); position:relative; line-height:1.4; }
-.recipe-steps li::before { counter-increment:step; content:counter(step); position:absolute; left:0; top:6px; width:20px; height:20px; background:var(--bg2); border-radius:50%; font-size:11px; font-weight:600; color:var(--text2); display:flex; align-items:center; justify-content:center; line-height:20px; text-align:center; }
-.recipe-steps li:last-child { border-bottom:none; }
-
-.freezer-shelf { border:0.5px solid var(--border2); border-radius:var(--radius-sm); margin-bottom:10px; overflow:hidden; }
-.freezer-shelf-label { background:var(--bg2); padding:8px 14px; font-size:12px; font-weight:600; color:var(--text2); border-bottom:0.5px solid var(--border); }
-.freezer-shelf-content { padding:10px 14px; display:flex; flex-wrap:wrap; gap:6px; }
-.freezer-item { font-size:12px; padding:4px 10px; border-radius:99px; border:0.5px solid var(--border2); color:var(--text2); background:var(--bg); }
-.freezer-item.g { background:var(--info-bg); color:var(--info-text); border-color:transparent; }
-.freezer-item.b { background:var(--success-bg); color:var(--success-text); border-color:transparent; }
-
-.alert { padding:10px 14px; border-radius:var(--radius-sm); font-size:13px; margin-bottom:14px; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
-.alert-info { background:var(--info-bg); color:var(--info-text); }
-.alert-success { background:var(--success-bg); color:var(--success-text); }
-.alert-warn { background:var(--warn-bg); color:var(--warn-text); }
-
-.nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:16px; border-top:0.5px solid var(--border); }
-
-.inner-tabs { display:flex; border:0.5px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:16px; }
-.inner-tab { flex:1; padding:8px; font-size:13px; font-weight:500; text-align:center; cursor:pointer; border:none; background:var(--bg); color:var(--text3); font-family:inherit; transition:background 0.12s; border-right:0.5px solid var(--border); }
-.inner-tab:last-child { border-right:none; }
-.inner-tab.active { background:var(--bg2); color:var(--text); }
-.inner-screen { display:none; }
-.inner-screen.active { display:block; }
-
-.copy-area { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-sm); padding:14px; font-size:13px; color:var(--text2); white-space:pre-wrap; line-height:1.6; margin-bottom:12px; max-height:320px; overflow-y:auto; user-select:all; font-family:inherit; }
-
-.footer { padding:12px 24px; border-top:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:var(--bg); }
-.footer-text { font-size:12px; color:var(--text3); }
-
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--text); color:var(--bg); padding:10px 20px; border-radius:99px; font-size:13px; font-weight:500; transition:transform 0.25s ease; pointer-events:none; white-space:nowrap; z-index:999; }
-.toast.show { transform:translateX(-50%) translateY(0); }
-
-.regras-item { display:flex; gap:10px; padding:8px 0; border-bottom:0.5px solid var(--border); font-size:13px; }
-.regras-item:last-child { border-bottom:none; }
-.regras-emoji { flex-shrink:0; font-size:15px; }
-.regras-text { color:var(--text2); line-height:1.4; }
-.regras-text strong { color:var(--text); }
-
-@media (max-width:500px) {
-  .main { padding:16px; }
-  .ingr-grid { grid-template-columns:1fr; }
-  .meal-row { grid-template-columns:1fr; }
-  .summary-grid { grid-template-columns:1fr; }
-  .prato-add-form { grid-template-columns:1fr; }
-}
-label { cursor:pointer; }
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg3);color:var(--text);font-size:15px;line-height:1.5;}
+.shell{display:flex;flex-direction:column;min-height:100vh;max-width:780px;margin:0 auto;background:var(--bg);border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);}
+.header{padding:20px 24px 0;border-bottom:0.5px solid var(--border);}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+.header-title{font-size:20px;font-weight:500;}
+.header-sub{font-size:13px;color:var(--text3);margin-top:2px;}
+.header-right{text-align:right;font-size:12px;color:var(--text3);}
+.header-quinzena{font-size:12px;font-weight:500;color:var(--text2);margin-top:2px;}
+.step-nav{display:flex;overflow-x:auto;}
+.step-btn{flex:1;min-width:62px;padding:10px 4px 12px;font-size:11px;font-weight:500;text-align:center;cursor:pointer;border:none;background:transparent;color:var(--text3);border-bottom:2px solid transparent;transition:all 0.15s;font-family:inherit;}
+.step-btn:hover{color:var(--text2);}
+.step-btn.active{color:var(--text);border-bottom-color:var(--text);}
+.step-icon{display:block;font-size:16px;margin-bottom:3px;}
+.main{flex:1;padding:24px;}
+.screen{display:none;}
+.screen.active{display:block;}
+.screen-title{font-size:18px;font-weight:500;margin-bottom:4px;}
+.screen-sub{font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.5;}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;}
+.card-title{font-size:14px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:14px;cursor:pointer;font-family:inherit;font-weight:500;transition:background 0.12s;white-space:nowrap;}
+.btn:hover{background:var(--bg2);}
+.btn-primary{background:var(--text);color:var(--bg);border-color:var(--text);}
+.btn-primary:hover{opacity:0.88;background:var(--text);}
+.btn-sm{padding:6px 12px;font-size:13px;}
+.btn-ghost{border-color:transparent;}
+.btn-ghost:hover{background:var(--bg2);border-color:var(--border);}
+.tag-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.tag{padding:7px 14px;border-radius:99px;border:0.5px solid var(--border2);font-size:13px;cursor:pointer;background:var(--bg);color:var(--text2);transition:all 0.12s;user-select:none;font-family:inherit;}
+.tag:hover{border-color:var(--text);color:var(--text);}
+.tag.on{background:var(--bg2);color:var(--text);border-color:var(--text);font-weight:500;}
+textarea,input[type="text"],select{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);resize:vertical;line-height:1.5;}
+textarea{min-height:72px;}
+textarea:focus,input[type="text"]:focus,select:focus{outline:none;border-color:var(--text);}
+input[type="checkbox"]{width:15px;height:15px;accent-color:var(--text);flex-shrink:0;cursor:pointer;}
+input[type="number"]{padding:6px 8px;border:0.5px solid var(--border2);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);width:64px;text-align:center;}
+input[type="number"]:focus{outline:none;border-color:var(--text);}
+.ingr-grid{display:grid;grid-template-columns:1fr;gap:8px;}
+.ingr-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border:0.5px solid var(--border);border-radius:var(--radius-sm);}
+.ingr-check-wrap{display:flex;align-items:center;gap:8px;flex:1;min-width:0;overflow:hidden;}
+.ingr-label{font-size:13px;color:var(--text);cursor:pointer;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;}
+.ingr-qty{width:62px!important;min-width:62px;max-width:62px;padding:4px 6px;font-size:12px;border:0.5px solid var(--border2);border-radius:4px;background:var(--bg2);color:var(--text);font-family:inherit;text-align:center;flex-shrink:0;}
+.ingr-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:0;line-height:1;flex-shrink:0;}
+.ingr-del:hover{color:var(--danger-text);}
+.add-row{display:flex;gap:6px;margin-top:10px;align-items:stretch;}
+.add-row input[type="text"]{flex:1;padding:8px 10px;}
+.add-row select{width:90px;flex-shrink:0;}
+.week-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin:16px 0 8px;}
+.day-block{margin-bottom:10px;}
+.day-name{font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.meal-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.meal-cell{padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius-sm);}
+.meal-cell.skip{background:var(--bg2);}
+.meal-cell-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;}
+.meal-cell-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;line-height:1.3;}
+.meal-cell-name.muted{color:var(--text3);font-weight:400;font-style:italic;}
+.meal-badges{display:flex;flex-wrap:wrap;gap:4px;}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;}
+.badge-g{background:var(--info-bg);color:var(--info-text);}
+.badge-b{background:var(--success-bg);color:var(--success-text);}
+.badge-skip{background:var(--bg3);color:var(--text3);}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.summary-card{background:var(--bg2);border-radius:var(--radius-sm);padding:14px 16px;}
+.summary-label{font-size:12px;color:var(--text2);margin-bottom:4px;}
+.summary-val{font-size:26px;font-weight:500;color:var(--text);line-height:1;}
+.summary-sub{font-size:12px;color:var(--text3);margin-top:4px;}
+.shop-section{margin-bottom:12px;}
+.shop-section-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid var(--border);}
+.shop-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border);}
+.shop-item:last-child{border-bottom:none;}
+.shop-item.have .shop-item-name{text-decoration:line-through;color:var(--text3);}
+.shop-item.have .shop-item-qty{color:var(--success-text);font-size:12px;}
+.prep-row{display:flex;gap:14px;padding:12px 0;border-bottom:0.5px solid var(--border);}
+.prep-row:last-child{border-bottom:none;}
+.prep-time{font-size:12px;font-weight:600;color:var(--text2);min-width:48px;padding-top:1px;}
+.prep-body{flex:1;}
+.prep-action{font-size:14px;font-weight:500;margin-bottom:3px;}
+.prep-detail{font-size:13px;color:var(--text2);line-height:1.4;margin-bottom:6px;}
+.prep-equip-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:var(--bg2);color:var(--text2);padding:3px 10px;border-radius:99px;border:0.5px solid var(--border);}
+.recipe-block{margin-bottom:4px;}
+.recipe-title{font-size:15px;font-weight:500;margin-bottom:8px;padding-bottom:8px;border-bottom:0.5px solid var(--border);}
+.recipe-section{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin:10px 0 6px;}
+.recipe-list{list-style:none;}
+.recipe-list li{font-size:13px;color:var(--text2);padding:4px 0;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;}
+.recipe-list li:last-child{border-bottom:none;}
+.recipe-steps{counter-reset:step;list-style:none;}
+.recipe-steps li{font-size:13px;color:var(--text2);padding:6px 0 6px 28px;border-bottom:0.5px solid var(--border);position:relative;line-height:1.4;}
+.recipe-steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:6px;width:20px;height:20px;background:var(--bg2);border-radius:50%;font-size:11px;font-weight:600;color:var(--text2);display:flex;align-items:center;justify-content:center;line-height:20px;text-align:center;}
+.recipe-steps li:last-child{border-bottom:none;}
+.freezer-shelf{border:0.5px solid var(--border2);border-radius:var(--radius-sm);margin-bottom:10px;overflow:hidden;}
+.freezer-shelf-label{background:var(--bg2);padding:8px 14px;font-size:12px;font-weight:600;color:var(--text2);border-bottom:0.5px solid var(--border);}
+.freezer-shelf-content{padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px;}
+.freezer-item{font-size:12px;padding:4px 10px;border-radius:99px;border:0.5px solid var(--border2);color:var(--text2);background:var(--bg);}
+.freezer-item.g{background:var(--info-bg);color:var(--info-text);border-color:transparent;}
+.freezer-item.b{background:var(--success-bg);color:var(--success-text);border-color:transparent;}
+.alert{padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.alert-info{background:var(--info-bg);color:var(--info-text);}
+.alert-success{background:var(--success-bg);color:var(--success-text);}
+.alert-warn{background:var(--warn-bg);color:var(--warn-text);}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:0.5px solid var(--border);}
+.inner-tabs{display:flex;border:0.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;}
+.inner-tab{flex:1;padding:8px;font-size:13px;font-weight:500;text-align:center;cursor:pointer;border:none;background:var(--bg);color:var(--text3);font-family:inherit;transition:background 0.12s;border-right:0.5px solid var(--border);}
+.inner-tab:last-child{border-right:none;}
+.inner-tab.active{background:var(--bg2);color:var(--text);}
+.inner-screen{display:none;}
+.inner-screen.active{display:block;}
+.copy-area{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-size:13px;color:var(--text2);white-space:pre-wrap;line-height:1.6;margin-bottom:12px;max-height:320px;overflow-y:auto;user-select:all;font-family:inherit;}
+.prato-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;}
+.prato-emoji{font-size:18px;flex-shrink:0;}
+.prato-info{flex:1;min-width:0;}
+.prato-name{font-size:13px;font-weight:500;color:var(--text);}
+.prato-meta{font-size:11px;color:var(--text3);margin-top:1px;}
+.prato-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:0;flex-shrink:0;}
+.prato-del:hover{color:var(--danger-text);}
+.regras-item{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px;}
+.regras-item:last-child{border-bottom:none;}
+.regras-emoji{flex-shrink:0;font-size:15px;}
+.regras-text{color:var(--text2);line-height:1.4;}
+.marmita-section{margin-bottom:20px;}
+.marmita-section-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.marmita-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;}
+.marmita-emoji{font-size:18px;flex-shrink:0;}
+.marmita-nome{flex:1;font-size:13px;color:var(--text);line-height:1.3;}
+.marmita-counter{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.marmita-btn{width:28px;height:28px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit;line-height:1;}
+.marmita-btn:hover{background:var(--bg2);}
+.marmita-num{width:28px;text-align:center;font-size:14px;font-weight:500;color:var(--text);}
+.contador-bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:0.5px solid var(--border);padding:12px 0 14px;margin-bottom:16px;}
+.contador-row{display:flex;gap:10px;flex-wrap:wrap;}
+.contador-pill{flex:1;min-width:140px;padding:10px 14px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);}
+.contador-name{font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;}
+.contador-nums{font-size:13px;color:var(--text2);}
+.contador-falta{font-weight:600;}
+.contador-falta.ok{color:var(--success-text);}
+.contador-falta.over{color:var(--warn-text);}
+.contador-falta.missing{color:var(--danger-text);}
+.refeicoes-edit{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.refeicoes-edit label{font-size:13px;color:var(--text2);}
+.footer{padding:12px 24px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);}
+.footer-text{font-size:12px;color:var(--text3);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:99px;font-size:13px;font-weight:500;transition:transform 0.25s ease;pointer-events:none;white-space:nowrap;z-index:999;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+/* Modal de salvar quinzena */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:var(--bg);border-radius:var(--radius);padding:24px;max-width:460px;width:100%;border:0.5px solid var(--border2);}
+.modal-title{font-size:17px;font-weight:500;margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.5;}
+.modal-field{margin-bottom:14px;}
+.modal-label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;}
+@media(max-width:500px){.main{padding:16px;}.ingr-grid{grid-template-columns:1fr;}.meal-row{grid-template-columns:1fr;}.summary-grid{grid-template-columns:1fr;}}
+label{cursor:pointer;}
 </style>
 </head>
 <body>
 <div class="shell">
-
   <div class="header">
     <div class="header-top">
       <div>
@@ -208,24 +197,22 @@ label { cursor:pointer; }
     </div>
     <nav class="step-nav">
       <button class="step-btn active" onclick="goStep(0)" id="nav0"><span class="step-icon">📌</span>Regras</button>
-      <button class="step-btn" onclick="goStep(1)" id="nav1"><span class="step-icon">📋</span>Histórico</button>
-      <button class="step-btn" onclick="goStep(2)" id="nav2"><span class="step-icon">🧊</span>Inventário</button>
+      <button class="step-btn" onclick="goStep(1)" id="nav1"><span class="step-icon">🧊</span>Inventário</button>
+      <button class="step-btn" onclick="goStep(2)" id="nav2"><span class="step-icon">🍽️</span>Marmitas</button>
       <button class="step-btn" onclick="goStep(3)" id="nav3"><span class="step-icon">📅</span>Cardápio</button>
       <button class="step-btn" onclick="goStep(4)" id="nav4"><span class="step-icon">🛒</span>Compras</button>
       <button class="step-btn" onclick="goStep(5)" id="nav5"><span class="step-icon">⏱️</span>Sábado</button>
+      <button class="step-btn" onclick="goStep(6);renderAcompanhamento()" id="nav6"><span class="step-icon">✅</span>Consumo</button>
     </nav>
   </div>
 
   <div class="main">
 
-    <!-- STEP 0: Histórico -->
     <!-- STEP 0: Regras -->
     <div class="screen active" id="screen0">
       <p class="screen-title">Regras do cardápio</p>
-      <p class="screen-sub">Configure aqui as preferências que o app usa para montar o cardápio. Ative, desative ou adicione novas regras a qualquer momento.</p>
-
+      <p class="screen-sub">O app usa essas regras para filtrar e sugerir pratos. Ative, pause ou adicione novas a qualquer momento.</p>
       <div id="regras-list"></div>
-
       <div class="card" style="margin-top:4px;">
         <div class="card-title">+ Nova regra</div>
         <div style="display:grid;grid-template-columns:56px 1fr;gap:8px;margin-bottom:10px;">
@@ -234,52 +221,29 @@ label { cursor:pointer; }
             <input type="text" id="new-regra-emoji" placeholder="📌" style="width:100%;text-align:center;">
           </div>
           <div>
-            <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Descrição da regra</label>
+            <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Descrição</label>
             <input type="text" id="new-regra-texto" placeholder="Ex: Não repetir proteína dois dias seguidos">
           </div>
         </div>
         <button class="btn btn-primary btn-sm" onclick="addRegra()">+ Adicionar regra</button>
       </div>
-
       <div class="nav-row">
-        <span style="font-size:13px;color:var(--text3);">Etapa 1 de 6</span>
-        <button class="btn btn-primary" onclick="goStep(1)">Histórico →</button>
+        <button class="btn btn-sm btn-ghost" onclick="resetRegras()">Restaurar padrão</button>
+        <button class="btn btn-primary" onclick="goStep(1)">Inventário →</button>
       </div>
     </div>
 
-    <!-- STEP 1: Histórico -->
+    <!-- STEP 1: Inventário (era step 2) -->
     <div class="screen" id="screen1">
-      <p class="screen-title">O que vocês comeram?</p>
-      <p class="screen-sub">Marque os pratos da quinzena anterior para evitar repetição e equilibrar proteínas.</p>
-      <div id="history-saved-block"></div>
-      <div class="card">
-        <div class="card-title">✅ Pratos da quinzena anterior</div>
-        <div class="tag-grid" id="history-tags"></div>
-        <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">Prato diferente? (opcional)</p>
-        <textarea id="history-extra" placeholder="Ex: fiz frango de panela na semana 2…"></textarea>
-      </div>
-      <div class="card">
-        <div class="card-title">💬 Feedback rápido</div>
-        <p style="font-size:13px;color:var(--text2);margin-bottom:8px;">Algo que adoraram ou não curtiram?</p>
-        <textarea id="history-feedback" placeholder="Ex: a galinhada ficou ótima, o escondidinho ficou seco…"></textarea>
-      </div>
-      <div class="nav-row">
-        <span style="font-size:13px;color:var(--text3);">Etapa 2 de 6</span>
-        <button class="btn btn-primary" onclick="goStep(2)">Inventário →</button>
-      </div>
-    </div>
-
-    <!-- STEP 1: Inventário -->
-    <div class="screen" id="screen2">
       <p class="screen-title">O que tem em casa?</p>
-      <p class="screen-sub">Marque o que já tem e a quantidade. A lista de compras desconta automaticamente. Adicione ingredientes novos em cada categoria.</p>
+      <p class="screen-sub">Marque o que já tem e a quantidade. A lista de compras desconta automaticamente.</p>
       <div class="card">
         <div class="card-title">🥩 Proteínas</div>
         <div class="ingr-grid" id="ingr-proteinas"></div>
         <div class="add-row">
           <input type="text" id="new-proteinas" placeholder="Novo ingrediente...">
-          <select id="unit-proteinas"><option>kg</option><option>g</option><option>unid.</option><option>und</option><option>L</option><option>ml</option><option>xícara</option><option>maço</option><option>cabeça</option></select>
-          <button class="btn btn-sm" onclick="addIngrediente('proteinas')">+ Adicionar</button>
+          <select id="unit-proteinas"><option>kg</option><option>g</option><option>unid.</option><option>und</option><option>L</option><option>ml</option><option>xícara</option><option>maço</option></select>
+          <button class="btn btn-sm" onclick="addIngrediente('proteinas')">+ Add</button>
         </div>
       </div>
       <div class="card">
@@ -287,8 +251,8 @@ label { cursor:pointer; }
         <div class="ingr-grid" id="ingr-carbos"></div>
         <div class="add-row">
           <input type="text" id="new-carbos" placeholder="Novo ingrediente...">
-          <select id="unit-carbos"><option>kg</option><option>g</option><option>unid.</option><option>und</option><option>L</option><option>ml</option><option>xícara</option><option>maço</option><option>cabeça</option></select>
-          <button class="btn btn-sm" onclick="addIngrediente('carbos')">+ Adicionar</button>
+          <select id="unit-carbos"><option>kg</option><option>g</option><option>unid.</option><option>und</option><option>L</option><option>ml</option><option>xícara</option><option>maço</option></select>
+          <button class="btn btn-sm" onclick="addIngrediente('carbos')">+ Add</button>
         </div>
       </div>
       <div class="card">
@@ -296,8 +260,8 @@ label { cursor:pointer; }
         <div class="ingr-grid" id="ingr-legumes"></div>
         <div class="add-row">
           <input type="text" id="new-legumes" placeholder="Novo ingrediente...">
-          <select id="unit-legumes"><option>unid.</option><option>kg</option><option>g</option><option>und</option><option>L</option><option>ml</option><option>xícara</option><option>maço</option><option>cabeça</option></select>
-          <button class="btn btn-sm" onclick="addIngrediente('legumes')">+ Adicionar</button>
+          <select id="unit-legumes"><option>unid.</option><option>kg</option><option>g</option><option>und</option><option>L</option><option>ml</option><option>xícara</option><option>maço</option></select>
+          <button class="btn btn-sm" onclick="addIngrediente('legumes')">+ Add</button>
         </div>
       </div>
       <div class="card">
@@ -305,83 +269,101 @@ label { cursor:pointer; }
         <div class="ingr-grid" id="ingr-temperos"></div>
         <div class="add-row">
           <input type="text" id="new-temperos" placeholder="Novo ingrediente...">
-          <select id="unit-temperos"><option>und</option><option>g</option><option>ml</option><option>L</option><option>kg</option><option>unid.</option><option>xícara</option><option>maço</option><option>cabeça</option></select>
-          <button class="btn btn-sm" onclick="addIngrediente('temperos')">+ Adicionar</button>
+          <select id="unit-temperos"><option>und</option><option>g</option><option>ml</option><option>L</option><option>kg</option><option>unid.</option><option>xícara</option><option>maço</option></select>
+          <button class="btn btn-sm" onclick="addIngrediente('temperos')">+ Add</button>
         </div>
       </div>
       <div class="nav-row">
-        <button class="btn btn-ghost" onclick="goStep(1)">← Voltar</button>
-        <button class="btn btn-primary" onclick="buildAndGoCardapio()">Gerar cardápio ✨</button>
+        <button class="btn btn-ghost" onclick="goStep(0)">← Voltar</button>
+        <button class="btn btn-primary" onclick="goStep(2);renderMarmitas()">Escolher marmitas →</button>
       </div>
     </div>
 
-    <!-- STEP 2: Cardápio -->
-    <div class="screen" id="screen3">
-      <p class="screen-title">Cardápio</p>
-      <p class="screen-sub">Duas semanas. Almoços com arroz+feijão ou macarrão. Jantares mais leves com proteína + molho ou batata.</p>
+    <!-- STEP 2: Marmitas -->
+    <div class="screen" id="screen2">
+      <p class="screen-title">Marmitas da quinzena</p>
+      <p class="screen-sub">Gerencie os pratos disponíveis e defina quantas marmitas de cada tipo preparar para Gabriel e Brenda.</p>
 
-      <div class="inner-tabs">
-        <button class="inner-tab active" onclick="switchCardapioTab('proposta')">📅 Proposta</button>
-        <button class="inner-tab" onclick="switchCardapioTab('pratos')">🍳 Gerenciar pratos</button>
+      <!-- Gestão de pratos -->
+      <div class="card" id="card-pratos-collapsed">
+        <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="togglePratos()">
+          <div class="card-title" style="margin-bottom:0;">🍳 Pratos disponíveis <span id="pratos-count-badge" style="font-size:12px;font-weight:400;color:var(--text3);"></span></div>
+          <span id="pratos-toggle-icon" style="font-size:16px;color:var(--text3);">＋</span>
+        </div>
       </div>
-
-      <div class="inner-screen active" id="tab-proposta">
-        <div id="cardapio-output"></div>
-      </div>
-
-      <div class="inner-screen" id="tab-pratos">
-        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Gerencie o repertório de pratos usado nas propostas de cardápio.</p>
-
-        <div style="margin-bottom:6px;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">🌞 Pratos de almoço</div>
-        <div class="prato-list" id="lista-almoco"></div>
-
-        <div style="margin-bottom:6px;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:16px;">🌙 Pratos de jantar</div>
-        <div class="prato-list" id="lista-jantar"></div>
-
-        <div class="card" style="margin-top:16px;">
-          <div class="card-title">➕ Adicionar novo prato</div>
-          <div style="margin-bottom:8px;">
-            <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Nome do prato</label>
-            <input type="text" id="new-prato-nome" placeholder="Ex: Frango ao curry com arroz">
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-            <div>
-              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Tipo de refeição</label>
+      <div id="card-pratos-body" style="display:none;margin-top:-8px;margin-bottom:12px;">
+        <div class="card" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none;">
+          <div id="lista-pratos-marmita"></div>
+          <div style="border-top:0.5px solid var(--border);margin-top:10px;padding-top:12px;">
+            <div style="font-size:12px;font-weight:500;color:var(--text2);margin-bottom:8px;">+ Novo prato</div>
+            <div style="display:grid;grid-template-columns:48px 1fr 80px;gap:6px;margin-bottom:8px;">
+              <input type="text" id="new-prato-emoji" placeholder="🍽️" style="text-align:center;">
+              <input type="text" id="new-prato-nome" placeholder="Nome do prato">
               <select id="new-prato-tipo"><option value="almoco">Almoço</option><option value="jantar">Jantar</option><option value="ambos">Ambos</option></select>
             </div>
-            <div>
-              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Emoji</label>
-              <input type="text" id="new-prato-emoji" placeholder="🍽️" style="width:80px;" inputmode="text">
-              <p style="font-size:11px;color:var(--text3);margin-top:4px;">No celular: pressione 😊 no teclado</p>
-            </div>
+            <button class="btn btn-sm btn-primary" onclick="addPrato()">+ Adicionar</button>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="addPrato()">+ Adicionar prato</button>
         </div>
       </div>
 
+      <!-- Contador sticky -->
+      <div class="contador-bar">
+        <div class="refeicoes-edit">
+          <label>Total de refeições na quinzena:</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+              <span style="font-size:10px;color:var(--text3);">Gabriel</span>
+              <input type="number" id="total-g" min="1" max="40" value="18" oninput="atualizarContador()" style="width:56px;">
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+              <span style="font-size:10px;color:var(--text3);">Brenda</span>
+              <input type="number" id="total-b" min="1" max="40" value="13" oninput="atualizarContador()" style="width:56px;">
+            </div>
+          </div>
+        </div>
+        <div class="contador-row" id="contador-row"></div>
+      </div>
 
+      <div class="marmita-section">
+        <div class="marmita-section-title">
+          <span>🔵 Gabriel</span>
+          <span style="font-size:11px;font-weight:400;color:var(--text3);">Almoços e jantares</span>
+        </div>
+        <div id="marmitas-gabriel"></div>
+      </div>
 
+      <div class="marmita-section">
+        <div class="marmita-section-title">
+          <span>🟢 Brenda</span>
+          <span style="font-size:11px;font-weight:400;color:var(--text3);">Almoços e jantares</span>
+        </div>
+        <div id="marmitas-brenda"></div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goStep(1)">← Voltar</button>
+        <button class="btn btn-primary" onclick="gerarCardapioDeSelecao();goStep(3)">Gerar cardápio ✨</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Cardápio -->
+    <div class="screen" id="screen3">
+      <p class="screen-title">Cardápio</p>
+      <p class="screen-sub">Distribuição das marmitas escolhidas pelos dias da quinzena.</p>
+      <div id="cardapio-output"></div>
       <div class="nav-row">
         <button class="btn btn-ghost" onclick="goStep(2)">← Voltar</button>
         <button class="btn btn-primary" onclick="buildShopAndGo()">Fechar cardápio →</button>
       </div>
     </div>
 
-    <!-- STEP 3: Compras -->
+    <!-- STEP 4: Compras (era step 5) -->
     <div class="screen" id="screen4">
       <p class="screen-title">Lista de compras</p>
       <p class="screen-sub">Gerada com base no cardápio, descontando o que já está em casa.</p>
       <div class="summary-grid">
-        <div class="summary-card">
-          <div class="summary-label">Para comprar</div>
-          <div class="summary-val" id="shop-count">—</div>
-          <div class="summary-sub">ingredientes</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-label">Já em casa</div>
-          <div class="summary-val" id="shop-have">—</div>
-          <div class="summary-sub">itens descontados</div>
-        </div>
+        <div class="summary-card"><div class="summary-label">Para comprar</div><div class="summary-val" id="shop-count">—</div><div class="summary-sub">ingredientes</div></div>
+        <div class="summary-card"><div class="summary-label">Já em casa</div><div class="summary-val" id="shop-have">—</div><div class="summary-sub">itens descontados</div></div>
       </div>
       <div class="inner-tabs">
         <button class="inner-tab active" onclick="switchShopTab('visual')">Lista visual</button>
@@ -391,7 +373,7 @@ label { cursor:pointer; }
       <div class="inner-screen" id="shop-texto">
         <p style="font-size:13px;color:var(--text2);margin-bottom:8px;">Selecione o texto abaixo e copie (Ctrl+C / Cmd+C), ou use o botão:</p>
         <div class="copy-area" id="shop-text-area"></div>
-        <button class="btn btn-sm" onclick="copyShopText()">📋 Copiar lista completa</button>
+        <button class="btn btn-sm" onclick="copyShopText()">📋 Copiar lista</button>
       </div>
       <div class="nav-row">
         <button class="btn btn-ghost" onclick="goStep(3)">← Voltar</button>
@@ -399,51 +381,53 @@ label { cursor:pointer; }
       </div>
     </div>
 
-    <!-- STEP 4: Sábado -->
+    <!-- STEP 5: Sábado (era step 6) -->
     <div class="screen" id="screen5">
       <p class="screen-title">Guia de preparo — sábado</p>
-      <p class="screen-sub">Máximo paralelismo com 5 bocas, forno e airfryer. Tempo total estimado: 3h30.</p>
+      <p class="screen-sub">Máximo paralelismo com 5 bocas, forno e airfryer.</p>
       <div class="inner-tabs">
         <button class="inner-tab active" onclick="switchSabTab('cronograma')">⏱️ Cronograma</button>
         <button class="inner-tab" onclick="switchSabTab('receitas')">👨‍🍳 Receitas</button>
         <button class="inner-tab" onclick="switchSabTab('freezer')">🧊 Freezer</button>
-        <button class="inner-tab" onclick="switchSabTab('equipamentos')">⚙️ Equipamentos</button>
+        <button class="inner-tab" onclick="switchSabTab('equipamentos');renderEquipamentos()">⚙️ Equipamentos</button>
       </div>
-
       <div class="inner-screen active" id="tab-cronograma">
         <div class="summary-grid">
           <div class="summary-card"><div class="summary-label">Início sugerido</div><div class="summary-val">09:00</div><div class="summary-sub">termina ~12:30</div></div>
-          <div class="summary-card"><div class="summary-label">Marmitas a montar</div><div class="summary-val">31</div><div class="summary-sub">duas semanas</div></div>
+          <div class="summary-card"><div class="summary-label">Marmitas a montar</div><div class="summary-val" id="total-marmitas-label">31</div><div class="summary-sub">duas semanas</div></div>
         </div>
         <div class="card"><div class="card-title">📋 Cronograma de preparo</div><div id="prep-output"></div></div>
         <div class="card">
-          <div class="card-title">📦 Equipamentos & potes</div>
+          <div class="card-title">📦 Equipamentos & montagem</div>
           <div id="equipamentos-output"></div>
-          <button class="btn btn-sm btn-ghost" style="margin-top:12px;" onclick="goStep(5);switchSabTab('equipamentos')">⚙️ Gerenciar equipamentos</button>
-        </div>
-      </div>
-
-      <div class="inner-screen" id="tab-receitas"><div id="receitas-output"></div></div>
-
-      <div class="inner-screen" id="tab-freezer">
-        <div class="alert alert-warn">⚠️ Arroz e feijão ficam na <strong>geladeira</strong>, não no freezer. Trocar a cada 4 dias.</div>
-        <div class="card"><div class="card-title">🧊 Mapa do freezer — 3 prateleiras</div><div id="freezer-output"></div></div>
-        <div class="card" style="margin-top:12px;">
-          <div class="card-title">🏷️ Sistema de etiquetas</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.8;">
-            <p><strong style="color:var(--text)">Formato:</strong> [Nome] · [Prato] · [S1 ou S2] · [A ou J]</p>
-            <p><strong style="color:var(--text)">Exemplo Gabriel:</strong> G · Estrogonoff · S1 · J</p>
-            <p><strong style="color:var(--text)">Exemplo Brenda:</strong> B · Frango desfiado + legumes · S2 · J</p>
-            <p><strong style="color:var(--text)">Cores sugeridas:</strong> fita azul = Gabriel · fita verde = Brenda</p>
+          <div style="margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8;">
+            <p><strong style="color:var(--text)">Etiqueta:</strong> Nome · Prato · S1 ou S2 · A/J</p>
+            <p><strong style="color:var(--text)">Regra de ouro:</strong> Arroz e feijão na geladeira — trocar a cada 4 dias</p>
           </div>
         </div>
       </div>
-
+      <div class="inner-screen" id="tab-receitas">
+        <div class="alert alert-info">ℹ️ Receitas baseadas nos pratos do cardápio desta quinzena.</div>
+        <div id="receitas-output"></div>
+      </div>
+      <div class="inner-screen" id="tab-freezer">
+        <div class="alert alert-warn">⚠️ Arroz e feijão ficam na <strong>geladeira</strong>, não no freezer.</div>
+        <div class="card"><div class="card-title">🧊 Mapa do freezer</div><div id="freezer-output"></div></div>
+        <div class="card" style="margin-top:12px;">
+          <div class="card-title">🏷️ Sistema de etiquetas</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+            <p><strong style="color:var(--text)">Formato:</strong> [Nome] · [Prato] · [S1/S2] · [A/J]</p>
+            <p><strong style="color:var(--text)">Ex Gabriel:</strong> G · Estrogonoff · S1 · J</p>
+            <p><strong style="color:var(--text)">Ex Brenda:</strong> B · Frango + legumes · S2 · J</p>
+            <p><strong style="color:var(--text)">Cores:</strong> fita azul = Gabriel · fita verde = Brenda</p>
+          </div>
+        </div>
+      </div>
       <div class="inner-screen" id="tab-equipamentos">
-        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Configure os equipamentos e potes disponíveis. O cronograma do sábado usa essas informações.</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Configure os equipamentos e potes disponíveis.</p>
         <div id="equipamentos-lista"></div>
         <div class="card" style="margin-top:4px;">
-          <div class="card-title">+ Novo equipamento ou pote</div>
+          <div class="card-title">+ Novo equipamento</div>
           <div style="display:grid;grid-template-columns:56px 1fr auto;gap:8px;align-items:end;margin-bottom:10px;">
             <div>
               <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Emoji</label>
@@ -453,30 +437,72 @@ label { cursor:pointer; }
               <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Descrição</label>
               <input type="text" id="new-equip-nome" placeholder="Ex: 30 potes de 600ml">
             </div>
-            <button class="btn btn-sm btn-primary" onclick="addEquipamento()" style="margin-bottom:0;">+</button>
+            <button class="btn btn-sm btn-primary" onclick="addEquipamento()">+</button>
           </div>
         </div>
       </div>
-
       <div class="nav-row">
         <button class="btn btn-ghost" onclick="goStep(4)">← Voltar</button>
-        <button class="btn btn-primary" onclick="salvarQuinzena()">💾 Salvar quinzena</button>
+        <button class="btn btn-primary" onclick="abrirModalSalvar()">💾 Salvar quinzena</button>
       </div>
     </div>
 
-  </div>
+    <!-- STEP 6: Consumo / Acompanhamento -->
+    <div class="screen" id="screen6">
+      <p class="screen-title">Acompanhamento de consumo</p>
+      <p class="screen-sub">Marque as marmitas conforme forem sendo comidas. Veja em tempo real quantas faltam de cada prato.</p>
+      <div id="acomp-resumo" style="margin-bottom:16px;"></div>
+      <div id="acomp-lista"></div>
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goStep(5)">← Sábado</button>
+        <button class="btn btn-ghost btn-sm" onclick="resetConsumo()">🔄 Zerar consumo</button>
+      </div>
+    </div>
+
+  </div><!-- /main -->
 
   <div class="footer">
     <span class="footer-text" id="footer-text">Nenhuma quinzena salva ainda</span>
-    <button class="btn btn-sm btn-ghost" onclick="toggleHistoricoPanel()">📚 Histórico salvo</button>
+    <button class="btn btn-sm btn-ghost" onclick="toggleHistoricoPanel()">📚 Histórico</button>
+  </div>
+</div><!-- /shell -->
+
+<!-- Modal Salvar Quinzena -->
+<div class="modal-overlay hidden" id="modal-salvar">
+  <div class="modal-box">
+    <div class="modal-title">💾 Salvar esta quinzena</div>
+    <div class="modal-sub">Registre como foi antes de planejar a próxima. Essas informações aparecem como referência no próximo planejamento.</div>
+
+    <div class="modal-field">
+      <label class="modal-label">O que vocês comeram esta quinzena?</label>
+      <div class="tag-grid" id="modal-history-tags" style="margin-bottom:0;"></div>
+    </div>
+
+    <div class="modal-field">
+      <label class="modal-label">Algo fora do cardápio? (opcional)</label>
+      <input type="text" id="modal-history-extra" placeholder="Ex: fizemos frango de panela na semana 2…">
+    </div>
+
+    <div class="modal-field">
+      <label class="modal-label">Feedback rápido</label>
+      <textarea id="modal-history-feedback" placeholder="Ex: estrogonoff ótimo, panqueca ficou seca…" style="min-height:60px;"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="fecharModalSalvar()">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="confirmarSalvarQuinzena()">✅ Salvar quinzena</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SK = 'mealprep_gb_v4';
+// ── CHAVE STORAGE ────────────────────────────────────────────
+// Incrementada para v7 para evitar conflito com versão anterior
+const SK = 'mealprep_gb_v7';
 
+// ── DADOS BASE ──────────────────────────────────────────────
 let INGREDIENTES = {
   proteinas:[
     {name:'Frango (peito/coxa)',unit:'kg'},{name:'Carne moída (patinho)',unit:'kg'},
@@ -486,53 +512,68 @@ let INGREDIENTES = {
   carbos:[
     {name:'Arroz branco',unit:'kg'},{name:'Feijão carioca',unit:'kg'},
     {name:'Macarrão (penne/fusilli)',unit:'kg'},{name:'Farinha de trigo',unit:'kg'},
-    {name:'Leite integral',unit:'L'},{name:'Batata-doce',unit:'kg'},
-    {name:'Batata inglesa',unit:'kg'},
+    {name:'Leite integral',unit:'L'},{name:'Batata-doce',unit:'kg'},{name:'Batata inglesa',unit:'kg'},
   ],
   legumes:[
     {name:'Abobrinha',unit:'unid.'},{name:'Cenoura',unit:'unid.'},
     {name:'Brócolis',unit:'maço'},{name:'Tomate',unit:'kg'},
-    {name:'Cebola',unit:'kg'},{name:'Alho',unit:'cabeças'},
-    {name:'Vagem',unit:'g'},
+    {name:'Cebola',unit:'kg'},{name:'Alho',unit:'cabeças'},{name:'Vagem',unit:'g'},
   ],
   temperos:[
     {name:'Extrato de tomate',unit:'und'},{name:'Creme de leite',unit:'und'},
     {name:'Azeite/óleo',unit:'L'},{name:'Sal e tempero pronto',unit:'ok?'},
-    {name:'Queijo ralado',unit:'g'},{name:'Manteiga',unit:'g'},
-    {name:'Molho de tomate pronto',unit:'und'},
+    {name:'Queijo ralado',unit:'g'},{name:'Manteiga',unit:'g'},{name:'Molho de tomate pronto',unit:'und'},
   ]
 };
 
-// Repertório de pratos — com tipo (almoco/jantar/ambos)
 let PRATOS = [
-  // Almoços
-  {id:1, nome:'Arroz + feijão + frango desfiado com molho', tipo:'almoco', emoji:'🍛'},
-  {id:2, nome:'Arroz + feijão + carne moída', tipo:'almoco', emoji:'🍛'},
-  {id:3, nome:'Arroz + feijão + carne de panela', tipo:'almoco', emoji:'🍛'},
-  {id:4, nome:'Arroz + feijão + frango picado com molho de tomate', tipo:'almoco', emoji:'🍛'},
-  {id:5, nome:'Macarrão ao sugo + carne moída', tipo:'almoco', emoji:'🍝'},
-  {id:6, nome:'Macarrão ao sugo + frango desfiado', tipo:'almoco', emoji:'🍝'},
-  {id:7, nome:'Galinhada (arroz com galinha)', tipo:'almoco', emoji:'🫕'},
-  {id:8, nome:'Panqueca de carne moída com molho de tomate', tipo:'ambos', emoji:'🥞'},
-  {id:9, nome:'Panqueca de frango desfiado com molho de tomate', tipo:'ambos', emoji:'🥞'},
-  // Jantares
-  {id:10, nome:'Estrogonoff de carne + arroz (G) / legumes (B)', tipo:'jantar', emoji:'🥘'},
-  {id:11, nome:'Frango desfiado com molho + arroz (G) / legumes (B)', tipo:'jantar', emoji:'🍗'},
-  {id:12, nome:'Carne moída com molho de tomate + arroz (G) / legumes (B)', tipo:'jantar', emoji:'🫕'},
-  {id:13, nome:'Carne picada com molho de tomate + arroz (G) / legumes (B)', tipo:'jantar', emoji:'🥩'},
-  {id:14, nome:'Escondidinho de batata com carne moída', tipo:'jantar', emoji:'🥔'},
-  {id:15, nome:'Batata-doce assada + frango desfiado', tipo:'jantar', emoji:'🍠'},
-  {id:16, nome:'Quibe assado + arroz (G) / salada (B)', tipo:'jantar', emoji:'🫓'},
-  {id:17, nome:'Cozido de carne moída com batata + legumes (B)', tipo:'jantar', emoji:'🍲'},
-  {id:18, nome:'Frango ao molho de tomate + arroz (G) / legumes (B)', tipo:'jantar', emoji:'🍗'},
+  {id:1,nome:'Arroz + feijão + frango desfiado com molho',tipo:'almoco',emoji:'🍛'},
+  {id:2,nome:'Arroz + feijão + carne moída',tipo:'almoco',emoji:'🍛'},
+  {id:3,nome:'Arroz + feijão + carne de panela',tipo:'almoco',emoji:'🍛'},
+  {id:4,nome:'Arroz + feijão + frango picado com molho de tomate',tipo:'almoco',emoji:'🍛'},
+  {id:5,nome:'Macarrão ao sugo + carne moída',tipo:'almoco',emoji:'🍝'},
+  {id:6,nome:'Macarrão ao sugo + frango desfiado',tipo:'almoco',emoji:'🍝'},
+  {id:7,nome:'Galinhada (arroz com galinha)',tipo:'almoco',emoji:'🫕'},
+  {id:8,nome:'Panqueca de carne moída com molho de tomate',tipo:'ambos',emoji:'🥞'},
+  {id:9,nome:'Panqueca de frango desfiado com molho de tomate',tipo:'ambos',emoji:'🥞'},
+  {id:10,nome:'Estrogonoff de carne + arroz (G) / legumes (B)',tipo:'jantar',emoji:'🥘'},
+  {id:11,nome:'Frango desfiado com molho + arroz (G) / legumes (B)',tipo:'jantar',emoji:'🍗'},
+  {id:12,nome:'Carne moída com molho de tomate + arroz (G) / legumes (B)',tipo:'jantar',emoji:'🫕'},
+  {id:13,nome:'Carne picada com molho de tomate + arroz (G) / legumes (B)',tipo:'jantar',emoji:'🥩'},
+  {id:14,nome:'Escondidinho de batata com carne moída',tipo:'jantar',emoji:'🥔'},
+  {id:15,nome:'Batata-doce assada + frango desfiado',tipo:'jantar',emoji:'🍠'},
+  {id:16,nome:'Quibe assado + arroz (G) / salada (B)',tipo:'jantar',emoji:'🫓'},
+  {id:17,nome:'Cozido de carne moída com batata + legumes (B)',tipo:'jantar',emoji:'🍲'},
+  {id:18,nome:'Frango ao molho de tomate + arroz (G) / legumes (B)',tipo:'jantar',emoji:'🍗'},
+];
+
+// ── REGRAS — definidas como const para restaurar de forma segura ──
+const REGRAS_PADRAO = [
+  {id:1,emoji:'🍖',texto:'Preferência por carnes com molho — evitar proteínas grelhadas secas congeladas',ativa:true},
+  {id:2,emoji:'🍅',texto:'Brenda prefere carne moída com molho de tomate. Gabriel come com molho ou mais seca',ativa:true},
+  {id:3,emoji:'🌞',texto:'Almoços: arroz + feijão + proteína ou macarrão + proteína',ativa:true},
+  {id:4,emoji:'🌙',texto:'Jantares leves: sem feijão e macarrão à noite. Brenda: legumes + proteína. Gabriel: arroz + proteína',ativa:true},
+  {id:5,emoji:'🥘',texto:'Estrogonoff sempre de carne, nunca de frango',ativa:true,filtro:'sem_estrogonoff_frango'},
+  {id:6,emoji:'🥦',texto:'Legumes não combinam com estrogonoff — nunca servir juntos na mesma refeição',ativa:true,filtro:'sem_estrogonoff_legumes'},
+  {id:7,emoji:'🔄',texto:'Não repetir o mesmo prato em dias consecutivos',ativa:true,filtro:'sem_consecutivo'},
+  {id:8,emoji:'📅',texto:'Brenda não almoça em casa: segundas e quartas. Ninguém almoça em casa: quintas',ativa:true},
+];
+let REGRAS = REGRAS_PADRAO.map(r=>({...r}));
+
+let EQUIPAMENTOS = [
+  {id:1,emoji:'🍳',nome:'Fogão 5 bocas'},
+  {id:2,emoji:'🟧',nome:'Forno elétrico/gás'},
+  {id:3,emoji:'💨',nome:'Airfryer'},
+  {id:4,emoji:'📦',nome:'30 potes de 600 ml'},
+  {id:5,emoji:'📦',nome:'7 potes de 1,2 L'},
 ];
 
 const SHOP_DATA = {
   'Proteínas':[
     {name:'Frango (coxa/peito)',qty:'2,5 kg',key:'frango'},
     {name:'Carne moída (patinho)',qty:'1,5 kg',key:'carne moída'},
-    {name:'Carne para panela (acém/patinho)',qty:'800 g',key:'carne para panela'},
-    {name:'Carne para quibe (coxão mole)',qty:'600 g',key:'carne para quibe'},
+    {name:'Carne para panela (acém)',qty:'800 g',key:'carne para panela'},
+    {name:'Carne para quibe',qty:'600 g',key:'carne para quibe'},
   ],
   'Carboidratos & base':[
     {name:'Arroz tipo 1',qty:'3 kg',key:'arroz'},
@@ -560,246 +601,267 @@ const SHOP_DATA = {
   ]
 };
 
-const PREP_DATA = [
-  {time:'09:00',action:'Arroz e feijão no fogo',detail:'Panela 1: arroz branco 3 kg. Panela 2: feijão (de molho desde sexta). 2 bocas por 35–40 min.',equip:'🔥 Fogão — bocas 1 e 2'},
-  {time:'09:05',action:'Carne de panela no fogo baixo',detail:'Selar a carne em cubos na panela de pressão. Adicionar cebola, alho, tomate e temperos. Tampar e cozinhar 30–35 min.',equip:'🔥 Fogão — boca 3'},
-  {time:'09:10',action:'Frango na airfryer para desfiar',detail:'Temperar coxas/peitos. Assar para depois desfiar — base do frango desfiado e frango ao molho.',equip:'💨 Airfryer 200°C · 25 min'},
-  {time:'09:40',action:'Molho de tomate base grande',detail:'Refogar cebola e alho. Dividir em 3: um para carne moída, um para o frango desfiado, um para o sugo do macarrão.',equip:'🔥 Fogão — boca 4'},
-  {time:'09:50',action:'Carne moída no molho de tomate',detail:'Adicionar carne moída ao primeiro terço do molho. Apurar bem. Separar 1/3 para o escondidinho, resto para as marmitas.',equip:'🔥 Fogão — boca 5'},
-  {time:'10:00',action:'Quibe no forno',detail:'Montar a forma de quibe (trigo hidratado + carne moída + temperos) e assar.',equip:'🟧 Forno 200°C · 35 min'},
-  {time:'10:15',action:'Desfiar frango + montar molho',detail:'Desfiar o frango já assado. Adicionar ao segundo terço do molho. Parte vira galinhada (com arroz já pronto).',equip:'🏠 Mesa + fogão boca 1 (liberada)'},
-  {time:'10:30',action:'Macarrão + sugo',detail:'Cozinhar macarrão al dente. Usar o terceiro terço do molho como sugo.',equip:'🔥 Fogão — boca 2 (liberada)'},
-  {time:'10:45',action:'Batata-doce na airfryer + escondidinho',detail:'Assar batata-doce em cubos na airfryer. Montar escondidinho (batata inglesa cozida + carne moída em refratário).',equip:'💨 Airfryer · 🟧 Forno'},
-  {time:'11:15',action:'Panquecas',detail:'Preparar massa (farinha + leite + ovos). Fritar as panquecas finas. Rechear com frango desfiado ou carne moída + molho.',equip:'🔥 Fogão — bocas 1 e 2'},
-  {time:'11:45',action:'Legumes da Brenda',detail:'Cozinhar abobrinha, cenoura e brócolis no vapor ou airfryer. Porções para ~10 refeições.',equip:'💨 Airfryer ou vapor'},
-  {time:'12:15',action:'Porcionamento e montagem',detail:'Montar todas as marmitas separando: Gabriel (arroz + proteína) e Brenda (legumes + proteína). Etiquetar: Nome · Prato · S1/S2 · A/J.',equip:'🏠 Mesa de trabalho'},
-  {time:'12:45',action:'Organizar freezer',detail:'Prateleira 1 = Semana 1. Prateleira 2 = Semana 2. Prateleira 3 = reservas e legumes avulsos. Arroz e feijão → geladeira.',equip:'🧊 Freezer + geladeira'},
-];
+const CAL_MAP = {
+  'Arroz + feijão + frango desfiado com molho':[645,495],
+  'Arroz + feijão + carne moída':[650,500],
+  'Arroz + feijão + carne de panela':[648,498],
+  'Arroz + feijão + frango picado com molho de tomate':[642,492],
+  'Macarrão ao sugo + carne moída':[648,498],
+  'Macarrão ao sugo + frango desfiado':[645,495],
+  'Galinhada (arroz com galinha)':[655,505],
+  'Panqueca de carne moída com molho de tomate':[548,418],
+  'Panqueca de frango desfiado com molho de tomate':[545,415],
+  'Estrogonoff de carne + arroz (G) / legumes (B)':[540,410],
+  'Frango desfiado com molho + arroz (G) / legumes (B)':[535,405],
+  'Carne moída com molho de tomate + arroz (G) / legumes (B)':[540,410],
+  'Carne picada com molho de tomate + arroz (G) / legumes (B)':[538,408],
+  'Escondidinho de batata com carne moída':[550,420],
+  'Batata-doce assada + frango desfiado':[530,410],
+  'Quibe assado + arroz (G) / salada (B)':[545,415],
+  'Cozido de carne moída com batata + legumes (B)':[542,412],
+  'Frango ao molho de tomate + arroz (G) / legumes (B)':[535,405],
+};
 
-const RECEITAS = [
-  {
-    nome:'Estrogonoff de carne',porcoes:'6 porções de jantar',
-    ingredientes:[
-      {item:'Carne (acém ou patinho) em cubos',qtd:'800 g'},
-      {item:'Creme de leite',qtd:'2 caixinhas (400 ml)'},
-      {item:'Extrato de tomate',qtd:'2 col. sopa'},
-      {item:'Cebola + alho picados',qtd:'1 unid. + 3 dentes'},
-      {item:'Azeite, sal, pimenta',qtd:'a gosto'},
+// ── BANCO DE RECEITAS — COMPLETO (todos os 18 pratos) ────────
+const RECEITAS_DB = {
+  // ALMOÇOS
+  'Arroz + feijão + frango desfiado com molho':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Frango (coxas ou peito)',qtd:'700 g'},{item:'Molho de tomate pronto',qtd:'1 xícara'},
+      {item:'Cebola + alho',qtd:'½ unid. + 3 dentes'},{item:'Sal, pimenta, louro',qtd:'a gosto'},
     ],
-    modo:[
-      'Tempere a carne e sele em óleo quente até dourar. Reserve.',
-      'No mesmo fundo, refogue cebola e alho até dourar.',
-      'Volte a carne, adicione extrato de tomate. Cozinhe 5 min.',
-      'Acrescente o creme de leite. Fogo baixo por 10 min. Ajuste o sal.',
-      'Brenda: servir com legumes cozidos no vapor. Gabriel: servir com arroz.',
-    ]
+    modo:['Cozinhe o frango temperado em panela com água até ficar macio (~25 min).',
+      'Desfie com dois garfos enquanto ainda quente.',
+      'Refogue cebola e alho no azeite, adicione o frango desfiado.',
+      'Acrescente molho de tomate e cozinhe 5 min. Ajuste o sal.',
+      'Servir com arroz e feijão separados (já preparados em lote).']
   },
-  {
-    nome:'Frango desfiado com molho de tomate',porcoes:'8 porções (almoço e jantar)',
-    ingredientes:[
-      {item:'Frango (coxa/peito) cozido e desfiado',qtd:'1 kg'},
-      {item:'Molho de tomate base (cebola + alho + extrato)',qtd:'2 xícaras'},
-      {item:'Temperos a gosto',qtd:'—'},
+  'Arroz + feijão + carne moída':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Carne moída (patinho)',qtd:'600 g'},{item:'Extrato de tomate',qtd:'1 col. sopa'},
+      {item:'Molho de tomate',qtd:'½ xícara'},{item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},
+      {item:'Sal, cominho, pimenta',qtd:'a gosto'},
     ],
-    modo:[
-      'Cozinhar/assar o frango temperado. Desfiar quando esfriar.',
-      'Refogar cebola e alho. Adicionar extrato de tomate e um pouco d\'água.',
-      'Juntar o frango desfiado ao molho. Cozinhar 10 min em fogo médio.',
-      'Dividir: parte para jantar (com legumes para Brenda, com arroz para Gabriel) e parte para almoço.',
-    ]
+    modo:['Refogue cebola e alho no azeite até dourar.',
+      'Adicione a carne moída e mexa até secar a água.',
+      'Junte extrato de tomate e molho. Tempere com sal e cominho.',
+      'Cozinhe 10 min em fogo médio. Ajuste a consistência com água se necessário.',
+      'Servir com arroz e feijão separados.']
   },
-  {
-    nome:'Galinhada',porcoes:'5 porções de almoço',
-    ingredientes:[
-      {item:'Frango em pedaços (coxa e sobrecoxa)',qtd:'1 kg'},
-      {item:'Arroz cru',qtd:'2 xícaras'},
-      {item:'Açafrão ou cúrcuma',qtd:'1 col. chá'},
-      {item:'Cebola, alho, tomate, pimentão',qtd:'1 unid. cada'},
+  'Arroz + feijão + carne de panela':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Carne para panela (acém)',qtd:'700 g'},{item:'Extrato de tomate',qtd:'2 col. sopa'},
+      {item:'Cebola + alho + louro',qtd:'1 unid. + 4 dentes + 2 folhas'},{item:'Sal, pimenta, tempero a gosto',qtd:'—'},
+    ],
+    modo:['Corte a carne em cubos e tempere com sal e pimenta.',
+      'Sele em panela de pressão com óleo quente até dourar todos os lados.',
+      'Adicione cebola, alho, extrato de tomate, louro e água suficiente para cobrir.',
+      'Feche a panela e cozinhe 30 min após começar a pressão.',
+      'Abra, ajuste o caldo e reduza se necessário. Servir com arroz e feijão.']
+  },
+  'Arroz + feijão + frango picado com molho de tomate':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Frango (coxa/peito) em cubos',qtd:'700 g'},{item:'Molho de tomate pronto',qtd:'1 xícara'},
+      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},
+      {item:'Sal, orégano, pimenta',qtd:'a gosto'},
+    ],
+    modo:['Tempere o frango em cubos com sal e pimenta.',
+      'Sele o frango no azeite até dourar. Reserve.',
+      'No mesmo fundo, refogue cebola e alho.',
+      'Volte o frango, adicione extrato e molho de tomate. Cozinhe 15 min.',
+      'Ajuste o sal e sirva com arroz e feijão.']
+  },
+  'Macarrão ao sugo + carne moída':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Macarrão penne',qtd:'400 g'},{item:'Carne moída',qtd:'500 g'},
+      {item:'Molho de tomate pronto',qtd:'2 xícaras'},{item:'Extrato de tomate',qtd:'1 col. sopa'},
+      {item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},{item:'Sal, orégano, manjericão',qtd:'a gosto'},
+    ],
+    modo:['Cozinhe o macarrão al dente. Escorra e regue com azeite. Reserve.',
+      'Refogue cebola e alho. Adicione a carne moída e cozinhe até secar.',
+      'Junte extrato e molho de tomate. Tempere e cozinhe 10 min.',
+      'Misture o macarrão ao molho fora do fogo.',
+      'Porcionar em marmitas. Congelar já misturado.']
+  },
+  'Macarrão ao sugo + frango desfiado':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Macarrão penne',qtd:'400 g'},{item:'Frango desfiado com molho',qtd:'500 g'},
+      {item:'Molho de tomate pronto',qtd:'1,5 xícara'},{item:'Queijo ralado',qtd:'50 g'},
+    ],
+    modo:['Cozinhe o macarrão al dente. Escorra e reserve.',
+      'Aqueça o frango desfiado já com molho, adicione mais molho de tomate.',
+      'Misture o macarrão e ajuste o tempero.',
+      'Porcionar com queijo ralado por cima. Congelar.']
+  },
+  'Galinhada (arroz com galinha)':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Frango em pedaços (coxa/sobrecoxa)',qtd:'1 kg'},{item:'Arroz cru',qtd:'2 xícaras'},
+      {item:'Açafrão ou cúrcuma',qtd:'1 col. chá'},{item:'Cebola, alho, tomate, pimentão',qtd:'1 unid. cada'},
       {item:'Caldo de galinha, sal e temperos',qtd:'a gosto'},
     ],
-    modo:[
-      'Tempere o frango com sal, alho, pimenta e deixe marinar 15 min.',
+    modo:['Tempere o frango com sal, alho e pimenta. Marine 15 min.',
       'Doure o frango em panela grande com óleo. Reserve.',
       'No mesmo óleo, refogue cebola, alho, tomate e pimentão.',
       'Adicione o arroz e refogue 2 min. Junte o frango, açafrão e água (dobro do arroz).',
-      'Tampe e cozinhe em fogo baixo até o arroz absorver a água (~20 min).',
-    ]
+      'Tampe e cozinhe em fogo baixo até o arroz absorver a água (~20 min).']
   },
-  {
-    nome:'Escondidinho de batata com carne moída',porcoes:'6 porções de jantar',
-    ingredientes:[
-      {item:'Batata inglesa cozida e amassada',qtd:'1 kg'},
-      {item:'Carne moída temperada com molho de tomate',qtd:'500 g'},
-      {item:'Leite + manteiga para o purê',qtd:'100 ml + 1 col.'},
-      {item:'Queijo ralado para gratinar',qtd:'100 g'},
+  'Panqueca de carne moída com molho de tomate':{
+    porcoes:'6 porções (12 panquecas)',ingredientes:[
+      {item:'Farinha de trigo',qtd:'2 xícaras'},{item:'Leite integral',qtd:'2 xícaras'},
+      {item:'Ovos',qtd:'2 unid.'},{item:'Carne moída refogada com molho',qtd:'500 g'},
+      {item:'Molho de tomate para cobrir',qtd:'1 xícara'},{item:'Queijo ralado',qtd:'50 g'},
     ],
-    modo:[
-      'Cozinhe as batatas e faça um purê com leite, manteiga e sal.',
-      'Prepare a carne moída refogada com cebola, alho e extrato de tomate.',
-      'Em refratário: camada de purê, carne moída, outra camada de purê.',
-      'Cubra com queijo ralado e leve ao forno 180°C por 20 min até dourar.',
-    ]
+    modo:['Bata farinha, leite, ovos e sal no liquidificador.',
+      'Frite as panquecas finas. Rechear com carne moída e enrolar.',
+      'Dispor em forma, cobrir com molho de tomate e queijo.',
+      'Congelar sem assar, ou gratinar 15 min a 180°C antes de congelar.']
   },
-  {
-    nome:'Panqueca de frango desfiado com molho de tomate',porcoes:'6 porções (12 panquecas)',
-    ingredientes:[
-      {item:'Farinha de trigo',qtd:'2 xícaras'},
-      {item:'Leite integral',qtd:'2 xícaras'},
-      {item:'Ovos',qtd:'2 unid.'},
-      {item:'Frango desfiado com molho',qtd:'400 g'},
-      {item:'Molho de tomate para cobrir',qtd:'1 xícara'},
-      {item:'Queijo ralado',qtd:'50 g'},
+  'Panqueca de frango desfiado com molho de tomate':{
+    porcoes:'6 porções (12 panquecas)',ingredientes:[
+      {item:'Farinha de trigo',qtd:'2 xícaras'},{item:'Leite integral',qtd:'2 xícaras'},
+      {item:'Ovos',qtd:'2 unid.'},{item:'Frango desfiado com molho',qtd:'400 g'},
+      {item:'Molho de tomate para cobrir',qtd:'1 xícara'},{item:'Queijo ralado',qtd:'50 g'},
     ],
-    modo:[
-      'Bata farinha, leite, ovos e sal no liquidificador até liso.',
+    modo:['Bata farinha, leite, ovos e sal no liquidificador até liso.',
       'Frite as panquecas finas em frigideira antiaderente com manteiga.',
       'Rechear cada panqueca com frango desfiado e enrolar.',
       'Dispor em forma, cobrir com molho de tomate e queijo ralado.',
-      'Congelar sem assar, ou assar 15 min a 180°C antes de congelar.',
-    ]
+      'Congelar sem assar, ou assar 15 min a 180°C antes de congelar.']
   },
-];
-
-const FREEZER_MAP = {
-  'Prateleira 1 — Semana 1':{items:[
-    {label:'G · Estrogonoff carne · S1 · J',who:'g'},
-    {label:'B · Estrogonoff carne · S1 · J',who:'b'},
-    {label:'G · Frango desfiado · S1 · J',who:'g'},
-    {label:'B · Frango + legumes · S1 · J',who:'b'},
-    {label:'G · Escondidinho · S1 · J',who:'g'},
-    {label:'B · Escondidinho · S1 · J',who:'b'},
-    {label:'G · Macarrão sugo · S1 · A',who:'g'},
-    {label:'B · Macarrão sugo · S1 · A',who:'b'},
-    {label:'G · Batata-doce + frango · S1 · J',who:'g'},
-    {label:'B · Batata + frango · S1 · J',who:'b'},
-  ]},
-  'Prateleira 2 — Semana 2':{items:[
-    {label:'G · Quibe assado · S2 · J',who:'g'},
-    {label:'B · Quibe + salada · S2 · J',who:'b'},
-    {label:'G · Galinhada · S2 · A',who:'g'},
-    {label:'B · Galinhada · S2 · A',who:'b'},
-    {label:'G · Carne picada molho · S2 · J',who:'g'},
-    {label:'B · Carne + legumes · S2 · J',who:'b'},
-    {label:'G · Panqueca frango · S2 · J',who:'g'},
-    {label:'B · Panqueca frango · S2 · J',who:'b'},
-    {label:'G · Frango molho tomate · S2 · J',who:'g'},
-    {label:'B · Frango + legumes · S2 · J',who:'b'},
-  ]},
-  'Prateleira 3 — Reservas & complementos':{items:[
-    {label:'Legumes Brenda (porções avulsas)',who:'b'},
-    {label:'Frango desfiado extra',who:''},
-    {label:'Molho base extra (tomate)',who:''},
-    {label:'Panquecas avulsas',who:''},
-  ]}
+  // JANTARES
+  'Estrogonoff de carne + arroz (G) / legumes (B)':{
+    porcoes:'6 porções',ingredientes:[
+      {item:'Carne (acém/patinho) em cubos',qtd:'800 g'},{item:'Creme de leite',qtd:'2 caixinhas'},
+      {item:'Extrato de tomate',qtd:'2 col. sopa'},{item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},
+      {item:'Azeite, sal, pimenta',qtd:'a gosto'},
+    ],
+    modo:['Tempere a carne e sele em óleo quente até dourar. Reserve.',
+      'No mesmo fundo, refogue cebola e alho até dourar.',
+      'Volte a carne, adicione extrato de tomate. Cozinhe 5 min.',
+      'Acrescente o creme de leite. Fogo baixo por 10 min. Ajuste o sal.',
+      'Gabriel: servir com arroz. Brenda: servir com legumes cozidos no vapor.']
+  },
+  'Frango desfiado com molho + arroz (G) / legumes (B)':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Frango desfiado (preparado em lote)',qtd:'500 g'},{item:'Molho de tomate',qtd:'1 xícara'},
+      {item:'Cebola, alho, orégano',qtd:'a gosto'},
+    ],
+    modo:['Use o frango desfiado já preparado no lote do dia.',
+      'Aqueça no fogo com cebola refogada e molho de tomate.',
+      'Tempere com orégano e ajuste o sal.',
+      'Gabriel: porcionar com arroz. Brenda: porcionar com legumes do vapor.']
+  },
+  'Carne moída com molho de tomate + arroz (G) / legumes (B)':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Carne moída (patinho)',qtd:'600 g'},{item:'Molho de tomate',qtd:'1 xícara'},
+      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},
+    ],
+    modo:['Refogue cebola e alho. Adicione carne moída e mexa até secar.',
+      'Junte extrato e molho de tomate. Tempere.',
+      'Cozinhe 10 min até o molho encorpar.',
+      'Gabriel: porcionar com arroz. Brenda: porcionar com legumes.']
+  },
+  'Carne picada com molho de tomate + arroz (G) / legumes (B)':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Carne para panela em cubos pequenos',qtd:'700 g'},{item:'Molho de tomate',qtd:'1 xícara'},
+      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho + louro',qtd:'1 + 3 + 2'},
+    ],
+    modo:['Sele a carne picada em fundo quente. Reserve.',
+      'Refogue cebola e alho, adicione extrato, molho e louro.',
+      'Volte a carne, adicione água suficiente e cozinhe 20 min tampado.',
+      'Reduzir o caldo até encorpar. Gabriel: com arroz. Brenda: com legumes.']
+  },
+  'Escondidinho de batata com carne moída':{
+    porcoes:'6 porções',ingredientes:[
+      {item:'Batata inglesa cozida e amassada',qtd:'1 kg'},{item:'Carne moída com molho de tomate',qtd:'500 g'},
+      {item:'Leite + manteiga para o purê',qtd:'100 ml + 1 col.'},{item:'Queijo ralado',qtd:'100 g'},
+    ],
+    modo:['Cozinhe as batatas e faça um purê com leite, manteiga e sal.',
+      'Prepare a carne moída refogada com cebola, alho e extrato de tomate.',
+      'Em refratário: camada de purê, carne moída, outra camada de purê.',
+      'Cubra com queijo ralado e leve ao forno 180°C por 20 min até dourar.']
+  },
+  'Batata-doce assada + frango desfiado':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Batata-doce',qtd:'1 kg'},{item:'Frango desfiado temperado',qtd:'400 g'},
+      {item:'Azeite, sal, pimenta',qtd:'a gosto'},
+    ],
+    modo:['Lave e corte as batatas-doces ao meio (sem descascar).',
+      'Tempere com azeite e sal. Assar na airfryer 200°C por 25 min ou forno 200°C por 35 min.',
+      'Prepare o frango desfiado à parte (base do lote do dia).',
+      'Porcionar: 1 metade de batata-doce + porção de frango desfiado por marmita.',
+      'Brenda: pode acrescentar legumes no vapor na mesma marmita.']
+  },
+  'Quibe assado + arroz (G) / salada (B)':{
+    porcoes:'6 porções',ingredientes:[
+      {item:'Carne moída (coxão mole)',qtd:'700 g'},{item:'Trigo para quibe',qtd:'1 xícara'},
+      {item:'Cebola ralada',qtd:'1 unid.'},{item:'Hortelã, sal, pimenta, canela',qtd:'a gosto'},
+      {item:'Azeite para untar',qtd:'—'},
+    ],
+    modo:['Deixe o trigo de molho em água fria por 20 min. Escorra bem.',
+      'Misture trigo, carne, cebola ralada e temperos. Sove bem.',
+      'Unte uma forma retangular com azeite. Espalhe a massa (2 cm).',
+      'Faça cortes diagonais na superfície. Regue com azeite.',
+      'Assar em forno 200°C por 35–40 min até dourar.']
+  },
+  'Cozido de carne moída com batata + legumes (B)':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Carne moída',qtd:'500 g'},{item:'Batata inglesa',qtd:'600 g'},
+      {item:'Cenoura + abobrinha',qtd:'2 + 1 unid.'},{item:'Caldo de carne, sal, louro',qtd:'a gosto'},
+    ],
+    modo:['Refogue a carne moída com cebola e alho.',
+      'Adicione batata e cenoura cortadas em cubos. Junte água (caldo) para cobrir.',
+      'Cozinhe 15 min. Adicione abobrinha e vagem nos últimos 5 min.',
+      'Ajuste o sal. Porcionar em marmitas — inclui naturalmente a camada de legumes para a Brenda.']
+  },
+  'Frango ao molho de tomate + arroz (G) / legumes (B)':{
+    porcoes:'5 porções',ingredientes:[
+      {item:'Frango em pedaços (coxa/sobrecoxa)',qtd:'1 kg'},{item:'Molho de tomate pronto',qtd:'1,5 xícara'},
+      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho + louro',qtd:'1 + 4 + 2'},
+      {item:'Sal, orégano, pimenta',qtd:'a gosto'},
+    ],
+    modo:['Tempere o frango e doure em panela com azeite. Reserve.',
+      'Refogue cebola e alho no mesmo fundo.',
+      'Volte o frango, adicione extrato, molho de tomate, louro e água para cobrir pela metade.',
+      'Tampe e cozinhe 25 min em fogo médio até o frango ficar bem macio.',
+      'Gabriel: porcionar com arroz. Brenda: porcionar com legumes no vapor.']
+  },
 };
 
-let state = {step:0, historySelected:[], inventory:{}, quinzenas:[], cardapioGerado:{}};
-
-let REGRAS = [
-  {id:1, emoji:'🍖', texto:'Preferência por carnes com molho — evitar proteínas grelhadas secas congeladas', ativa:true},
-  {id:2, emoji:'🍅', texto:'Brenda prefere carne moída com molho de tomate. Gabriel come com molho ou mais seca', ativa:true},
-  {id:3, emoji:'🌞', texto:'Almoços: arroz + feijão + proteína ou macarrão + proteína', ativa:true},
-  {id:4, emoji:'🌙', texto:'Jantares leves: sem feijão e macarrão à noite. Brenda: legumes + proteína. Gabriel: arroz + proteína', ativa:true},
-  {id:5, emoji:'🥘', texto:'Estrogonoff sempre de carne, nunca de frango', ativa:true},
-  {id:6, emoji:'🥦', texto:'Legumes não combinam com estrogonoff — não servir juntos', ativa:true},
-  {id:7, emoji:'🔄', texto:'Não repetir o mesmo prato em dias consecutivos', ativa:true},
-  {id:8, emoji:'📅', texto:'Brenda não almoça em casa: segundas e quartas. Ninguém almoça em casa: quintas', ativa:true},
+const PREP_DATA = [
+  {time:'09:00',action:'Arroz e feijão no fogo',detail:'Panela 1: arroz 3 kg. Panela 2: feijão (de molho desde sexta). 2 bocas por 35–40 min.',equip:'🔥 Fogão — bocas 1 e 2'},
+  {time:'09:05',action:'Frango na airfryer para desfiar',detail:'Temperar coxas/peitos. Assar para depois desfiar — base do frango desfiado e frango ao molho.',equip:'💨 Airfryer 200°C · 25 min'},
+  {time:'09:20',action:'Molho de tomate base grande',detail:'Refogar cebola e alho. Dividir em porções: uma para carne moída, uma para frango desfiado, uma para o sugo.',equip:'🔥 Fogão — boca 3'},
+  {time:'09:40',action:'Carne moída no molho + sugo',detail:'Carne moída na primeira porção do molho. Macarrão cozinhando em paralelo. Parte da carne vai pro escondidinho.',equip:'🔥 Fogão — bocas 3 e 4'},
+  {time:'09:45',action:'Estrogonoff de carne',detail:'Selar carne em cubos, adicionar base de cebola/alho, extrato e creme de leite. Fogo médio 25 min.',equip:'🔥 Fogão — boca 5'},
+  {time:'10:00',action:'Quibe no forno',detail:'Montar a forma de quibe (trigo + carne + temperos) e assar.',equip:'🟧 Forno 200°C · 35 min'},
+  {time:'10:15',action:'Desfiar frango + molhos',detail:'Desfiar frango assado. Adicionar ao molho base. Parte vira galinhada (misturar com arroz já pronto).',equip:'🏠 Mesa + fogão boca 1'},
+  {time:'10:45',action:'Batata-doce na airfryer + escondidinho',detail:'Assar batata-doce na airfryer. Montar escondidinho em refratário e gratinar no forno.',equip:'💨 Airfryer + 🟧 Forno'},
+  {time:'11:15',action:'Panquecas',detail:'Massa de panqueca (farinha + leite + ovos). Fritar, rechear com frango ou carne moída e enrolar.',equip:'🔥 Fogão — bocas 1 e 2'},
+  {time:'11:45',action:'Legumes da Brenda',detail:'Cozinhar abobrinha, cenoura e brócolis no vapor ou airfryer. Porções para ~10 refeições.',equip:'💨 Airfryer ou vapor'},
+  {time:'12:15',action:'Porcionamento e montagem',detail:'Gabriel: arroz + proteína. Brenda: legumes + proteína. Etiquetar: Nome · Prato · S1/S2 · A/J.',equip:'🏠 Mesa de trabalho'},
+  {time:'12:45',action:'Organizar freezer',detail:'Prateleira 1 = Semana 1. Prateleira 2 = Semana 2. Prateleira 3 = reservas. Arroz e feijão → geladeira.',equip:'🧊 Freezer + geladeira'},
 ];
 
-let EQUIPAMENTOS = [
-  {id:1, emoji:'🍳', nome:'Fogão 5 bocas'},
-  {id:2, emoji:'🟧', nome:'Forno elétrico/gás'},
-  {id:3, emoji:'💨', nome:'Airfryer'},
-  {id:4, emoji:'📦', nome:'30 potes de 600 ml'},
-  {id:5, emoji:'📦', nome:'7 potes de 1,2 L'},
+const DIAS_SEMANA = [
+  {dia:'Segunda',skipBAlmoco:true,skipAll:false},
+  {dia:'Terça',skipBAlmoco:false,skipAll:false},
+  {dia:'Quarta',skipBAlmoco:true,skipAll:false},
+  {dia:'Quinta',skipBAlmoco:false,skipAll:true},
+  {dia:'Sexta',skipBAlmoco:false,skipAll:false},
 ];
 
-// --- REGRAS ---
-function renderRegras() {
-  const el = document.getElementById('regras-list');
-  if (!el) return;
-  if (REGRAS.length === 0) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--text3);margin-bottom:12px;">Nenhuma regra cadastrada ainda.</p>';
-    return;
-  }
-  el.innerHTML = REGRAS.map(r => `
-    <div class="card" style="margin-bottom:8px;padding:12px 14px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-size:20px;flex-shrink:0;">${r.emoji}</span>
-        <span style="flex:1;font-size:13px;color:${r.ativa?'var(--text)':'var(--text3)'};text-decoration:${r.ativa?'none':'line-through'};line-height:1.4;">${r.texto}</span>
-        <div style="display:flex;gap:6px;flex-shrink:0;">
-          <button class="btn btn-sm" onclick="toggleRegra(${r.id})" style="padding:4px 10px;font-size:12px;">${r.ativa?'⏸ Pausar':'▶ Ativar'}</button>
-          <button class="ingr-del" onclick="removeRegra(${r.id})" title="Remover">×</button>
-        </div>
-      </div>
-    </div>`).join('');
-}
+// ── STATE ───────────────────────────────────────────────────
+let state = {
+  step:0,
+  inventory:{},
+  quinzenas:[],
+  cardapioGerado:{},
+  selecaoMarmitas:{},
+  consumo:{},
+};
 
-function toggleRegra(id) {
-  const r = REGRAS.find(r => r.id === id);
-  if (r) { r.ativa = !r.ativa; saveStorage(); renderRegras(); }
-}
-
-function removeRegra(id) {
-  REGRAS = REGRAS.filter(r => r.id !== id);
-  saveStorage(); renderRegras();
-  showToast('Regra removida');
-}
-
-function addRegra() {
-  const emoji = document.getElementById('new-regra-emoji').value.trim() || '📌';
-  const texto = document.getElementById('new-regra-texto').value.trim();
-  if (!texto) { showToast('Digite a descrição da regra'); return; }
-  const newId = Math.max(0, ...REGRAS.map(r => r.id)) + 1;
-  REGRAS.push({id:newId, emoji, texto, ativa:true});
-  saveStorage(); renderRegras();
-  document.getElementById('new-regra-emoji').value = '';
-  document.getElementById('new-regra-texto').value = '';
-  showToast('Regra adicionada!');
-}
-
-// --- EQUIPAMENTOS ---
-function renderEquipamentos() {
-  const listaEl = document.getElementById('equipamentos-lista');
-  const outputEl = document.getElementById('equipamentos-output');
-
-  const html = EQUIPAMENTOS.map(e => `
-    <div class="card" style="margin-bottom:8px;padding:12px 14px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-size:20px;flex-shrink:0;">${e.emoji}</span>
-        <span style="flex:1;font-size:13px;color:var(--text);">${e.nome}</span>
-        <button class="ingr-del" onclick="removeEquipamento(${e.id})" title="Remover">×</button>
-      </div>
-    </div>`).join('');
-
-  if (listaEl) listaEl.innerHTML = html || '<p style="font-size:13px;color:var(--text3);">Nenhum equipamento cadastrado.</p>';
-  if (outputEl) outputEl.innerHTML = EQUIPAMENTOS.length === 0
-    ? '<p style="font-size:13px;color:var(--text3);">Configure seus equipamentos na aba ⚙️.</p>'
-    : `<div style="font-size:13px;color:var(--text2);line-height:1.8;">
-        ${EQUIPAMENTOS.map(e => `<p>${e.emoji} ${e.nome}</p>`).join('')}
-        <p style="margin-top:8px;"><strong style="color:var(--text)">Etiqueta:</strong> Nome · Prato · S1 ou S2 · A (almoço) / J (janta)</p>
-        <p><strong style="color:var(--text)">Regra de ouro:</strong> Arroz e feijão ficam na geladeira — trocar a cada 4 dias</p>
-      </div>`;
-}
-
-function removeEquipamento(id) {
-  EQUIPAMENTOS = EQUIPAMENTOS.filter(e => e.id !== id);
-  saveStorage(); renderEquipamentos();
-  showToast('Equipamento removido');
-}
-
-function addEquipamento() {
-  const emoji = document.getElementById('new-equip-emoji').value.trim() || '📦';
-  const nome = document.getElementById('new-equip-nome').value.trim();
-  if (!nome) { showToast('Digite a descrição'); return; }
-  const newId = Math.max(0, ...EQUIPAMENTOS.map(e => e.id)) + 1;
-  EQUIPAMENTOS.push({id:newId, emoji, nome});
-  saveStorage(); renderEquipamentos();
-  document.getElementById('new-equip-emoji').value = '';
-  document.getElementById('new-equip-nome').value = '';
-  showToast('Equipamento adicionado!');
-}
-
+// ── STORAGE ─────────────────────────────────────────────────
 function loadStorage() {
   try {
     const raw = localStorage.getItem(SK);
@@ -808,20 +870,43 @@ function loadStorage() {
       state.quinzenas = p.quinzenas || [];
       if (p.ingredientes) INGREDIENTES = p.ingredientes;
       if (p.pratos) PRATOS = p.pratos;
-      if (p.regras) REGRAS = p.regras;
-      if (p.equipamentos) EQUIPAMENTOS = p.equipamentos;
+      // Regras: só restaurar se estrutura válida com campo texto
+      if (p.regras && Array.isArray(p.regras) && p.regras.length > 0 && p.regras[0].texto) {
+        REGRAS = p.regras;
+      }
+      if (p.equipamentos && Array.isArray(p.equipamentos) && p.equipamentos.length > 0) EQUIPAMENTOS = p.equipamentos;
+      if (p.selecaoMarmitas) state.selecaoMarmitas = p.selecaoMarmitas;
+      if (p.inventory) state.inventory = p.inventory;
+      if (p.consumo) state.consumo = p.consumo;
     }
-  } catch(e) {}
+  } catch(e){}
+}
+
+function resetRegras() {
+  if (!confirm('Restaurar as regras padrão? Suas alterações serão perdidas.')) return;
+  REGRAS = REGRAS_PADRAO.map(r=>({...r}));
+  saveStorage(); renderRegras(); showToast('Regras restauradas!');
 }
 
 function saveStorage() {
-  try { localStorage.setItem(SK, JSON.stringify({quinzenas:state.quinzenas, ingredientes:INGREDIENTES, pratos:PRATOS, regras:REGRAS, equipamentos:EQUIPAMENTOS})); } catch(e) {}
+  try {
+    localStorage.setItem(SK, JSON.stringify({
+      quinzenas:state.quinzenas,
+      ingredientes:INGREDIENTES,
+      pratos:PRATOS,
+      regras:REGRAS,
+      equipamentos:EQUIPAMENTOS,
+      selecaoMarmitas:state.selecaoMarmitas,
+      inventory:state.inventory,
+      consumo:state.consumo||{},
+    }));
+  } catch(e){}
 }
 
+// ── UI UTILS ────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
@@ -832,249 +917,357 @@ function goStep(n) {
   document.getElementById('screen'+n).classList.add('active');
   document.getElementById('nav'+n).classList.add('active');
   window.scrollTo(0,0);
-  if (n === 0) renderRegras();
+  if (n===0) renderRegras();
 }
 
-function toggleTag(el) {
-  el.classList.toggle('on');
-  const name = el.textContent;
-  if (el.classList.contains('on')) { if (!state.historySelected.includes(name)) state.historySelected.push(name); }
-  else { state.historySelected = state.historySelected.filter(h => h !== name); }
+// ── REGRAS ──────────────────────────────────────────────────
+function renderRegras() {
+  const el = document.getElementById('regras-list');
+  if (!el) return;
+  if (REGRAS.length === 0) { el.innerHTML='<p style="font-size:13px;color:var(--text3);margin-bottom:12px;">Nenhuma regra cadastrada.</p>'; return; }
+  el.innerHTML = REGRAS.map(r => `
+    <div class="card" style="margin-bottom:8px;padding:12px 14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;flex-shrink:0;">${r.emoji}</span>
+        <span style="flex:1;font-size:13px;color:${r.ativa?'var(--text)':'var(--text3)'};text-decoration:${r.ativa?'none':'line-through'};line-height:1.4;">${r.texto}</span>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="btn btn-sm" onclick="toggleRegra(${r.id})" style="padding:4px 10px;font-size:12px;">${r.ativa?'⏸':'▶'}</button>
+          <button class="ingr-del" onclick="removeRegra(${r.id})">×</button>
+        </div>
+      </div>
+    </div>`).join('');
 }
 
-function buildHistoryTags() {
-  const el = document.getElementById('history-tags');
-  el.innerHTML = PRATOS.map(p => `<button class="tag" onclick="toggleTag(this)">${p.nome}</button>`).join('');
+function toggleRegra(id) {
+  const r = REGRAS.find(r=>r.id===id);
+  if (r) { r.ativa=!r.ativa; saveStorage(); renderRegras(); }
+}
+function removeRegra(id) {
+  REGRAS = REGRAS.filter(r=>r.id!==id);
+  saveStorage(); renderRegras(); showToast('Regra removida');
+}
+function addRegra() {
+  const emoji = document.getElementById('new-regra-emoji').value.trim()||'📌';
+  const texto = document.getElementById('new-regra-texto').value.trim();
+  if (!texto) { showToast('Digite a descrição'); return; }
+  const newId = Math.max(0,...REGRAS.map(r=>r.id))+1;
+  REGRAS.push({id:newId,emoji,texto,ativa:true});
+  saveStorage(); renderRegras();
+  document.getElementById('new-regra-emoji').value='';
+  document.getElementById('new-regra-texto').value='';
+  showToast('Regra adicionada!');
 }
 
-function buildIngredientes() { Object.keys(INGREDIENTES).forEach(cat => renderIngrGrid(cat)); }
+// ── INVENTÁRIO ──────────────────────────────────────────────
+function buildIngredientes() { Object.keys(INGREDIENTES).forEach(cat=>renderIngrGrid(cat)); }
 
 function renderIngrGrid(cat) {
   const el = document.getElementById('ingr-'+cat);
   if (!el) return;
-  el.innerHTML = INGREDIENTES[cat].map((item,i) => `
+
+  el.innerHTML = INGREDIENTES[cat].map((item,i)=>`
     <div class="ingr-row">
       <div class="ingr-check-wrap">
-        <input type="checkbox" id="ic-${cat}-${i}" onchange="updateInv('${item.name}',this.checked)">
+        <input type="checkbox" id="ic-${cat}-${i}" data-name="${item.name}"
+          ${state.inventory[item.name]&&state.inventory[item.name].have?'checked':''}
+          onchange="updateInv('${item.name}',this.checked)">
         <label class="ingr-label" for="ic-${cat}-${i}" title="${item.name}">${item.name}</label>
       </div>
-      <input type="text" class="ingr-qty" placeholder="${item.unit}" oninput="updateInvQty('${item.name}',this.value)">
-      <button class="ingr-del" onclick="removeIngrediente('${cat}',${i})" title="Remover">×</button>
+      <input type="text" class="ingr-qty" data-name="${item.name}"
+        placeholder="${item.unit}"
+        value="${state.inventory[item.name]?state.inventory[item.name].qty||'':''}"
+        oninput="updateInvQty('${item.name}',this.value)">
+      <button class="ingr-del" onclick="removeIngrediente('${cat}',${i})">×</button>
     </div>`).join('');
 }
 
 function updateInv(name,checked) {
   if (!state.inventory[name]) state.inventory[name]={have:false,qty:''};
   state.inventory[name].have=checked;
+  saveStorage();
 }
 function updateInvQty(name,val) {
   if (!state.inventory[name]) state.inventory[name]={have:false,qty:''};
   state.inventory[name].qty=val;
+  saveStorage();
 }
-
 function addIngrediente(cat) {
   const input = document.getElementById('new-'+cat);
   const unitEl = document.getElementById('unit-'+cat);
   const val = input.value.trim();
   if (!val) { showToast('Digite o nome do ingrediente'); return; }
-  INGREDIENTES[cat].push({name:val, unit:unitEl.value});
+  // Salvar estado atual antes de re-renderizar
+  INGREDIENTES[cat].push({name:val,unit:unitEl.value});
   saveStorage();
   renderIngrGrid(cat);
   input.value='';
   showToast(val+' adicionado!');
 }
-
 function removeIngrediente(cat,i) {
   const nome = INGREDIENTES[cat][i].name;
   INGREDIENTES[cat].splice(i,1);
   delete state.inventory[nome];
-  saveStorage();
-  renderIngrGrid(cat);
+  saveStorage(); renderIngrGrid(cat);
 }
 
-function renderPratoList() {
-  const almoco = PRATOS.filter(p => p.tipo==='almoco'||p.tipo==='ambos');
-  const jantar = PRATOS.filter(p => p.tipo==='jantar'||p.tipo==='ambos');
-  document.getElementById('lista-almoco').innerHTML = almoco.map(p => pratoItem(p)).join('');
-  document.getElementById('lista-jantar').innerHTML = jantar.map(p => pratoItem(p)).join('');
+// ── PRATOS — gestão na tela de marmitas ─────────────────────
+function renderPratosNaMarmita() {
+  const el = document.getElementById('lista-pratos-marmita');
+  if (!el) return;
+  const badge = document.getElementById('pratos-count-badge');
+  if (badge) badge.textContent = `(${PRATOS.length})`;
+  if (PRATOS.length === 0) { el.innerHTML='<p style="font-size:13px;color:var(--text3);margin-bottom:8px;">Nenhum prato cadastrado.</p>'; return; }
+  el.innerHTML = PRATOS.map(p=>`
+    <div class="prato-item">
+      <span class="prato-emoji">${p.emoji||'🍽️'}</span>
+      <div class="prato-info">
+        <div class="prato-name">${p.nome}</div>
+        <div class="prato-meta">${p.tipo==='ambos'?'Almoço e jantar':p.tipo==='almoco'?'Almoço':'Jantar'}</div>
+      </div>
+      <button class="prato-del" onclick="removePrato(${p.id})">×</button>
+    </div>`).join('');
 }
 
-function pratoItem(p) {
-  return `<div class="prato-item">
-    <span class="prato-emoji">${p.emoji||'🍽️'}</span>
-    <div class="prato-info"><div class="prato-name">${p.nome}</div><div class="prato-meta">${p.tipo==='ambos'?'Almoço e jantar':p.tipo==='almoco'?'Almoço':'Jantar'}</div></div>
-    <button class="prato-del" onclick="removePrato(${p.id})" title="Remover prato">×</button>
-  </div>`;
+function togglePratos() {
+  const body = document.getElementById('card-pratos-body');
+  const icon = document.getElementById('pratos-toggle-icon');
+  const collapsed = document.getElementById('card-pratos-collapsed');
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  icon.textContent = open ? '－' : '＋';
+  collapsed.style.borderBottomLeftRadius = open ? '0' : '';
+  collapsed.style.borderBottomRightRadius = open ? '0' : '';
+  if (open) renderPratosNaMarmita();
 }
 
 function removePrato(id) {
-  PRATOS = PRATOS.filter(p => p.id !== id);
+  PRATOS = PRATOS.filter(p=>p.id!==id);
+  delete state.selecaoMarmitas[id];
   saveStorage();
-  renderPratoList();
-  buildHistoryTags();
+  renderPratosNaMarmita();
+  renderMarmitas();
   showToast('Prato removido');
 }
 
 function addPrato() {
   const nome = document.getElementById('new-prato-nome').value.trim();
   const tipo = document.getElementById('new-prato-tipo').value;
-  const emoji = document.getElementById('new-prato-emoji').value.trim() || '🍽️';
+  const emoji = document.getElementById('new-prato-emoji').value.trim()||'🍽️';
   if (!nome) { showToast('Digite o nome do prato'); return; }
-  const newId = Math.max(0, ...PRATOS.map(p => p.id)) + 1;
-  PRATOS.push({id:newId, nome, tipo, emoji});
+  const newId = Math.max(0,...PRATOS.map(p=>p.id))+1;
+  PRATOS.push({id:newId,nome,tipo,emoji});
   saveStorage();
-  renderPratoList();
-  buildHistoryTags();
+  renderPratosNaMarmita();
+  renderMarmitas();
   document.getElementById('new-prato-nome').value='';
   document.getElementById('new-prato-emoji').value='';
   showToast(nome+' adicionado!');
 }
 
-function switchCardapioTab(tab) {
-  ['proposta','pratos'].forEach(id => {
-    document.getElementById('tab-'+id).classList.toggle('active', id===tab);
-  });
-  document.querySelectorAll('#screen3 .inner-tab').forEach((t,i) => {
-    t.classList.toggle('active', ['proposta','pratos'][i]===tab);
-  });
-  if (tab==='pratos') renderPratoList();
+// ── MARMITAS ────────────────────────────────────────────────
+function calcTotaisRefeicoes() {
+  const totalG = parseInt(document.getElementById('total-g').value)||18;
+  const totalB = parseInt(document.getElementById('total-b').value)||13;
+  return {totalG,totalB};
 }
 
-// Calorias por prato
-const CAL_MAP = {
-  // almoços Gabriel / Brenda
-  'Arroz + feijão + frango desfiado com molho':          [645, 495],
-  'Arroz + feijão + carne moída':                        [650, 500],
-  'Arroz + feijão + carne de panela':                    [648, 498],
-  'Arroz + feijão + frango picado com molho de tomate':  [642, 492],
-  'Macarrão ao sugo + carne moída':                      [648, 498],
-  'Macarrão ao sugo + frango desfiado':                  [645, 495],
-  'Galinhada (arroz com galinha)':                       [655, 505],
-  'Panqueca de carne moída com molho de tomate':         [548, 418],
-  'Panqueca de frango desfiado com molho de tomate':     [545, 415],
-  // jantares Gabriel / Brenda
-  'Estrogonoff de carne + arroz (G) / legumes (B)':              [540, 410],
-  'Frango desfiado com molho + arroz (G) / legumes (B)':         [535, 405],
-  'Carne moída com molho de tomate + arroz (G) / legumes (B)':   [540, 410],
-  'Carne picada com molho de tomate + arroz (G) / legumes (B)':  [538, 408],
-  'Escondidinho de batata com carne moída':                      [550, 420],
-  'Batata-doce assada + frango desfiado':                        [530, 410],
-  'Quibe assado + arroz (G) / salada (B)':                       [545, 415],
-  'Cozido de carne moída com batata + legumes (B)':              [542, 412],
-  'Frango ao molho de tomate + arroz (G) / legumes (B)':         [535, 405],
-};
+function calcSelecionados() {
+  let selG=0, selB=0;
+  Object.values(state.selecaoMarmitas).forEach(s=>{
+    selG += (s.g||0);
+    selB += (s.b||0);
+  });
+  return {selG,selB};
+}
 
-// Estrutura de dias: quais têm restrições de almoço
-const DIAS_SEMANA = [
-  { dia:'Segunda',  skipB:true,  skipAll:false },
-  { dia:'Terça',    skipB:false, skipAll:false },
-  { dia:'Quarta',   skipB:true,  skipAll:false },
-  { dia:'Quinta',   skipB:false, skipAll:true  },
-  { dia:'Sexta',    skipB:false, skipAll:false },
-];
+function atualizarContador() {
+  const {totalG,totalB} = calcTotaisRefeicoes();
+  const {selG,selB} = calcSelecionados();
+  const faltaG = totalG-selG;
+  const faltaB = totalB-selB;
+  const classG = faltaG===0?'ok':faltaG<0?'over':'missing';
+  const classB = faltaB===0?'ok':faltaB<0?'over':'missing';
+  document.getElementById('contador-row').innerHTML=`
+    <div class="contador-pill">
+      <div class="contador-name">🔵 Gabriel</div>
+      <div class="contador-nums">${selG} escolhidas · <span class="contador-falta ${classG}">${faltaG>0?faltaG+' faltando':faltaG<0?Math.abs(faltaG)+' a mais':'✓ completo'}</span></div>
+    </div>
+    <div class="contador-pill">
+      <div class="contador-name">🟢 Brenda</div>
+      <div class="contador-nums">${selB} escolhidas · <span class="contador-falta ${classB}">${faltaB>0?faltaB+' faltando':faltaB<0?Math.abs(faltaB)+' a mais':'✓ completo'}</span></div>
+    </div>`;
+}
 
-function gerarCardapioAutomatico() {
-  const historico = state.historySelected; // pratos já comidos
-  const pratosAlmoco = PRATOS.filter(p => p.tipo==='almoco' || p.tipo==='ambos');
-  const pratosJantar = PRATOS.filter(p => p.tipo==='jantar' || p.tipo==='ambos');
-
-  // Ordenar: menos recentes no histórico primeiro, shuffle nos empatados
-  function ordenar(lista) {
-    return [...lista].sort((a,b) => {
-      const ia = historico.includes(a.nome) ? 1 : 0;
-      const ib = historico.includes(b.nome) ? 1 : 0;
-      if (ia !== ib) return ia - ib;
-      return Math.random() - 0.5;
-    });
-  }
-
-  const filaAlmoco = ordenar(pratosAlmoco);
-  const filaJantar = ordenar(pratosJantar);
-
-  // Gerar 10 slots de almoço e 10 de jantar sem repetir consecutivo
-  function pick(fila, usado, max) {
-    const result = [];
-    let idx = 0;
-    for (let i = 0; i < max; i++) {
-      // evitar repetir o mesmo prato consecutivo
-      while (idx < fila.length && result.length > 0 && fila[idx % fila.length].nome === result[result.length-1]) {
-        idx++;
-      }
-      result.push(fila[idx % fila.length].nome);
-      idx++;
+function renderMarmitas() {
+  const regrasAtivas = REGRAS.filter(r=>r.ativa).map(r=>r.filtro).filter(Boolean);
+  function pratoPermitido(p) {
+    if (regrasAtivas.includes('sem_estrogonoff_frango')) {
+      if (p.nome.toLowerCase().includes('estrogonoff') && p.nome.toLowerCase().includes('frango')) return false;
     }
-    return result;
+    return true;
+  }
+  const pratos = PRATOS.filter(pratoPermitido);
+
+  function tipoLabel(tipo) {
+    if (tipo==='almoco') return '<span style="font-size:10px;color:var(--text3);margin-left:4px;">almoço</span>';
+    if (tipo==='jantar') return '<span style="font-size:10px;color:var(--text3);margin-left:4px;">jantar</span>';
+    return '<span style="font-size:10px;color:var(--text3);margin-left:4px;">ambos</span>';
   }
 
-  const almocos = pick(filaAlmoco, [], 10);
-  const jantares = pick(filaJantar, [], 10);
+  function marmitaRow(p, pessoa) {
+    const val = (state.selecaoMarmitas[p.id]||{})[pessoa]||0;
+    return `<div class="marmita-row">
+      <span class="marmita-emoji">${p.emoji||'🍽️'}</span>
+      <div class="marmita-nome">${p.nome}${tipoLabel(p.tipo)}</div>
+      <div class="marmita-counter">
+        <button class="marmita-btn" onclick="changeMarmita(${p.id},'${pessoa}',-1)">−</button>
+        <span class="marmita-num" id="mn-${p.id}-${pessoa}">${val}</span>
+        <button class="marmita-btn" onclick="changeMarmita(${p.id},'${pessoa}',+1)">+</button>
+      </div>
+    </div>`;
+  }
 
-  // Montar estrutura das duas semanas
-  const semanas = ['semana1','semana2'];
+  document.getElementById('marmitas-gabriel').innerHTML = pratos.map(p=>marmitaRow(p,'g')).join('');
+  document.getElementById('marmitas-brenda').innerHTML = pratos.map(p=>marmitaRow(p,'b')).join('');
+  atualizarContador();
+}
+
+function changeMarmita(pratoId, pessoa, delta) {
+  if (!state.selecaoMarmitas[pratoId]) state.selecaoMarmitas[pratoId]={g:0,b:0};
+  const val = Math.max(0,(state.selecaoMarmitas[pratoId][pessoa]||0)+delta);
+  state.selecaoMarmitas[pratoId][pessoa] = val;
+  const el = document.getElementById(`mn-${pratoId}-${pessoa}`);
+  if (el) el.textContent = val;
+  saveStorage();
+  atualizarContador();
+}
+
+// ── CARDÁPIO ────────────────────────────────────────────────
+function gerarCardapioDeSelecao() {
+  const regrasAtivas = REGRAS.filter(r=>r.ativa).map(r=>r.filtro).filter(Boolean);
+  const semConsecutivo = regrasAtivas.includes('sem_consecutivo');
+
+  function montarFila(pessoa) {
+    const fila = [];
+    Object.entries(state.selecaoMarmitas).forEach(([idStr,sel])=>{
+      const qtd = sel[pessoa]||0;
+      if (qtd===0) return;
+      const prato = PRATOS.find(p=>p.id===parseInt(idStr));
+      if (!prato) return;
+      for (let i=0;i<qtd;i++) fila.push(prato.nome);
+    });
+    for (let i=fila.length-1;i>0;i--) {
+      const j=Math.floor(Math.random()*(i+1));
+      [fila[i],fila[j]]=[fila[j],fila[i]];
+    }
+    if (semConsecutivo && fila.length>1) {
+      for (let i=1;i<fila.length;i++) {
+        if (fila[i]===fila[i-1]) {
+          for (let j=i+1;j<fila.length;j++) {
+            if (fila[j]!==fila[i-1]) { [fila[i],fila[j]]=[fila[j],fila[i]]; break; }
+          }
+        }
+      }
+    }
+    return fila;
+  }
+
+  const filaG = montarFila('g');
+  const filaB = montarFila('b');
+  const usarFallback = filaG.length===0 && filaB.length===0;
+  const pratosAlmoco = PRATOS.filter(p=>p.tipo==='almoco'||p.tipo==='ambos');
+  const pratosJantar = PRATOS.filter(p=>p.tipo==='jantar'||p.tipo==='ambos');
+
+  function pickFallback(lista,max) {
+    const r=[];
+    for(let i=0;i<max;i++) r.push(lista[i%lista.length].nome);
+    return r;
+  }
+
+  const poolG = usarFallback ? pickFallback([...pratosAlmoco,...pratosJantar],18) : filaG;
+  const poolB = usarFallback ? pickFallback([...pratosAlmoco,...pratosJantar],13) : filaB;
+
   state.cardapioGerado = {};
-  let ai=0, ji=0;
+  let giG=0, giB=0;
 
-  semanas.forEach((sem, si) => {
-    state.cardapioGerado[sem] = DIAS_SEMANA.map(d => {
-      const jNome = jantares[ji++];
-      const [jCalG, jCalB] = CAL_MAP[jNome] || [540, 410];
+  ['semana1','semana2'].forEach((sem)=>{
+    state.cardapioGerado[sem] = DIAS_SEMANA.map(d=>{
+      const jNomeG = poolG[giG%Math.max(poolG.length,1)] || (pratosJantar[0]&&pratosJantar[0].nome);
+      giG++;
+      const [jCalG] = CAL_MAP[jNomeG]||[540,0];
 
       if (d.skipAll) {
-        return { dia:d.dia, almoco:{skipAll:true}, janta:{nome:jNome, calG:jCalG, calB:jCalB} };
+        return {dia:d.dia,almoco:{skipAll:true},janta:{g:{nome:jNomeG,cal:jCalG},b:{nome:jNomeG,cal:(CAL_MAP[jNomeG]||[0,410])[1]}}};
       }
 
-      const aNome = almocos[ai++];
-      const [aCalG, aCalB] = CAL_MAP[aNome] || [645, 495];
+      const aNomeG = poolG[giG%Math.max(poolG.length,1)] || (pratosAlmoco[0]&&pratosAlmoco[0].nome);
+      giG++;
+      const [aCalG] = CAL_MAP[aNomeG]||[645,0];
+
+      let aNomeB=null, aCalB=null;
+      if (!d.skipBAlmoco) {
+        aNomeB = poolB[giB%Math.max(poolB.length,1)] || aNomeG;
+        giB++;
+        aCalB = (CAL_MAP[aNomeB]||[0,495])[1];
+      }
+      const jNomeB = poolB[giB%Math.max(poolB.length,1)] || jNomeG;
+      giB++;
+      const jCalB = (CAL_MAP[jNomeB]||[0,410])[1];
+
       return {
-        dia: d.dia,
-        almoco: { nome:aNome, calG:aCalG, calB:d.skipB ? null : aCalB, skipB:d.skipB },
-        janta: { nome:jNome, calG:jCalG, calB:jCalB }
+        dia:d.dia,
+        almoco:{g:{nome:aNomeG,cal:aCalG},b:d.skipBAlmoco?null:{nome:aNomeB,cal:aCalB},skipBAlmoco:d.skipBAlmoco},
+        janta:{g:{nome:jNomeG,cal:jCalG},b:{nome:jNomeB,cal:jCalB}}
       };
     });
   });
-}
 
-function buildAndGoCardapio() {
-  gerarCardapioAutomatico();
   renderCardapio();
   buildShopList();
-  goStep(3);
+  buildReceitas();
+  buildFreezerFromCardapio();
 }
 
 function renderCardapio() {
   const el = document.getElementById('cardapio-output');
-  const fonte = state.cardapioGerado || {};
-  if (!fonte.semana1) { el.innerHTML='<p style="color:var(--text2);font-size:14px;">Volte ao inventário e clique em "Gerar cardápio".</p>'; return; }
+  const fonte = state.cardapioGerado||{};
+  if (!fonte.semana1) { el.innerHTML='<p style="color:var(--text2);font-size:14px;">Volte às marmitas e clique em "Gerar cardápio".</p>'; return; }
 
   let html='';
-  ['semana1','semana2'].forEach((sem,si) => {
+  let totalGcal=0,totalBcal=0,diasG=0,diasB=0;
+
+  ['semana1','semana2'].forEach((sem,si)=>{
     html+=`<div class="week-label">Semana ${si+1}</div>`;
-    fonte[sem].forEach(dia => {
+    fonte[sem].forEach(dia=>{
       html+=`<div class="day-block"><div class="day-name">${dia.dia}</div><div class="meal-row">`;
       const a=dia.almoco;
       if (a.skipAll) {
         html+=`<div class="meal-cell skip" style="grid-column:1/-1"><div class="meal-cell-label">Almoço</div><div class="meal-cell-name muted">Fora de casa — todos</div></div>`;
       } else {
-        html+=`<div class="meal-cell"><div class="meal-cell-label">Almoço</div><div class="meal-cell-name">${a.nome}</div><div class="meal-badges"><span class="badge badge-g">G: ${a.calG} kcal</span>`;
-        html+=a.skipB?`<span class="badge badge-skip">B: fora</span>`:`<span class="badge badge-b">B: ${a.calB} kcal</span>`;
+        html+=`<div class="meal-cell"><div class="meal-cell-label">Almoço</div>`;
+        html+=`<div class="meal-cell-name">${a.g.nome}</div>`;
+        html+=`<div class="meal-badges"><span class="badge badge-g">G: ${a.g.cal} kcal</span>`;
+        if (a.skipBAlmoco) html+=`<span class="badge badge-skip">B: fora</span>`;
+        else html+=`<span class="badge badge-b">B: ${a.b?a.b.cal:'—'} kcal</span>`;
         html+=`</div></div>`;
+        totalGcal+=a.g.cal; diasG++;
+        if (!a.skipBAlmoco&&a.b){totalBcal+=a.b.cal;diasB++;}
       }
       const j=dia.janta;
-      html+=`<div class="meal-cell"><div class="meal-cell-label">Jantar</div><div class="meal-cell-name">${j.nome}</div><div class="meal-badges"><span class="badge badge-g">G: ${j.calG} kcal</span><span class="badge badge-b">B: ${j.calB} kcal</span></div></div>`;
+      html+=`<div class="meal-cell"><div class="meal-cell-label">Jantar</div>`;
+      html+=`<div class="meal-cell-name">${j.g.nome}</div>`;
+      html+=`<div class="meal-badges"><span class="badge badge-g">G: ${j.g.cal} kcal</span>`;
+      if (j.b&&j.b.nome!==j.g.nome) html+=`<span class="badge badge-b">B: ${j.b.cal} kcal — ${j.b.nome}</span>`;
+      else html+=`<span class="badge badge-b">B: ${j.b?j.b.cal:'—'} kcal</span>`;
+      html+=`</div></div>`;
+      totalGcal+=j.g.cal; diasG++;
+      if(j.b){totalBcal+=j.b.cal;diasB++;}
       html+=`</div></div>`;
     });
   });
 
-  // totais calóricos semanais
-  let totalG=0, totalB=0, refeicoes=0;
-  ['semana1','semana2'].forEach(sem => {
-    fonte[sem].forEach(dia => {
-      if (!dia.almoco.skipAll && dia.almoco.calG) { totalG+=dia.almoco.calG; if(!dia.almoco.skipB && dia.almoco.calB) totalB+=dia.almoco.calB; }
-      totalG+=dia.janta.calG; totalB+=dia.janta.calB; refeicoes++;
-    });
-  });
-  const mediaG=Math.round(totalG/10); // 10 dias úteis
-  const mediaB=Math.round(totalB/10);
+  const mediaG=diasG?Math.round(totalGcal/10):0;
+  const mediaB=diasB?Math.round(totalBcal/10):0;
 
   html+=`<div style="margin-top:16px;padding:14px;background:var(--bg2);border-radius:var(--radius-sm);font-size:13px;">
     <div style="font-weight:500;margin-bottom:6px;color:var(--text)">📊 Média calórica diária estimada</div>
@@ -1083,15 +1276,15 @@ function renderCardapio() {
       <span class="badge badge-b" style="font-size:13px;padding:4px 12px;">Brenda: ~${mediaB} kcal/dia</span>
     </div>
     <div style="margin-top:8px;font-size:12px;color:var(--text3)">Meta Gabriel: 1.750 kcal · Meta Brenda: 1.400 kcal</div>
-  </div>`;
-
-  html+=`<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-    <button class="btn btn-sm" onclick="gerarCardapioAutomatico();renderCardapio();buildShopList();">🔀 Gerar nova proposta</button>
+  </div>
+  <div style="margin-top:10px;">
+    <button class="btn btn-sm" onclick="gerarCardapioDeSelecao()">🔀 Redistribuir marmitas</button>
   </div>`;
 
   el.innerHTML=html;
 }
 
+// ── COMPRAS ─────────────────────────────────────────────────
 function buildShopList() {
   const haveItems=Object.entries(state.inventory).filter(([k,v])=>v.have).map(([k])=>k.toLowerCase());
   let totalNeed=0,totalHave=0;
@@ -1107,44 +1300,34 @@ function buildShopList() {
     needed.forEach(item=>{html+=`<div class="shop-item"><span class="shop-item-name">${item.name}</span><span class="shop-item-qty">${item.qty}</span></div>`;});
     haved.forEach(item=>{html+=`<div class="shop-item have"><span class="shop-item-name">${item.name}</span><span class="shop-item-qty">✓ em casa</span></div>`;});
     html+=`</div>`;
-    if(needed.length>0){ textLines.push(cat.toUpperCase()); needed.forEach(i=>textLines.push(`• ${i.name} — ${i.qty}`)); textLines.push(''); }
+    if(needed.length>0){textLines.push(cat.toUpperCase());needed.forEach(i=>textLines.push(`• ${i.name} — ${i.qty}`));textLines.push('');}
   });
   document.getElementById('shop-output').innerHTML=html;
   document.getElementById('shop-text-area').textContent=textLines.join('\n');
   document.getElementById('shop-count').textContent=totalNeed;
   document.getElementById('shop-have').textContent=totalHave;
 }
-
 function buildShopAndGo() { buildShopList(); goStep(4); }
-
 function switchShopTab(tab) {
-  document.querySelectorAll('#screen5 .inner-tab').forEach((t,i)=>t.classList.toggle('active',['visual','texto'][i]===tab));
+  document.querySelectorAll('#screen4 .inner-tab').forEach((t,i)=>t.classList.toggle('active',['visual','texto'][i]===tab));
   document.getElementById('shop-visual').classList.toggle('active',tab==='visual');
   document.getElementById('shop-texto').classList.toggle('active',tab==='texto');
 }
-
-function switchSabTab(tab) {
-  const tabs = ['cronograma','receitas','freezer','equipamentos'];
-  document.querySelectorAll('#screen5 .inner-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
-  tabs.forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===tab));
-  if(tab==='equipamentos') renderEquipamentos();
-}
-
 function copyShopText() {
   const text=document.getElementById('shop-text-area').textContent;
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(()=>showToast('Lista copiada!')).catch(()=>fallbackCopy(text));
   } else { fallbackCopy(text); }
 }
-
 function fallbackCopy(text) {
   const ta=document.createElement('textarea');
-  ta.value=text; ta.style.cssText='position:fixed;opacity:0;';
-  document.body.appendChild(ta); ta.select();
+  ta.value=text;ta.style.cssText='position:fixed;opacity:0;';
+  document.body.appendChild(ta);ta.select();
   try{document.execCommand('copy');showToast('Lista copiada!');}catch(e){showToast('Selecione o texto e copie (Ctrl+C)');}
   document.body.removeChild(ta);
 }
 
+// ── SÁBADO ──────────────────────────────────────────────────
 function buildPrepSteps() {
   document.getElementById('prep-output').innerHTML=PREP_DATA.map(s=>`
     <div class="prep-row">
@@ -1158,9 +1341,28 @@ function buildPrepSteps() {
 }
 
 function buildReceitas() {
-  document.getElementById('receitas-output').innerHTML=RECEITAS.map(r=>`
+  const pratosNoCardapio = new Set();
+  if (state.cardapioGerado&&state.cardapioGerado.semana1) {
+    ['semana1','semana2'].forEach(sem=>{
+      (state.cardapioGerado[sem]||[]).forEach(dia=>{
+        if (dia.almoco&&!dia.almoco.skipAll) {
+          if (dia.almoco.g) pratosNoCardapio.add(dia.almoco.g.nome);
+          if (dia.almoco.b) pratosNoCardapio.add(dia.almoco.b.nome);
+        }
+        if (dia.janta) {
+          if (dia.janta.g) pratosNoCardapio.add(dia.janta.g.nome);
+          if (dia.janta.b) pratosNoCardapio.add(dia.janta.b.nome);
+        }
+      });
+    });
+  }
+  const el = document.getElementById('receitas-output');
+  if (!el) return;
+  const receitas = [...pratosNoCardapio].map(nome=>{ const r=RECEITAS_DB[nome]; return r?{nome,r}:null; }).filter(Boolean);
+  if (receitas.length===0) { el.innerHTML='<p style="font-size:13px;color:var(--text2);">Gere o cardápio primeiro para ver as receitas.</p>'; return; }
+  el.innerHTML = receitas.map(({nome,r})=>`
     <div class="card recipe-block">
-      <div class="recipe-title">🍳 ${r.nome} <span style="font-size:12px;font-weight:400;color:var(--text3)">· ${r.porcoes}</span></div>
+      <div class="recipe-title">🍳 ${nome} <span style="font-size:12px;font-weight:400;color:var(--text3)">· ${r.porcoes}</span></div>
       <div class="recipe-section">Ingredientes</div>
       <ul class="recipe-list">${r.ingredientes.map(i=>`<li><span>${i.item}</span><span>${i.qtd}</span></li>`).join('')}</ul>
       <div class="recipe-section">Modo de preparo</div>
@@ -1168,28 +1370,124 @@ function buildReceitas() {
     </div>`).join('');
 }
 
-function buildFreezer() {
-  document.getElementById('freezer-output').innerHTML=Object.entries(FREEZER_MAP).map(([label,data])=>`
-    <div class="freezer-shelf">
-      <div class="freezer-shelf-label">${label}</div>
-      <div class="freezer-shelf-content">${data.items.map(item=>`<span class="freezer-item ${item.who}">${item.label}</span>`).join('')}</div>
-    </div>`).join('');
+function buildFreezerFromCardapio() {
+  const el = document.getElementById('freezer-output');
+  if (!el) return;
+  const fonte = state.cardapioGerado||{};
+  if (!fonte.semana1) { el.innerHTML='<p style="font-size:13px;color:var(--text3);">Gere o cardápio primeiro.</p>'; return; }
+  let html='';
+  ['semana1','semana2'].forEach((sem,si)=>{
+    html+=`<div class="freezer-shelf"><div class="freezer-shelf-label">Prateleira ${si+1} — Semana ${si+1}</div><div class="freezer-shelf-content">`;
+    fonte[sem].forEach(dia=>{
+      if (!dia.almoco.skipAll&&dia.almoco.g) {
+        html+=`<span class="freezer-item g">G · ${dia.almoco.g.nome.split(' ')[0]} · S${si+1} · A</span>`;
+        if (!dia.almoco.skipBAlmoco&&dia.almoco.b) html+=`<span class="freezer-item b">B · ${dia.almoco.b.nome.split(' ')[0]} · S${si+1} · A</span>`;
+      }
+      if (dia.janta.g) html+=`<span class="freezer-item g">G · ${dia.janta.g.nome.split(' ')[0]} · S${si+1} · J</span>`;
+      if (dia.janta.b) html+=`<span class="freezer-item b">B · ${dia.janta.b.nome.split(' ')[0]} · S${si+1} · J</span>`;
+    });
+    html+=`</div></div>`;
+  });
+  html+=`<div class="freezer-shelf"><div class="freezer-shelf-label">Prateleira 3 — Reservas</div><div class="freezer-shelf-content">
+    <span class="freezer-item b">Legumes Brenda (avulsos)</span>
+    <span class="freezer-item">Molho base extra</span>
+    <span class="freezer-item">Frango desfiado extra</span>
+  </div></div>`;
+  el.innerHTML=html;
+  const lbl=document.getElementById('total-marmitas-label');
+  if(lbl){const{totalG,totalB}=calcTotaisRefeicoes();lbl.textContent=totalG+totalB;}
 }
 
-function salvarQuinzena() {
-  const entry={
-    data:new Date().toLocaleDateString('pt-BR'),
-    pratos:[...state.historySelected],
-    extra:document.getElementById('history-extra').value,
-    feedback:document.getElementById('history-feedback').value,
-    ts:Date.now()
+function switchSabTab(tab) {
+  const tabs=['cronograma','receitas','freezer','equipamentos'];
+  document.querySelectorAll('#screen5 .inner-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
+  tabs.forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===tab));
+  if(tab==='equipamentos') renderEquipamentos();
+}
+
+// ── EQUIPAMENTOS ─────────────────────────────────────────────
+function renderEquipamentos() {
+  const listaEl=document.getElementById('equipamentos-lista');
+  const outputEl=document.getElementById('equipamentos-output');
+  const html=EQUIPAMENTOS.map(e=>`
+    <div class="card" style="margin-bottom:8px;padding:12px 14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;flex-shrink:0;">${e.emoji}</span>
+        <span style="flex:1;font-size:13px;color:var(--text);">${e.nome}</span>
+        <button class="ingr-del" onclick="removeEquipamento(${e.id})">×</button>
+      </div>
+    </div>`).join('');
+  if(listaEl) listaEl.innerHTML=html||'<p style="font-size:13px;color:var(--text3);">Nenhum equipamento cadastrado.</p>';
+  if(outputEl) outputEl.innerHTML=EQUIPAMENTOS.length===0
+    ?'<p style="font-size:13px;color:var(--text3);">Configure em Equipamentos.</p>'
+    :`<div style="font-size:13px;color:var(--text2);line-height:1.8;">${EQUIPAMENTOS.map(e=>`<p>${e.emoji} ${e.nome}</p>`).join('')}</div>`;
+}
+function removeEquipamento(id) {
+  EQUIPAMENTOS=EQUIPAMENTOS.filter(e=>e.id!==id);
+  saveStorage(); renderEquipamentos(); showToast('Removido');
+}
+function addEquipamento() {
+  const emoji=document.getElementById('new-equip-emoji').value.trim()||'📦';
+  const nome=document.getElementById('new-equip-nome').value.trim();
+  if(!nome){showToast('Digite a descrição');return;}
+  const newId=Math.max(0,...EQUIPAMENTOS.map(e=>e.id))+1;
+  EQUIPAMENTOS.push({id:newId,emoji,nome});
+  saveStorage(); renderEquipamentos();
+  document.getElementById('new-equip-emoji').value='';
+  document.getElementById('new-equip-nome').value='';
+  showToast('Adicionado!');
+}
+
+// ── MODAL SALVAR QUINZENA (substituiu step Histórico) ────────
+function abrirModalSalvar() {
+  // Popular tags com os pratos do cardápio desta quinzena
+  const pratosUsados = new Set();
+  if (state.cardapioGerado&&state.cardapioGerado.semana1) {
+    ['semana1','semana2'].forEach(sem=>{
+      (state.cardapioGerado[sem]||[]).forEach(dia=>{
+        if (dia.almoco&&!dia.almoco.skipAll&&dia.almoco.g) pratosUsados.add(dia.almoco.g.nome);
+        if (dia.janta&&dia.janta.g) pratosUsados.add(dia.janta.g.nome);
+      });
+    });
+  }
+  // Fallback: mostrar todos os pratos
+  const fonte = pratosUsados.size > 0 ? [...pratosUsados] : PRATOS.map(p=>p.nome);
+  const tagsEl = document.getElementById('modal-history-tags');
+  tagsEl.innerHTML = fonte.map(nome=>`<button class="tag" onclick="this.classList.toggle('on')">${nome}</button>`).join('');
+  // Limpar campos
+  document.getElementById('modal-history-extra').value = '';
+  document.getElementById('modal-history-feedback').value = '';
+  document.getElementById('modal-salvar').classList.remove('hidden');
+}
+
+function fecharModalSalvar() {
+  document.getElementById('modal-salvar').classList.add('hidden');
+}
+
+function confirmarSalvarQuinzena() {
+  const selecionados = [...document.querySelectorAll('#modal-history-tags .tag.on')].map(t=>t.textContent);
+  const entry = {
+    data: new Date().toLocaleDateString('pt-BR'),
+    pratos: selecionados,
+    extra: document.getElementById('modal-history-extra').value.trim(),
+    feedback: document.getElementById('modal-history-feedback').value.trim(),
+    ts: Date.now()
   };
   state.quinzenas.unshift(entry);
   if(state.quinzenas.length>12) state.quinzenas=state.quinzenas.slice(0,12);
-  saveStorage(); updateFooter(); renderHistorySaved();
-  showToast('✅ Quinzena salva com sucesso!');
+  // Zerar consumo para a próxima quinzena
+  state.consumo = {};
+  saveStorage(); updateFooter();
+  fecharModalSalvar();
+  showToast('✅ Quinzena salva!');
 }
 
+// Fechar modal clicando no overlay
+document.getElementById('modal-salvar').addEventListener('click', function(e){
+  if (e.target === this) fecharModalSalvar();
+});
+
+// ── SALVAR / HISTÓRICO ───────────────────────────────────────
 function updateFooter() {
   const n=state.quinzenas.length;
   document.getElementById('footer-text').textContent=n===0?'Nenhuma quinzena salva ainda':`${n} quinzena${n>1?'s':''} salva${n>1?'s':''}`;
@@ -1213,13 +1511,6 @@ function toggleHistoricoPanel() {
   document.body.appendChild(panel);
 }
 
-function renderHistorySaved() {
-  const block=document.getElementById('history-saved-block');
-  if(state.quinzenas.length===0){block.innerHTML='';return;}
-  const last=state.quinzenas[0];
-  block.innerHTML=`<div class="alert alert-success" style="margin-bottom:14px;">✅ <span><strong>Última quinzena:</strong> ${last.data} — ${(last.pratos||[]).slice(0,3).join(', ')}${(last.pratos||[]).length>3?' e mais...':''}</span></div>`;
-}
-
 function updateDate() {
   const now=new Date();
   document.getElementById('header-date').textContent=now.toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});
@@ -1227,17 +1518,111 @@ function updateDate() {
   document.getElementById('header-quinzena').textContent=(day===3||day===4)?'📋 Dia de planejar!':'Planejamento quinzenal';
 }
 
+// ── ACOMPANHAMENTO DE CONSUMO ────────────────────────────────
+// consumo: { pratoId_pessoa: { total: N, comidos: N } }
+// Populado a partir da selecaoMarmitas ao entrar na tela
+
+function renderAcompanhamento() {
+  // Construir lista definitiva de marmitas a partir da seleção
+  const lista = []; // { pratoId, pessoa, nome, emoji, total }
+  PRATOS.forEach(p => {
+    const sel = state.selecaoMarmitas[p.id] || {};
+    if ((sel.g||0) > 0) lista.push({pratoId:p.id, pessoa:'g', nome:p.nome, emoji:p.emoji||'🍽️', total:sel.g});
+    if ((sel.b||0) > 0) lista.push({pratoId:p.id, pessoa:'b', nome:p.nome, emoji:p.emoji||'🍽️', total:sel.b});
+  });
+
+  const resumoEl = document.getElementById('acomp-resumo');
+  const listaEl = document.getElementById('acomp-lista');
+
+  if (lista.length === 0) {
+    resumoEl.innerHTML = '';
+    listaEl.innerHTML = '<div class="alert alert-warn">⚠️ Nenhuma marmita selecionada ainda. Volte em Marmitas e defina as quantidades.</div>';
+    return;
+  }
+
+  // Calcular totais
+  let totalMarmitas = 0, totalComidas = 0;
+  lista.forEach(item => {
+    const key = item.pratoId+'_'+item.pessoa;
+    const comidos = (state.consumo||{})[key]||0;
+    totalMarmitas += item.total;
+    totalComidas += Math.min(comidos, item.total);
+  });
+  const totalFaltam = totalMarmitas - totalComidas;
+  const pct = totalMarmitas > 0 ? Math.round(totalComidas/totalMarmitas*100) : 0;
+
+  resumoEl.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div class="summary-card"><div class="summary-label">Total</div><div class="summary-val">${totalMarmitas}</div><div class="summary-sub">marmitas</div></div>
+      <div class="summary-card"><div class="summary-label">Comidas</div><div class="summary-val" style="color:var(--success-text)">${totalComidas}</div><div class="summary-sub">${pct}% consumido</div></div>
+      <div class="summary-card"><div class="summary-label">Faltam</div><div class="summary-val" style="color:${totalFaltam>0?'var(--warn-text)':'var(--success-text)'}">${totalFaltam}</div><div class="summary-sub">marmitas</div></div>
+    </div>
+    <div style="height:6px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-bottom:16px;">
+      <div style="height:100%;width:${pct}%;background:var(--success-text);border-radius:99px;transition:width 0.3s;"></div>
+    </div>`;
+
+  // Separar Gabriel e Brenda
+  const listaG = lista.filter(i=>i.pessoa==='g');
+  const listaB = lista.filter(i=>i.pessoa==='b');
+
+  function renderGrupo(items, titulo, cor) {
+    if (items.length === 0) return '';
+    let html = `<div style="font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">${titulo}</div>`;
+    items.forEach(item => {
+      const key = item.pratoId+'_'+item.pessoa;
+      const comidos = (state.consumo||{})[key]||0;
+      const faltam = Math.max(0, item.total - comidos);
+      const done = faltam === 0;
+      html += `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;${done?'opacity:0.5':''}">
+        <span style="font-size:18px;flex-shrink:0;">${item.emoji}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);line-height:1.3;">${item.nome}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">${comidos} de ${item.total} comidas · <span style="color:${done?'var(--success-text)':'var(--warn-text)'};">${done?'✓ concluído':faltam+' faltando'}</span></div>
+          <div style="height:3px;background:var(--bg3);border-radius:99px;margin-top:5px;overflow:hidden;">
+            <div style="height:100%;width:${item.total>0?Math.round(comidos/item.total*100):0}%;background:${cor};border-radius:99px;"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
+          <button class="marmita-btn" onclick="mudarConsumo('${key}',-1)">−</button>
+          <span style="width:24px;text-align:center;font-size:14px;font-weight:500;">${comidos}</span>
+          <button class="marmita-btn" onclick="mudarConsumo('${key}',+1,${item.total})">+</button>
+        </div>
+      </div>`;
+    });
+    return html;
+  }
+
+  listaEl.innerHTML =
+    renderGrupo(listaG, '🔵 Gabriel', 'var(--info-text)') +
+    (listaG.length && listaB.length ? '<div style="margin:12px 0;"></div>' : '') +
+    renderGrupo(listaB, '🟢 Brenda', 'var(--success-text)');
+}
+
+function mudarConsumo(key, delta, max) {
+  if (!state.consumo) state.consumo = {};
+  const atual = state.consumo[key]||0;
+  const novo = Math.max(0, max !== undefined ? Math.min(max, atual+delta) : atual+delta);
+  state.consumo[key] = novo;
+  saveStorage();
+  renderAcompanhamento();
+}
+
+function resetConsumo() {
+  if (!confirm('Zerar todo o acompanhamento de consumo desta quinzena?')) return;
+  state.consumo = {};
+  saveStorage();
+  renderAcompanhamento();
+  showToast('Consumo zerado');
+}
+
+// ── INIT ─────────────────────────────────────────────────────
 loadStorage();
 renderRegras();
-buildHistoryTags();
 buildIngredientes();
 buildPrepSteps();
-buildReceitas();
-buildFreezer();
 renderEquipamentos();
 updateDate();
 updateFooter();
-renderHistorySaved();
 </script>
 </body>
 </html>
