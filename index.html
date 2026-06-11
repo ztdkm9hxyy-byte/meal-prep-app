@@ -73,10 +73,11 @@ textarea:focus,input[type="text"]:focus,select:focus { outline:none; border-colo
 input[type="checkbox"] { width:15px; height:15px; accent-color:var(--text); flex-shrink:0; cursor:pointer; }
 select { padding:8px 10px; }
 
-.ingr-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.ingr-row { display:flex; align-items:center; gap:6px; padding:8px 10px; border:0.5px solid var(--border); border-radius:var(--radius-sm); }
-.ingr-label { flex:1; font-size:13px; color:var(--text); cursor:pointer; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.ingr-qty { width:56px; padding:4px 6px; font-size:12px; border:0.5px solid var(--border2); border-radius:4px; background:var(--bg); color:var(--text); font-family:inherit; text-align:center; }
+.ingr-grid { display:grid; grid-template-columns:1fr; gap:8px; }
+.ingr-row { display:flex; align-items:center; gap:8px; padding:8px 10px; border:0.5px solid var(--border); border-radius:var(--radius-sm); }
+.ingr-check-wrap { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
+.ingr-label { font-size:13px; color:var(--text); cursor:pointer; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ingr-qty { width:62px !important; min-width:62px; max-width:62px; padding:4px 6px; font-size:12px; border:0.5px solid var(--border2); border-radius:4px; background:var(--bg2); color:var(--text); font-family:inherit; text-align:center; flex-shrink:0; }
 .ingr-del { background:none; border:none; cursor:pointer; color:var(--text3); font-size:18px; padding:0; line-height:1; flex-shrink:0; }
 .ingr-del:hover { color:var(--danger-text); }
 
@@ -206,18 +207,48 @@ label { cursor:pointer; }
       </div>
     </div>
     <nav class="step-nav">
-      <button class="step-btn active" onclick="goStep(0)" id="nav0"><span class="step-icon">📋</span>Histórico</button>
-      <button class="step-btn" onclick="goStep(1)" id="nav1"><span class="step-icon">🧊</span>Inventário</button>
-      <button class="step-btn" onclick="goStep(2)" id="nav2"><span class="step-icon">📅</span>Cardápio</button>
-      <button class="step-btn" onclick="goStep(3)" id="nav3"><span class="step-icon">🛒</span>Compras</button>
-      <button class="step-btn" onclick="goStep(4)" id="nav4"><span class="step-icon">⏱️</span>Sábado</button>
+      <button class="step-btn active" onclick="goStep(0)" id="nav0"><span class="step-icon">📌</span>Regras</button>
+      <button class="step-btn" onclick="goStep(1)" id="nav1"><span class="step-icon">📋</span>Histórico</button>
+      <button class="step-btn" onclick="goStep(2)" id="nav2"><span class="step-icon">🧊</span>Inventário</button>
+      <button class="step-btn" onclick="goStep(3)" id="nav3"><span class="step-icon">📅</span>Cardápio</button>
+      <button class="step-btn" onclick="goStep(4)" id="nav4"><span class="step-icon">🛒</span>Compras</button>
+      <button class="step-btn" onclick="goStep(5)" id="nav5"><span class="step-icon">⏱️</span>Sábado</button>
     </nav>
   </div>
 
   <div class="main">
 
     <!-- STEP 0: Histórico -->
+    <!-- STEP 0: Regras -->
     <div class="screen active" id="screen0">
+      <p class="screen-title">Regras do cardápio</p>
+      <p class="screen-sub">Configure aqui as preferências que o app usa para montar o cardápio. Ative, desative ou adicione novas regras a qualquer momento.</p>
+
+      <div id="regras-list"></div>
+
+      <div class="card" style="margin-top:4px;">
+        <div class="card-title">+ Nova regra</div>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:8px;margin-bottom:10px;">
+          <div>
+            <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Emoji</label>
+            <input type="text" id="new-regra-emoji" placeholder="📌" style="width:100%;text-align:center;">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Descrição da regra</label>
+            <input type="text" id="new-regra-texto" placeholder="Ex: Não repetir proteína dois dias seguidos">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="addRegra()">+ Adicionar regra</button>
+      </div>
+
+      <div class="nav-row">
+        <span style="font-size:13px;color:var(--text3);">Etapa 1 de 6</span>
+        <button class="btn btn-primary" onclick="goStep(1)">Histórico →</button>
+      </div>
+    </div>
+
+    <!-- STEP 1: Histórico -->
+    <div class="screen" id="screen1">
       <p class="screen-title">O que vocês comeram?</p>
       <p class="screen-sub">Marque os pratos da quinzena anterior para evitar repetição e equilibrar proteínas.</p>
       <div id="history-saved-block"></div>
@@ -233,13 +264,13 @@ label { cursor:pointer; }
         <textarea id="history-feedback" placeholder="Ex: a galinhada ficou ótima, o escondidinho ficou seco…"></textarea>
       </div>
       <div class="nav-row">
-        <span style="font-size:13px;color:var(--text3);">Etapa 1 de 5</span>
-        <button class="btn btn-primary" onclick="goStep(1)">Inventário →</button>
+        <span style="font-size:13px;color:var(--text3);">Etapa 2 de 6</span>
+        <button class="btn btn-primary" onclick="goStep(2)">Inventário →</button>
       </div>
     </div>
 
     <!-- STEP 1: Inventário -->
-    <div class="screen" id="screen1">
+    <div class="screen" id="screen2">
       <p class="screen-title">O que tem em casa?</p>
       <p class="screen-sub">Marque o que já tem e a quantidade. A lista de compras desconta automaticamente. Adicione ingredientes novos em cada categoria.</p>
       <div class="card">
@@ -279,20 +310,19 @@ label { cursor:pointer; }
         </div>
       </div>
       <div class="nav-row">
-        <button class="btn btn-ghost" onclick="goStep(0)">← Voltar</button>
+        <button class="btn btn-ghost" onclick="goStep(1)">← Voltar</button>
         <button class="btn btn-primary" onclick="buildAndGoCardapio()">Gerar cardápio ✨</button>
       </div>
     </div>
 
     <!-- STEP 2: Cardápio -->
-    <div class="screen" id="screen2">
+    <div class="screen" id="screen3">
       <p class="screen-title">Cardápio</p>
       <p class="screen-sub">Duas semanas. Almoços com arroz+feijão ou macarrão. Jantares mais leves com proteína + molho ou batata.</p>
 
       <div class="inner-tabs">
         <button class="inner-tab active" onclick="switchCardapioTab('proposta')">📅 Proposta</button>
         <button class="inner-tab" onclick="switchCardapioTab('pratos')">🍳 Gerenciar pratos</button>
-        <button class="inner-tab" onclick="switchCardapioTab('regras')">📌 Regras</button>
       </div>
 
       <div class="inner-screen active" id="tab-proposta">
@@ -321,36 +351,24 @@ label { cursor:pointer; }
             </div>
             <div>
               <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Emoji</label>
-              <input type="text" id="new-prato-emoji" placeholder="🍽️" style="width:80px;">
+              <input type="text" id="new-prato-emoji" placeholder="🍽️" style="width:80px;" inputmode="text">
+              <p style="font-size:11px;color:var(--text3);margin-top:4px;">No celular: pressione 😊 no teclado</p>
             </div>
           </div>
           <button class="btn btn-primary btn-sm" onclick="addPrato()">+ Adicionar prato</button>
         </div>
       </div>
 
-      <div class="inner-screen" id="tab-regras">
-        <div class="card">
-          <div class="card-title">📌 Regras do cardápio</div>
-          <div class="regras-item"><span class="regras-emoji">🍖</span><span class="regras-text"><strong>Preferência por carnes com molho</strong> — evitar bife grelhado e peito inteiro congelados. Priorizar preparações úmidas.</span></div>
-          <div class="regras-item"><span class="regras-emoji">🍅</span><span class="regras-text"><strong>Carne moída:</strong> Brenda prefere com molho de tomate. Gabriel come com molho ou mais seca.</span></div>
-          <div class="regras-item"><span class="regras-emoji">🌞</span><span class="regras-text"><strong>Almoços:</strong> arroz + feijão + proteína ou macarrão + proteína. Gabriel pode repetir nos dias que Brenda não almoça em casa.</span></div>
-          <div class="regras-item"><span class="regras-emoji">🌙</span><span class="regras-text"><strong>Jantares leves:</strong> Brenda → legumes + proteína com molho. Gabriel → arroz + proteína com molho.</span></div>
-          <div class="regras-item"><span class="regras-emoji">🥘</span><span class="regras-text"><strong>Estrogonoff sempre de carne</strong> (não de frango).</span></div>
-          <div class="regras-item"><span class="regras-emoji">🥦</span><span class="regras-text"><strong>Legumes não combinam com estrogonoff</strong> — não servir juntos.</span></div>
-          <div class="regras-item"><span class="regras-emoji">🥔</span><span class="regras-text"><strong>Jantares alternativos:</strong> escondidinho de batata com carne moída, batata-doce assada + proteína, quibe assado.</span></div>
-          <div class="regras-item"><span class="regras-emoji">🔄</span><span class="regras-text"><strong>Carne picada com molho de tomate</strong> pode virar estrogonoff de carne — aproveitar para duas preparações.</span></div>
-          <div class="regras-item"><span class="regras-emoji">📅</span><span class="regras-text"><strong>Brenda não almoça em casa:</strong> segundas e quartas. Ninguém almoça em casa: quintas.</span></div>
-        </div>
-      </div>
+
 
       <div class="nav-row">
-        <button class="btn btn-ghost" onclick="goStep(1)">← Voltar</button>
+        <button class="btn btn-ghost" onclick="goStep(2)">← Voltar</button>
         <button class="btn btn-primary" onclick="buildShopAndGo()">Fechar cardápio →</button>
       </div>
     </div>
 
     <!-- STEP 3: Compras -->
-    <div class="screen" id="screen3">
+    <div class="screen" id="screen4">
       <p class="screen-title">Lista de compras</p>
       <p class="screen-sub">Gerada com base no cardápio, descontando o que já está em casa.</p>
       <div class="summary-grid">
@@ -376,19 +394,20 @@ label { cursor:pointer; }
         <button class="btn btn-sm" onclick="copyShopText()">📋 Copiar lista completa</button>
       </div>
       <div class="nav-row">
-        <button class="btn btn-ghost" onclick="goStep(2)">← Voltar</button>
-        <button class="btn btn-primary" onclick="goStep(4)">Guia do sábado →</button>
+        <button class="btn btn-ghost" onclick="goStep(3)">← Voltar</button>
+        <button class="btn btn-primary" onclick="goStep(5)">Guia do sábado →</button>
       </div>
     </div>
 
     <!-- STEP 4: Sábado -->
-    <div class="screen" id="screen4">
+    <div class="screen" id="screen5">
       <p class="screen-title">Guia de preparo — sábado</p>
       <p class="screen-sub">Máximo paralelismo com 5 bocas, forno e airfryer. Tempo total estimado: 3h30.</p>
       <div class="inner-tabs">
         <button class="inner-tab active" onclick="switchSabTab('cronograma')">⏱️ Cronograma</button>
         <button class="inner-tab" onclick="switchSabTab('receitas')">👨‍🍳 Receitas</button>
         <button class="inner-tab" onclick="switchSabTab('freezer')">🧊 Freezer</button>
+        <button class="inner-tab" onclick="switchSabTab('equipamentos')">⚙️ Equipamentos</button>
       </div>
 
       <div class="inner-screen active" id="tab-cronograma">
@@ -398,12 +417,9 @@ label { cursor:pointer; }
         </div>
         <div class="card"><div class="card-title">📋 Cronograma de preparo</div><div id="prep-output"></div></div>
         <div class="card">
-          <div class="card-title">📦 Montagem & etiquetagem</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.8;">
-            <p><strong style="color:var(--text)">Potes:</strong> 750 ml para Gabriel · 500 ml para Brenda · 1,5 L para blocos a fracionar</p>
-            <p><strong style="color:var(--text)">Etiqueta:</strong> Nome · Prato · S1 ou S2 · A (almoço) / J (janta)</p>
-            <p><strong style="color:var(--text)">Regra de ouro:</strong> Arroz e feijão ficam na geladeira — trocar a cada 4 dias</p>
-          </div>
+          <div class="card-title">📦 Equipamentos & potes</div>
+          <div id="equipamentos-output"></div>
+          <button class="btn btn-sm btn-ghost" style="margin-top:12px;" onclick="goStep(5);switchSabTab('equipamentos')">⚙️ Gerenciar equipamentos</button>
         </div>
       </div>
 
@@ -423,8 +439,27 @@ label { cursor:pointer; }
         </div>
       </div>
 
+      <div class="inner-screen" id="tab-equipamentos">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Configure os equipamentos e potes disponíveis. O cronograma do sábado usa essas informações.</p>
+        <div id="equipamentos-lista"></div>
+        <div class="card" style="margin-top:4px;">
+          <div class="card-title">+ Novo equipamento ou pote</div>
+          <div style="display:grid;grid-template-columns:56px 1fr auto;gap:8px;align-items:end;margin-bottom:10px;">
+            <div>
+              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Emoji</label>
+              <input type="text" id="new-equip-emoji" placeholder="🍳" style="width:100%;text-align:center;">
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Descrição</label>
+              <input type="text" id="new-equip-nome" placeholder="Ex: 30 potes de 600ml">
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="addEquipamento()" style="margin-bottom:0;">+</button>
+          </div>
+        </div>
+      </div>
+
       <div class="nav-row">
-        <button class="btn btn-ghost" onclick="goStep(3)">← Voltar</button>
+        <button class="btn btn-ghost" onclick="goStep(4)">← Voltar</button>
         <button class="btn btn-primary" onclick="salvarQuinzena()">💾 Salvar quinzena</button>
       </div>
     </div>
@@ -491,44 +526,6 @@ let PRATOS = [
   {id:17, nome:'Cozido de carne moída com batata + legumes (B)', tipo:'jantar', emoji:'🍲'},
   {id:18, nome:'Frango ao molho de tomate + arroz (G) / legumes (B)', tipo:'jantar', emoji:'🍗'},
 ];
-
-// Cardápio proposto com as novas regras
-const CARDAPIO = {
-  semana1:[
-    {dia:'Segunda',
-      almoco:{nome:'Arroz + feijão + frango desfiado com molho',calG:645,calB:null,skipB:true},
-      janta:{nome:'Estrogonoff de carne + arroz (G) / legumes (B)',calG:540,calB:410}},
-    {dia:'Terça',
-      almoco:{nome:'Arroz + feijão + carne moída',calG:650,calB:500},
-      janta:{nome:'Frango desfiado com molho + arroz (G) / legumes (B)',calG:535,calB:405}},
-    {dia:'Quarta',
-      almoco:{nome:'Arroz + feijão + carne de panela',calG:648,calB:null,skipB:true},
-      janta:{nome:'Escondidinho de batata com carne moída',calG:550,calB:420}},
-    {dia:'Quinta',
-      almoco:{nome:null,skipAll:true},
-      janta:{nome:'Carne moída com molho de tomate + arroz (G) / legumes (B)',calG:540,calB:410}},
-    {dia:'Sexta',
-      almoco:{nome:'Macarrão ao sugo + carne moída',calG:648,calB:498},
-      janta:{nome:'Batata-doce assada + frango desfiado',calG:530,calB:410}},
-  ],
-  semana2:[
-    {dia:'Segunda',
-      almoco:{nome:'Arroz + feijão + frango picado com molho de tomate',calG:642,calB:null,skipB:true},
-      janta:{nome:'Quibe assado + arroz (G) / salada (B)',calG:545,calB:415}},
-    {dia:'Terça',
-      almoco:{nome:'Galinhada (arroz com galinha)',calG:655,calB:505},
-      janta:{nome:'Carne picada com molho de tomate + arroz (G) / legumes (B)',calG:538,calB:408}},
-    {dia:'Quarta',
-      almoco:{nome:'Arroz + feijão + carne moída',calG:648,calB:null,skipB:true},
-      janta:{nome:'Panqueca de frango desfiado com molho de tomate',calG:548,calB:418}},
-    {dia:'Quinta',
-      almoco:{nome:null,skipAll:true},
-      janta:{nome:'Cozido de carne moída com batata + legumes (B)',calG:542,calB:412}},
-    {dia:'Sexta',
-      almoco:{nome:'Macarrão ao sugo + frango desfiado',calG:645,calB:495},
-      janta:{nome:'Frango ao molho de tomate + arroz (G) / legumes (B)',calG:535,calB:405}},
-  ]
-};
 
 const SHOP_DATA = {
   'Proteínas':[
@@ -696,7 +693,112 @@ const FREEZER_MAP = {
   ]}
 };
 
-let state = {step:0, historySelected:[], inventory:{}, quinzenas:[]};
+let state = {step:0, historySelected:[], inventory:{}, quinzenas:[], cardapioGerado:{}};
+
+let REGRAS = [
+  {id:1, emoji:'🍖', texto:'Preferência por carnes com molho — evitar proteínas grelhadas secas congeladas', ativa:true},
+  {id:2, emoji:'🍅', texto:'Brenda prefere carne moída com molho de tomate. Gabriel come com molho ou mais seca', ativa:true},
+  {id:3, emoji:'🌞', texto:'Almoços: arroz + feijão + proteína ou macarrão + proteína', ativa:true},
+  {id:4, emoji:'🌙', texto:'Jantares leves: sem feijão e macarrão à noite. Brenda: legumes + proteína. Gabriel: arroz + proteína', ativa:true},
+  {id:5, emoji:'🥘', texto:'Estrogonoff sempre de carne, nunca de frango', ativa:true},
+  {id:6, emoji:'🥦', texto:'Legumes não combinam com estrogonoff — não servir juntos', ativa:true},
+  {id:7, emoji:'🔄', texto:'Não repetir o mesmo prato em dias consecutivos', ativa:true},
+  {id:8, emoji:'📅', texto:'Brenda não almoça em casa: segundas e quartas. Ninguém almoça em casa: quintas', ativa:true},
+];
+
+let EQUIPAMENTOS = [
+  {id:1, emoji:'🍳', nome:'Fogão 5 bocas'},
+  {id:2, emoji:'🟧', nome:'Forno elétrico/gás'},
+  {id:3, emoji:'💨', nome:'Airfryer'},
+  {id:4, emoji:'📦', nome:'30 potes de 600 ml'},
+  {id:5, emoji:'📦', nome:'7 potes de 1,2 L'},
+];
+
+// --- REGRAS ---
+function renderRegras() {
+  const el = document.getElementById('regras-list');
+  if (!el) return;
+  if (REGRAS.length === 0) {
+    el.innerHTML = '<p style="font-size:13px;color:var(--text3);margin-bottom:12px;">Nenhuma regra cadastrada ainda.</p>';
+    return;
+  }
+  el.innerHTML = REGRAS.map(r => `
+    <div class="card" style="margin-bottom:8px;padding:12px 14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;flex-shrink:0;">${r.emoji}</span>
+        <span style="flex:1;font-size:13px;color:${r.ativa?'var(--text)':'var(--text3)'};text-decoration:${r.ativa?'none':'line-through'};line-height:1.4;">${r.texto}</span>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="btn btn-sm" onclick="toggleRegra(${r.id})" style="padding:4px 10px;font-size:12px;">${r.ativa?'⏸ Pausar':'▶ Ativar'}</button>
+          <button class="ingr-del" onclick="removeRegra(${r.id})" title="Remover">×</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleRegra(id) {
+  const r = REGRAS.find(r => r.id === id);
+  if (r) { r.ativa = !r.ativa; saveStorage(); renderRegras(); }
+}
+
+function removeRegra(id) {
+  REGRAS = REGRAS.filter(r => r.id !== id);
+  saveStorage(); renderRegras();
+  showToast('Regra removida');
+}
+
+function addRegra() {
+  const emoji = document.getElementById('new-regra-emoji').value.trim() || '📌';
+  const texto = document.getElementById('new-regra-texto').value.trim();
+  if (!texto) { showToast('Digite a descrição da regra'); return; }
+  const newId = Math.max(0, ...REGRAS.map(r => r.id)) + 1;
+  REGRAS.push({id:newId, emoji, texto, ativa:true});
+  saveStorage(); renderRegras();
+  document.getElementById('new-regra-emoji').value = '';
+  document.getElementById('new-regra-texto').value = '';
+  showToast('Regra adicionada!');
+}
+
+// --- EQUIPAMENTOS ---
+function renderEquipamentos() {
+  const listaEl = document.getElementById('equipamentos-lista');
+  const outputEl = document.getElementById('equipamentos-output');
+
+  const html = EQUIPAMENTOS.map(e => `
+    <div class="card" style="margin-bottom:8px;padding:12px 14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;flex-shrink:0;">${e.emoji}</span>
+        <span style="flex:1;font-size:13px;color:var(--text);">${e.nome}</span>
+        <button class="ingr-del" onclick="removeEquipamento(${e.id})" title="Remover">×</button>
+      </div>
+    </div>`).join('');
+
+  if (listaEl) listaEl.innerHTML = html || '<p style="font-size:13px;color:var(--text3);">Nenhum equipamento cadastrado.</p>';
+  if (outputEl) outputEl.innerHTML = EQUIPAMENTOS.length === 0
+    ? '<p style="font-size:13px;color:var(--text3);">Configure seus equipamentos na aba ⚙️.</p>'
+    : `<div style="font-size:13px;color:var(--text2);line-height:1.8;">
+        ${EQUIPAMENTOS.map(e => `<p>${e.emoji} ${e.nome}</p>`).join('')}
+        <p style="margin-top:8px;"><strong style="color:var(--text)">Etiqueta:</strong> Nome · Prato · S1 ou S2 · A (almoço) / J (janta)</p>
+        <p><strong style="color:var(--text)">Regra de ouro:</strong> Arroz e feijão ficam na geladeira — trocar a cada 4 dias</p>
+      </div>`;
+}
+
+function removeEquipamento(id) {
+  EQUIPAMENTOS = EQUIPAMENTOS.filter(e => e.id !== id);
+  saveStorage(); renderEquipamentos();
+  showToast('Equipamento removido');
+}
+
+function addEquipamento() {
+  const emoji = document.getElementById('new-equip-emoji').value.trim() || '📦';
+  const nome = document.getElementById('new-equip-nome').value.trim();
+  if (!nome) { showToast('Digite a descrição'); return; }
+  const newId = Math.max(0, ...EQUIPAMENTOS.map(e => e.id)) + 1;
+  EQUIPAMENTOS.push({id:newId, emoji, nome});
+  saveStorage(); renderEquipamentos();
+  document.getElementById('new-equip-emoji').value = '';
+  document.getElementById('new-equip-nome').value = '';
+  showToast('Equipamento adicionado!');
+}
 
 function loadStorage() {
   try {
@@ -706,12 +808,14 @@ function loadStorage() {
       state.quinzenas = p.quinzenas || [];
       if (p.ingredientes) INGREDIENTES = p.ingredientes;
       if (p.pratos) PRATOS = p.pratos;
+      if (p.regras) REGRAS = p.regras;
+      if (p.equipamentos) EQUIPAMENTOS = p.equipamentos;
     }
   } catch(e) {}
 }
 
 function saveStorage() {
-  try { localStorage.setItem(SK, JSON.stringify({quinzenas:state.quinzenas, ingredientes:INGREDIENTES, pratos:PRATOS})); } catch(e) {}
+  try { localStorage.setItem(SK, JSON.stringify({quinzenas:state.quinzenas, ingredientes:INGREDIENTES, pratos:PRATOS, regras:REGRAS, equipamentos:EQUIPAMENTOS})); } catch(e) {}
 }
 
 function showToast(msg) {
@@ -728,6 +832,7 @@ function goStep(n) {
   document.getElementById('screen'+n).classList.add('active');
   document.getElementById('nav'+n).classList.add('active');
   window.scrollTo(0,0);
+  if (n === 0) renderRegras();
 }
 
 function toggleTag(el) {
@@ -749,8 +854,10 @@ function renderIngrGrid(cat) {
   if (!el) return;
   el.innerHTML = INGREDIENTES[cat].map((item,i) => `
     <div class="ingr-row">
-      <input type="checkbox" id="ic-${cat}-${i}" onchange="updateInv('${item.name}',this.checked)">
-      <label class="ingr-label" for="ic-${cat}-${i}" title="${item.name}">${item.name}</label>
+      <div class="ingr-check-wrap">
+        <input type="checkbox" id="ic-${cat}-${i}" onchange="updateInv('${item.name}',this.checked)">
+        <label class="ingr-label" for="ic-${cat}-${i}" title="${item.name}">${item.name}</label>
+      </div>
       <input type="text" class="ingr-qty" placeholder="${item.unit}" oninput="updateInvQty('${item.name}',this.value)">
       <button class="ingr-del" onclick="removeIngrediente('${cat}',${i})" title="Remover">×</button>
     </div>`).join('');
@@ -824,27 +931,125 @@ function addPrato() {
 }
 
 function switchCardapioTab(tab) {
-  ['proposta','pratos','regras'].forEach(id => {
+  ['proposta','pratos'].forEach(id => {
     document.getElementById('tab-'+id).classList.toggle('active', id===tab);
   });
-  document.querySelectorAll('#screen2 .inner-tab').forEach((t,i) => {
-    t.classList.toggle('active', ['proposta','pratos','regras'][i]===tab);
+  document.querySelectorAll('#screen3 .inner-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['proposta','pratos'][i]===tab);
   });
   if (tab==='pratos') renderPratoList();
 }
 
+// Calorias por prato
+const CAL_MAP = {
+  // almoços Gabriel / Brenda
+  'Arroz + feijão + frango desfiado com molho':          [645, 495],
+  'Arroz + feijão + carne moída':                        [650, 500],
+  'Arroz + feijão + carne de panela':                    [648, 498],
+  'Arroz + feijão + frango picado com molho de tomate':  [642, 492],
+  'Macarrão ao sugo + carne moída':                      [648, 498],
+  'Macarrão ao sugo + frango desfiado':                  [645, 495],
+  'Galinhada (arroz com galinha)':                       [655, 505],
+  'Panqueca de carne moída com molho de tomate':         [548, 418],
+  'Panqueca de frango desfiado com molho de tomate':     [545, 415],
+  // jantares Gabriel / Brenda
+  'Estrogonoff de carne + arroz (G) / legumes (B)':              [540, 410],
+  'Frango desfiado com molho + arroz (G) / legumes (B)':         [535, 405],
+  'Carne moída com molho de tomate + arroz (G) / legumes (B)':   [540, 410],
+  'Carne picada com molho de tomate + arroz (G) / legumes (B)':  [538, 408],
+  'Escondidinho de batata com carne moída':                      [550, 420],
+  'Batata-doce assada + frango desfiado':                        [530, 410],
+  'Quibe assado + arroz (G) / salada (B)':                       [545, 415],
+  'Cozido de carne moída com batata + legumes (B)':              [542, 412],
+  'Frango ao molho de tomate + arroz (G) / legumes (B)':         [535, 405],
+};
+
+// Estrutura de dias: quais têm restrições de almoço
+const DIAS_SEMANA = [
+  { dia:'Segunda',  skipB:true,  skipAll:false },
+  { dia:'Terça',    skipB:false, skipAll:false },
+  { dia:'Quarta',   skipB:true,  skipAll:false },
+  { dia:'Quinta',   skipB:false, skipAll:true  },
+  { dia:'Sexta',    skipB:false, skipAll:false },
+];
+
+function gerarCardapioAutomatico() {
+  const historico = state.historySelected; // pratos já comidos
+  const pratosAlmoco = PRATOS.filter(p => p.tipo==='almoco' || p.tipo==='ambos');
+  const pratosJantar = PRATOS.filter(p => p.tipo==='jantar' || p.tipo==='ambos');
+
+  // Ordenar: menos recentes no histórico primeiro, shuffle nos empatados
+  function ordenar(lista) {
+    return [...lista].sort((a,b) => {
+      const ia = historico.includes(a.nome) ? 1 : 0;
+      const ib = historico.includes(b.nome) ? 1 : 0;
+      if (ia !== ib) return ia - ib;
+      return Math.random() - 0.5;
+    });
+  }
+
+  const filaAlmoco = ordenar(pratosAlmoco);
+  const filaJantar = ordenar(pratosJantar);
+
+  // Gerar 10 slots de almoço e 10 de jantar sem repetir consecutivo
+  function pick(fila, usado, max) {
+    const result = [];
+    let idx = 0;
+    for (let i = 0; i < max; i++) {
+      // evitar repetir o mesmo prato consecutivo
+      while (idx < fila.length && result.length > 0 && fila[idx % fila.length].nome === result[result.length-1]) {
+        idx++;
+      }
+      result.push(fila[idx % fila.length].nome);
+      idx++;
+    }
+    return result;
+  }
+
+  const almocos = pick(filaAlmoco, [], 10);
+  const jantares = pick(filaJantar, [], 10);
+
+  // Montar estrutura das duas semanas
+  const semanas = ['semana1','semana2'];
+  state.cardapioGerado = {};
+  let ai=0, ji=0;
+
+  semanas.forEach((sem, si) => {
+    state.cardapioGerado[sem] = DIAS_SEMANA.map(d => {
+      const jNome = jantares[ji++];
+      const [jCalG, jCalB] = CAL_MAP[jNome] || [540, 410];
+
+      if (d.skipAll) {
+        return { dia:d.dia, almoco:{skipAll:true}, janta:{nome:jNome, calG:jCalG, calB:jCalB} };
+      }
+
+      const aNome = almocos[ai++];
+      const [aCalG, aCalB] = CAL_MAP[aNome] || [645, 495];
+      return {
+        dia: d.dia,
+        almoco: { nome:aNome, calG:aCalG, calB:d.skipB ? null : aCalB, skipB:d.skipB },
+        janta: { nome:jNome, calG:jCalG, calB:jCalB }
+      };
+    });
+  });
+}
+
 function buildAndGoCardapio() {
+  gerarCardapioAutomatico();
   renderCardapio();
   buildShopList();
-  goStep(2);
+  goStep(3);
 }
 
 function renderCardapio() {
   const el = document.getElementById('cardapio-output');
+  const fonte = state.cardapioGerado || {};
+  if (!fonte.semana1) { el.innerHTML='<p style="color:var(--text2);font-size:14px;">Volte ao inventário e clique em "Gerar cardápio".</p>'; return; }
+
   let html='';
   ['semana1','semana2'].forEach((sem,si) => {
     html+=`<div class="week-label">Semana ${si+1}</div>`;
-    CARDAPIO[sem].forEach(dia => {
+    fonte[sem].forEach(dia => {
       html+=`<div class="day-block"><div class="day-name">${dia.dia}</div><div class="meal-row">`;
       const a=dia.almoco;
       if (a.skipAll) {
@@ -859,6 +1064,31 @@ function renderCardapio() {
       html+=`</div></div>`;
     });
   });
+
+  // totais calóricos semanais
+  let totalG=0, totalB=0, refeicoes=0;
+  ['semana1','semana2'].forEach(sem => {
+    fonte[sem].forEach(dia => {
+      if (!dia.almoco.skipAll && dia.almoco.calG) { totalG+=dia.almoco.calG; if(!dia.almoco.skipB && dia.almoco.calB) totalB+=dia.almoco.calB; }
+      totalG+=dia.janta.calG; totalB+=dia.janta.calB; refeicoes++;
+    });
+  });
+  const mediaG=Math.round(totalG/10); // 10 dias úteis
+  const mediaB=Math.round(totalB/10);
+
+  html+=`<div style="margin-top:16px;padding:14px;background:var(--bg2);border-radius:var(--radius-sm);font-size:13px;">
+    <div style="font-weight:500;margin-bottom:6px;color:var(--text)">📊 Média calórica diária estimada</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <span class="badge badge-g" style="font-size:13px;padding:4px 12px;">Gabriel: ~${mediaG} kcal/dia</span>
+      <span class="badge badge-b" style="font-size:13px;padding:4px 12px;">Brenda: ~${mediaB} kcal/dia</span>
+    </div>
+    <div style="margin-top:8px;font-size:12px;color:var(--text3)">Meta Gabriel: 1.750 kcal · Meta Brenda: 1.400 kcal</div>
+  </div>`;
+
+  html+=`<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="btn btn-sm" onclick="gerarCardapioAutomatico();renderCardapio();buildShopList();">🔀 Gerar nova proposta</button>
+  </div>`;
+
   el.innerHTML=html;
 }
 
@@ -885,17 +1115,19 @@ function buildShopList() {
   document.getElementById('shop-have').textContent=totalHave;
 }
 
-function buildShopAndGo() { buildShopList(); goStep(3); }
+function buildShopAndGo() { buildShopList(); goStep(4); }
 
 function switchShopTab(tab) {
-  document.querySelectorAll('#screen3 .inner-tab').forEach((t,i)=>t.classList.toggle('active',['visual','texto'][i]===tab));
+  document.querySelectorAll('#screen5 .inner-tab').forEach((t,i)=>t.classList.toggle('active',['visual','texto'][i]===tab));
   document.getElementById('shop-visual').classList.toggle('active',tab==='visual');
   document.getElementById('shop-texto').classList.toggle('active',tab==='texto');
 }
 
 function switchSabTab(tab) {
-  document.querySelectorAll('#screen4 .inner-tab').forEach((t,i)=>t.classList.toggle('active',['cronograma','receitas','freezer'][i]===tab));
-  ['cronograma','receitas','freezer'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===tab));
+  const tabs = ['cronograma','receitas','freezer','equipamentos'];
+  document.querySelectorAll('#screen5 .inner-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
+  tabs.forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===tab));
+  if(tab==='equipamentos') renderEquipamentos();
 }
 
 function copyShopText() {
@@ -996,11 +1228,13 @@ function updateDate() {
 }
 
 loadStorage();
+renderRegras();
 buildHistoryTags();
 buildIngredientes();
 buildPrepSteps();
 buildReceitas();
 buildFreezer();
+renderEquipamentos();
 updateDate();
 updateFooter();
 renderHistorySaved();
