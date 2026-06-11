@@ -500,7 +500,7 @@ label{cursor:pointer;}
 <script>
 // ── CHAVE STORAGE ────────────────────────────────────────────
 // Incrementada para v7 para evitar conflito com versão anterior
-const SK = 'mealprep_gb_v7';
+const SK = 'mealprep_gb_v8';
 
 // ── DADOS BASE ──────────────────────────────────────────────
 let INGREDIENTES = {
@@ -568,38 +568,38 @@ let EQUIPAMENTOS = [
   {id:5,emoji:'📦',nome:'7 potes de 1,2 L'},
 ];
 
-const SHOP_DATA = {
-  'Proteínas':[
-    {name:'Frango (coxa/peito)',qty:'2,5 kg',key:'frango'},
-    {name:'Carne moída (patinho)',qty:'1,5 kg',key:'carne moída'},
-    {name:'Carne para panela (acém)',qty:'800 g',key:'carne para panela'},
-    {name:'Carne para quibe',qty:'600 g',key:'carne para quibe'},
-  ],
-  'Carboidratos & base':[
-    {name:'Arroz tipo 1',qty:'3 kg',key:'arroz'},
-    {name:'Feijão carioca',qty:'1,5 kg',key:'feijão'},
-    {name:'Macarrão penne',qty:'500 g',key:'macarrão'},
-    {name:'Farinha de trigo',qty:'500 g',key:'farinha'},
-    {name:'Leite integral',qty:'1 L',key:'leite'},
-    {name:'Batata-doce',qty:'1 kg',key:'batata-doce'},
-    {name:'Batata inglesa',qty:'1 kg',key:'batata inglesa'},
-  ],
-  'Legumes & hortifruti':[
-    {name:'Abobrinha',qty:'3 unid.',key:'abobrinha'},
-    {name:'Cenoura',qty:'4 unid.',key:'cenoura'},
-    {name:'Brócolis',qty:'1 maço',key:'brócolis'},
-    {name:'Tomate',qty:'500 g',key:'tomate'},
-    {name:'Cebola',qty:'1 kg',key:'cebola'},
-    {name:'Alho',qty:'2 cabeças',key:'alho'},
-  ],
-  'Temperos & laticínios':[
-    {name:'Extrato de tomate',qty:'3 und',key:'extrato'},
-    {name:'Molho de tomate pronto',qty:'2 und',key:'molho de tomate'},
-    {name:'Creme de leite',qty:'3 caixinhas',key:'creme'},
-    {name:'Azeite de oliva',qty:'500 ml',key:'azeite'},
-    {name:'Queijo ralado',qty:'200 g',key:'queijo'},
-  ]
+// ── INGREDIENTES POR PORÇÃO (Opção A — lista dinâmica) ───────
+// Unidades: g, ml, unid, lata(400g), col(colher sopa)
+// chave usada para agrupar na lista final e cruzar com inventário
+const INGR_POR_PORCAO = {
+  'Arroz + feijão + frango desfiado com molho':          [{key:'frango_peito',    nome:'Frango peito/sassami',     qtd:140, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.5,  unit:'lata'}],
+  'Arroz + feijão + carne moída':                        [{key:'carne_moida',     nome:'Carne moída (patinho)',    qtd:120, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.25, unit:'lata'}],
+  'Arroz + feijão + carne de panela':                    [{key:'acem',            nome:'Acém em cubos',            qtd:140, unit:'g'   }],
+  'Arroz + feijão + frango picado com molho de tomate':  [{key:'frango_coxa',     nome:'Frango coxa/sobrecoxa',    qtd:140, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.5,  unit:'lata'}],
+  'Macarrão ao sugo + carne moída':                      [{key:'macarrao',        nome:'Macarrão penne',           qtd:80,  unit:'g'   },{key:'carne_moida', nome:'Carne moída (patinho)', qtd:100, unit:'g'},{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.5, unit:'lata'}],
+  'Macarrão ao sugo + frango desfiado':                  [{key:'macarrao',        nome:'Macarrão penne',           qtd:80,  unit:'g'   },{key:'frango_peito', nome:'Frango peito/sassami', qtd:100, unit:'g'},{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.5, unit:'lata'},{key:'queijo', nome:'Queijo ralado', qtd:10, unit:'g'}],
+  'Galinhada (arroz com galinha)':                       [{key:'frango_coxa',     nome:'Frango coxa/sobrecoxa',    qtd:200, unit:'g'   },{key:'arroz', nome:'Arroz', qtd:80, unit:'g'}],
+  'Panqueca de carne moída com molho de tomate':         [{key:'farinha',         nome:'Farinha de trigo',         qtd:40,  unit:'g'   },{key:'leite', nome:'Leite integral', qtd:80, unit:'ml'},{key:'ovo', nome:'Ovos', qtd:0.33, unit:'unid'},{key:'carne_moida', nome:'Carne moída (patinho)', qtd:85, unit:'g'},{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.25, unit:'lata'},{key:'queijo', nome:'Queijo ralado', qtd:8, unit:'g'}],
+  'Panqueca de frango desfiado com molho de tomate':     [{key:'farinha',         nome:'Farinha de trigo',         qtd:40,  unit:'g'   },{key:'leite', nome:'Leite integral', qtd:80, unit:'ml'},{key:'ovo', nome:'Ovos', qtd:0.33, unit:'unid'},{key:'frango_peito', nome:'Frango peito/sassami', qtd:67, unit:'g'},{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.25, unit:'lata'},{key:'queijo', nome:'Queijo ralado', qtd:8, unit:'g'}],
+  'Estrogonoff de carne + arroz (G) / legumes (B)':      [{key:'acem',            nome:'Acém em cubos',            qtd:133, unit:'g'   },{key:'ricota', nome:'Creme de ricota light', qtd:67, unit:'g'}],
+  'Frango desfiado com molho + arroz (G) / legumes (B)': [{key:'frango_peito',    nome:'Frango peito/sassami',     qtd:100, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.5,  unit:'lata'}],
+  'Carne moída com molho de tomate + arroz (G) / legumes (B)':[{key:'carne_moida',nome:'Carne moída (patinho)',    qtd:120, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.25, unit:'lata'}],
+  'Carne picada com molho de tomate + arroz (G) / legumes (B)':[{key:'acem',      nome:'Acém em cubos',            qtd:140, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.25, unit:'lata'}],
+  'Escondidinho de batata com carne moída':              [{key:'batata_inglesa',  nome:'Batata inglesa',           qtd:167, unit:'g'   },{key:'carne_moida', nome:'Carne moída (patinho)', qtd:83, unit:'g'},{key:'leite', nome:'Leite integral', qtd:17, unit:'ml'},{key:'queijo', nome:'Queijo ralado', qtd:17, unit:'g'}],
+  'Batata-doce assada + frango desfiado':                [{key:'batata_doce',     nome:'Batata-doce',              qtd:200, unit:'g'   },{key:'frango_peito', nome:'Frango peito/sassami', qtd:80, unit:'g'}],
+  'Quibe assado + arroz (G) / salada (B)':               [{key:'carne_coxao',     nome:'Carne moída coxão mole',   qtd:117, unit:'g'   },{key:'trigo_quibe', nome:'Trigo para quibe', qtd:30, unit:'g'}],
+  'Cozido de carne moída com batata + legumes (B)':      [{key:'carne_moida',     nome:'Carne moída (patinho)',    qtd:100, unit:'g'   },{key:'batata_inglesa', nome:'Batata inglesa', qtd:120, unit:'g'},{key:'cenoura', nome:'Cenoura', qtd:0.4, unit:'unid'},{key:'abobrinha', nome:'Abobrinha', qtd:0.2, unit:'unid'}],
+  'Frango ao molho de tomate + arroz (G) / legumes (B)': [{key:'frango_coxa',     nome:'Frango coxa/sobrecoxa',    qtd:200, unit:'g'   },{key:'pelati', nome:'Tomate pelati (lata 400g)', qtd:0.5,  unit:'lata'}],
 };
+
+// Itens fixos que entram sempre independente dos pratos
+const SHOP_FIXOS = [
+  {key:'cebola',   nome:'Cebola',        qty:'3 unid.',  categoria:'Hortifruti'},
+  {key:'alho',     nome:'Alho',          qty:'2 cabeças',categoria:'Hortifruti'},
+  {key:'azeite',   nome:'Azeite de oliva',qty:'500 ml',  categoria:'Temperos'},
+  {key:'arroz',    nome:'Arroz',         qty:'3 kg',     categoria:'Base'},
+  {key:'feijao',   nome:'Feijão carioca',qty:'1,5 kg',   categoria:'Base'},
+];
 
 const CAL_MAP = {
   'Arroz + feijão + frango desfiado com molho':[645,495],
@@ -622,222 +622,226 @@ const CAL_MAP = {
   'Frango ao molho de tomate + arroz (G) / legumes (B)':[535,405],
 };
 
-// ── BANCO DE RECEITAS — COMPLETO (todos os 18 pratos) ────────
+// ── BANCO DE RECEITAS ────────────────────────────────────────
 const RECEITAS_DB = {
-  // ALMOÇOS
   'Arroz + feijão + frango desfiado com molho':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Frango (coxas ou peito)',qtd:'700 g'},{item:'Molho de tomate pronto',qtd:'1 xícara'},
-      {item:'Cebola + alho',qtd:'½ unid. + 3 dentes'},{item:'Sal, pimenta, louro',qtd:'a gosto'},
+      {item:'Frango peito/sassami',qtd:'700 g'},{item:'Tomate pelati',qtd:'2,5 latas (1 kg)'},
+      {item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},{item:'Azeite, sal, pimenta, louro',qtd:'a gosto'},
     ],
     modo:['Cozinhe o frango temperado em panela com água até ficar macio (~25 min).',
       'Desfie com dois garfos enquanto ainda quente.',
-      'Refogue cebola e alho no azeite, adicione o frango desfiado.',
-      'Acrescente molho de tomate e cozinhe 5 min. Ajuste o sal.',
-      'Servir com arroz e feijão separados (já preparados em lote).']
+      'Refogue cebola e alho no azeite. Adicione o pelati amassado e cozinhe 10 min até o molho encorpar.',
+      'Adicione o frango desfiado ao molho. Ajuste o sal.',
+      'Servir com arroz e feijão separados (preparados em lote).']
   },
   'Arroz + feijão + carne moída':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Carne moída (patinho)',qtd:'600 g'},{item:'Extrato de tomate',qtd:'1 col. sopa'},
-      {item:'Molho de tomate',qtd:'½ xícara'},{item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},
-      {item:'Sal, cominho, pimenta',qtd:'a gosto'},
+      {item:'Carne moída (patinho)',qtd:'600 g'},{item:'Tomate pelati',qtd:'1,5 latas (600 g)'},
+      {item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},{item:'Azeite, sal, cominho, pimenta',qtd:'a gosto'},
     ],
     modo:['Refogue cebola e alho no azeite até dourar.',
       'Adicione a carne moída e mexa até secar a água.',
-      'Junte extrato de tomate e molho. Tempere com sal e cominho.',
-      'Cozinhe 10 min em fogo médio. Ajuste a consistência com água se necessário.',
+      'Junte o pelati amassado. Tempere com sal e cominho.',
+      'Cozinhe 10 min em fogo médio até o molho encorpar.',
       'Servir com arroz e feijão separados.']
   },
   'Arroz + feijão + carne de panela':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Carne para panela (acém)',qtd:'700 g'},{item:'Extrato de tomate',qtd:'2 col. sopa'},
-      {item:'Cebola + alho + louro',qtd:'1 unid. + 4 dentes + 2 folhas'},{item:'Sal, pimenta, tempero a gosto',qtd:'—'},
+      {item:'Acém em cubos',qtd:'700 g'},{item:'Cebola + alho + louro',qtd:'1 unid. + 4 dentes + 2 folhas'},
+      {item:'Azeite, sal, pimenta',qtd:'a gosto'},
     ],
     modo:['Corte a carne em cubos e tempere com sal e pimenta.',
-      'Sele em panela de pressão com óleo quente até dourar todos os lados.',
-      'Adicione cebola, alho, extrato de tomate, louro e água suficiente para cobrir.',
+      'Sele em panela de pressão com azeite quente até dourar todos os lados.',
+      'Adicione cebola, alho, louro e água suficiente para cobrir.',
       'Feche a panela e cozinhe 30 min após começar a pressão.',
       'Abra, ajuste o caldo e reduza se necessário. Servir com arroz e feijão.']
   },
   'Arroz + feijão + frango picado com molho de tomate':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Frango (coxa/peito) em cubos',qtd:'700 g'},{item:'Molho de tomate pronto',qtd:'1 xícara'},
-      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},
-      {item:'Sal, orégano, pimenta',qtd:'a gosto'},
+      {item:'Frango coxa/sobrecoxa em cubos',qtd:'700 g'},{item:'Tomate pelati',qtd:'2,5 latas (1 kg)'},
+      {item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},{item:'Azeite, sal, orégano, pimenta',qtd:'a gosto'},
     ],
     modo:['Tempere o frango em cubos com sal e pimenta.',
       'Sele o frango no azeite até dourar. Reserve.',
-      'No mesmo fundo, refogue cebola e alho.',
-      'Volte o frango, adicione extrato e molho de tomate. Cozinhe 15 min.',
+      'No mesmo fundo, refogue cebola e alho. Adicione o pelati amassado e cozinhe 5 min.',
+      'Volte o frango e cozinhe mais 15 min em fogo médio.',
       'Ajuste o sal e sirva com arroz e feijão.']
   },
   'Macarrão ao sugo + carne moída':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Macarrão penne',qtd:'400 g'},{item:'Carne moída',qtd:'500 g'},
-      {item:'Molho de tomate pronto',qtd:'2 xícaras'},{item:'Extrato de tomate',qtd:'1 col. sopa'},
-      {item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},{item:'Sal, orégano, manjericão',qtd:'a gosto'},
+      {item:'Macarrão penne',qtd:'400 g'},{item:'Carne moída (patinho)',qtd:'500 g'},
+      {item:'Tomate pelati',qtd:'2,5 latas (1 kg)'},{item:'Cebola + alho',qtd:'1 unid. + 4 dentes'},
+      {item:'Azeite, sal, orégano, manjericão',qtd:'a gosto'},
     ],
     modo:['Cozinhe o macarrão al dente. Escorra e regue com azeite. Reserve.',
-      'Refogue cebola e alho. Adicione a carne moída e cozinhe até secar.',
-      'Junte extrato e molho de tomate. Tempere e cozinhe 10 min.',
+      'Refogue cebola e alho no azeite. Adicione a carne moída e cozinhe até secar.',
+      'Junte o pelati amassado. Tempere e cozinhe 15 min até o molho encorpar.',
       'Misture o macarrão ao molho fora do fogo.',
       'Porcionar em marmitas. Congelar já misturado.']
   },
   'Macarrão ao sugo + frango desfiado':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Macarrão penne',qtd:'400 g'},{item:'Frango desfiado com molho',qtd:'500 g'},
-      {item:'Molho de tomate pronto',qtd:'1,5 xícara'},{item:'Queijo ralado',qtd:'50 g'},
+      {item:'Macarrão penne',qtd:'400 g'},{item:'Frango peito/sassami',qtd:'500 g'},
+      {item:'Tomate pelati',qtd:'2,5 latas (1 kg)'},{item:'Queijo ralado',qtd:'50 g'},
+      {item:'Azeite, sal, orégano',qtd:'a gosto'},
     ],
     modo:['Cozinhe o macarrão al dente. Escorra e reserve.',
-      'Aqueça o frango desfiado já com molho, adicione mais molho de tomate.',
-      'Misture o macarrão e ajuste o tempero.',
+      'Desfie o frango já cozido. Refogue no azeite com alho.',
+      'Adicione o pelati amassado e cozinhe 10 min. Ajuste o sal.',
+      'Misture o macarrão ao molho fora do fogo.',
       'Porcionar com queijo ralado por cima. Congelar.']
   },
   'Galinhada (arroz com galinha)':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Frango em pedaços (coxa/sobrecoxa)',qtd:'1 kg'},{item:'Arroz cru',qtd:'2 xícaras'},
-      {item:'Açafrão ou cúrcuma',qtd:'1 col. chá'},{item:'Cebola, alho, tomate, pimentão',qtd:'1 unid. cada'},
-      {item:'Caldo de galinha, sal e temperos',qtd:'a gosto'},
+      {item:'Frango coxa/sobrecoxa em pedaços',qtd:'1 kg'},{item:'Arroz cru',qtd:'400 g (2 xícaras)'},
+      {item:'Cúrcuma ou açafrão',qtd:'1 col. chá'},{item:'Cebola + alho + pimentão',qtd:'1 unid. cada'},
+      {item:'Azeite, sal, temperos',qtd:'a gosto'},
     ],
     modo:['Tempere o frango com sal, alho e pimenta. Marine 15 min.',
-      'Doure o frango em panela grande com óleo. Reserve.',
-      'No mesmo óleo, refogue cebola, alho, tomate e pimentão.',
-      'Adicione o arroz e refogue 2 min. Junte o frango, açafrão e água (dobro do arroz).',
+      'Doure o frango em panela grande com azeite. Reserve.',
+      'No mesmo fundo, refogue cebola, alho e pimentão.',
+      'Adicione o arroz e refogue 2 min. Junte o frango, cúrcuma e água (dobro do arroz).',
       'Tampe e cozinhe em fogo baixo até o arroz absorver a água (~20 min).']
   },
   'Panqueca de carne moída com molho de tomate':{
     porcoes:'6 porções (12 panquecas)',ingredientes:[
-      {item:'Farinha de trigo',qtd:'2 xícaras'},{item:'Leite integral',qtd:'2 xícaras'},
-      {item:'Ovos',qtd:'2 unid.'},{item:'Carne moída refogada com molho',qtd:'500 g'},
-      {item:'Molho de tomate para cobrir',qtd:'1 xícara'},{item:'Queijo ralado',qtd:'50 g'},
+      {item:'Farinha de trigo',qtd:'240 g (2 xícaras)'},{item:'Leite integral',qtd:'480 ml'},
+      {item:'Ovos',qtd:'2 unid.'},{item:'Carne moída (patinho)',qtd:'500 g'},
+      {item:'Tomate pelati (cobertura)',qtd:'1,5 latas (600 g)'},{item:'Queijo ralado',qtd:'50 g'},
+      {item:'Azeite, sal, orégano',qtd:'a gosto'},
     ],
     modo:['Bata farinha, leite, ovos e sal no liquidificador.',
-      'Frite as panquecas finas. Rechear com carne moída e enrolar.',
-      'Dispor em forma, cobrir com molho de tomate e queijo.',
+      'Frite as panquecas finas em frigideira com azeite.',
+      'Prepare o recheio: refogue carne moída com cebola, alho e metade do pelati.',
+      'Rechear cada panqueca com carne moída e enrolar.',
+      'Cubra com o restante do pelati e queijo ralado.',
       'Congelar sem assar, ou gratinar 15 min a 180°C antes de congelar.']
   },
   'Panqueca de frango desfiado com molho de tomate':{
     porcoes:'6 porções (12 panquecas)',ingredientes:[
-      {item:'Farinha de trigo',qtd:'2 xícaras'},{item:'Leite integral',qtd:'2 xícaras'},
-      {item:'Ovos',qtd:'2 unid.'},{item:'Frango desfiado com molho',qtd:'400 g'},
-      {item:'Molho de tomate para cobrir',qtd:'1 xícara'},{item:'Queijo ralado',qtd:'50 g'},
+      {item:'Farinha de trigo',qtd:'240 g (2 xícaras)'},{item:'Leite integral',qtd:'480 ml'},
+      {item:'Ovos',qtd:'2 unid.'},{item:'Frango peito/sassami',qtd:'400 g'},
+      {item:'Tomate pelati (cobertura)',qtd:'1,5 latas (600 g)'},{item:'Queijo ralado',qtd:'50 g'},
+      {item:'Azeite, sal, orégano',qtd:'a gosto'},
     ],
     modo:['Bata farinha, leite, ovos e sal no liquidificador até liso.',
-      'Frite as panquecas finas em frigideira antiaderente com manteiga.',
+      'Frite as panquecas finas em frigideira com azeite.',
+      'Prepare o recheio: desfie o frango cozido e misture com metade do pelati.',
       'Rechear cada panqueca com frango desfiado e enrolar.',
-      'Dispor em forma, cobrir com molho de tomate e queijo ralado.',
+      'Cubra com o restante do pelati e queijo ralado.',
       'Congelar sem assar, ou assar 15 min a 180°C antes de congelar.']
   },
-  // JANTARES
   'Estrogonoff de carne + arroz (G) / legumes (B)':{
     porcoes:'6 porções',ingredientes:[
-      {item:'Carne (acém/patinho) em cubos',qtd:'800 g'},{item:'Creme de leite',qtd:'2 caixinhas'},
-      {item:'Extrato de tomate',qtd:'2 col. sopa'},{item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},
-      {item:'Azeite, sal, pimenta',qtd:'a gosto'},
+      {item:'Acém ou patinho em cubos',qtd:'800 g'},{item:'Creme de ricota light',qtd:'400 g'},
+      {item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},{item:'Azeite, sal, pimenta',qtd:'a gosto'},
     ],
-    modo:['Tempere a carne e sele em óleo quente até dourar. Reserve.',
+    modo:['Tempere a carne e sele no azeite quente até dourar. Reserve.',
       'No mesmo fundo, refogue cebola e alho até dourar.',
-      'Volte a carne, adicione extrato de tomate. Cozinhe 5 min.',
-      'Acrescente o creme de leite. Fogo baixo por 10 min. Ajuste o sal.',
+      'Volte a carne e cozinhe 5 min.',
+      'Acrescente o creme de ricota. Fogo baixo por 10 min mexendo sempre. Ajuste o sal.',
       'Gabriel: servir com arroz. Brenda: servir com legumes cozidos no vapor.']
   },
   'Frango desfiado com molho + arroz (G) / legumes (B)':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Frango desfiado (preparado em lote)',qtd:'500 g'},{item:'Molho de tomate',qtd:'1 xícara'},
-      {item:'Cebola, alho, orégano',qtd:'a gosto'},
+      {item:'Frango peito/sassami',qtd:'500 g'},{item:'Tomate pelati',qtd:'2,5 latas (1 kg)'},
+      {item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},{item:'Azeite, sal, orégano',qtd:'a gosto'},
     ],
-    modo:['Use o frango desfiado já preparado no lote do dia.',
-      'Aqueça no fogo com cebola refogada e molho de tomate.',
-      'Tempere com orégano e ajuste o sal.',
+    modo:['Cozinhe e desfie o frango (base do lote do dia).',
+      'Refogue cebola e alho no azeite. Adicione o pelati amassado e cozinhe 10 min.',
+      'Adicione o frango desfiado. Ajuste o sal e o orégano.',
       'Gabriel: porcionar com arroz. Brenda: porcionar com legumes do vapor.']
   },
   'Carne moída com molho de tomate + arroz (G) / legumes (B)':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Carne moída (patinho)',qtd:'600 g'},{item:'Molho de tomate',qtd:'1 xícara'},
-      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},
+      {item:'Carne moída (patinho)',qtd:'600 g'},{item:'Tomate pelati',qtd:'1,5 latas (600 g)'},
+      {item:'Cebola + alho',qtd:'1 unid. + 3 dentes'},{item:'Azeite, sal, cominho',qtd:'a gosto'},
     ],
-    modo:['Refogue cebola e alho. Adicione carne moída e mexa até secar.',
-      'Junte extrato e molho de tomate. Tempere.',
+    modo:['Refogue cebola e alho no azeite. Adicione carne moída e mexa até secar.',
+      'Junte o pelati amassado. Tempere com sal e cominho.',
       'Cozinhe 10 min até o molho encorpar.',
       'Gabriel: porcionar com arroz. Brenda: porcionar com legumes.']
   },
   'Carne picada com molho de tomate + arroz (G) / legumes (B)':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Carne para panela em cubos pequenos',qtd:'700 g'},{item:'Molho de tomate',qtd:'1 xícara'},
-      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho + louro',qtd:'1 + 3 + 2'},
+      {item:'Acém em cubos pequenos',qtd:'700 g'},{item:'Tomate pelati',qtd:'1,5 latas (600 g)'},
+      {item:'Cebola + alho + louro',qtd:'1 unid. + 3 dentes + 2 folhas'},{item:'Azeite, sal, pimenta',qtd:'a gosto'},
     ],
-    modo:['Sele a carne picada em fundo quente. Reserve.',
-      'Refogue cebola e alho, adicione extrato, molho e louro.',
-      'Volte a carne, adicione água suficiente e cozinhe 20 min tampado.',
-      'Reduzir o caldo até encorpar. Gabriel: com arroz. Brenda: com legumes.']
+    modo:['Sele a carne picada no azeite quente. Reserve.',
+      'Refogue cebola e alho no mesmo fundo. Adicione o pelati, louro e a carne.',
+      'Cubra com água e cozinhe 20 min tampado.',
+      'Abra e reduza o caldo até encorpar.',
+      'Gabriel: com arroz. Brenda: com legumes.']
   },
   'Escondidinho de batata com carne moída':{
     porcoes:'6 porções',ingredientes:[
-      {item:'Batata inglesa cozida e amassada',qtd:'1 kg'},{item:'Carne moída com molho de tomate',qtd:'500 g'},
-      {item:'Leite + manteiga para o purê',qtd:'100 ml + 1 col.'},{item:'Queijo ralado',qtd:'100 g'},
+      {item:'Batata inglesa',qtd:'1 kg'},{item:'Carne moída (patinho)',qtd:'500 g'},
+      {item:'Leite integral',qtd:'100 ml'},{item:'Queijo ralado',qtd:'100 g'},
+      {item:'Azeite, sal, noz-moscada',qtd:'a gosto'},
     ],
-    modo:['Cozinhe as batatas e faça um purê com leite, manteiga e sal.',
-      'Prepare a carne moída refogada com cebola, alho e extrato de tomate.',
+    modo:['Cozinhe as batatas e faça um purê com leite, azeite e sal.',
+      'Prepare a carne moída refogada com cebola e alho no azeite.',
       'Em refratário: camada de purê, carne moída, outra camada de purê.',
       'Cubra com queijo ralado e leve ao forno 180°C por 20 min até dourar.']
   },
   'Batata-doce assada + frango desfiado':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Batata-doce',qtd:'1 kg'},{item:'Frango desfiado temperado',qtd:'400 g'},
+      {item:'Batata-doce',qtd:'1 kg'},{item:'Frango peito/sassami',qtd:'400 g'},
       {item:'Azeite, sal, pimenta',qtd:'a gosto'},
     ],
     modo:['Lave e corte as batatas-doces ao meio (sem descascar).',
       'Tempere com azeite e sal. Assar na airfryer 200°C por 25 min ou forno 200°C por 35 min.',
       'Prepare o frango desfiado à parte (base do lote do dia).',
       'Porcionar: 1 metade de batata-doce + porção de frango desfiado por marmita.',
-      'Brenda: pode acrescentar legumes no vapor na mesma marmita.']
+      'Brenda: acrescentar legumes no vapor na mesma marmita.']
   },
   'Quibe assado + arroz (G) / salada (B)':{
     porcoes:'6 porções',ingredientes:[
-      {item:'Carne moída (coxão mole)',qtd:'700 g'},{item:'Trigo para quibe',qtd:'1 xícara'},
+      {item:'Carne moída coxão mole',qtd:'700 g'},{item:'Trigo para quibe',qtd:'180 g (1 xícara)'},
       {item:'Cebola ralada',qtd:'1 unid.'},{item:'Hortelã, sal, pimenta, canela',qtd:'a gosto'},
       {item:'Azeite para untar',qtd:'—'},
     ],
     modo:['Deixe o trigo de molho em água fria por 20 min. Escorra bem.',
       'Misture trigo, carne, cebola ralada e temperos. Sove bem.',
-      'Unte uma forma retangular com azeite. Espalhe a massa (2 cm).',
+      'Unte uma forma retangular com azeite. Espalhe a massa (~2 cm).',
       'Faça cortes diagonais na superfície. Regue com azeite.',
       'Assar em forno 200°C por 35–40 min até dourar.']
   },
   'Cozido de carne moída com batata + legumes (B)':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Carne moída',qtd:'500 g'},{item:'Batata inglesa',qtd:'600 g'},
-      {item:'Cenoura + abobrinha',qtd:'2 + 1 unid.'},{item:'Caldo de carne, sal, louro',qtd:'a gosto'},
+      {item:'Carne moída (patinho)',qtd:'500 g'},{item:'Batata inglesa',qtd:'600 g'},
+      {item:'Cenoura',qtd:'2 unid.'},{item:'Abobrinha',qtd:'1 unid.'},
+      {item:'Azeite, sal, louro',qtd:'a gosto'},
     ],
-    modo:['Refogue a carne moída com cebola e alho.',
-      'Adicione batata e cenoura cortadas em cubos. Junte água (caldo) para cobrir.',
-      'Cozinhe 15 min. Adicione abobrinha e vagem nos últimos 5 min.',
-      'Ajuste o sal. Porcionar em marmitas — inclui naturalmente a camada de legumes para a Brenda.']
+    modo:['Refogue a carne moída no azeite com cebola e alho.',
+      'Adicione batata e cenoura em cubos. Cubra com água e cozinhe 15 min.',
+      'Adicione abobrinha nos últimos 5 min.',
+      'Ajuste o sal. Porcionar — inclui naturalmente os legumes para a Brenda.']
   },
   'Frango ao molho de tomate + arroz (G) / legumes (B)':{
     porcoes:'5 porções',ingredientes:[
-      {item:'Frango em pedaços (coxa/sobrecoxa)',qtd:'1 kg'},{item:'Molho de tomate pronto',qtd:'1,5 xícara'},
-      {item:'Extrato de tomate',qtd:'1 col. sopa'},{item:'Cebola + alho + louro',qtd:'1 + 4 + 2'},
-      {item:'Sal, orégano, pimenta',qtd:'a gosto'},
+      {item:'Frango coxa/sobrecoxa',qtd:'1 kg'},{item:'Tomate pelati',qtd:'2,5 latas (1 kg)'},
+      {item:'Cebola + alho + louro',qtd:'1 unid. + 4 dentes + 2 folhas'},{item:'Azeite, sal, orégano',qtd:'a gosto'},
     ],
-    modo:['Tempere o frango e doure em panela com azeite. Reserve.',
-      'Refogue cebola e alho no mesmo fundo.',
-      'Volte o frango, adicione extrato, molho de tomate, louro e água para cobrir pela metade.',
-      'Tampe e cozinhe 25 min em fogo médio até o frango ficar bem macio.',
+    modo:['Tempere o frango e doure no azeite. Reserve.',
+      'Refogue cebola e alho no mesmo fundo. Adicione o pelati amassado e o louro.',
+      'Volte o frango e cubra pela metade com água.',
+      'Tampe e cozinhe 25 min em fogo médio até ficar bem macio.',
       'Gabriel: porcionar com arroz. Brenda: porcionar com legumes no vapor.']
   },
 };
 
 const PREP_DATA = [
   {time:'09:00',action:'Arroz e feijão no fogo',detail:'Panela 1: arroz 3 kg. Panela 2: feijão (de molho desde sexta). 2 bocas por 35–40 min.',equip:'🔥 Fogão — bocas 1 e 2'},
-  {time:'09:05',action:'Frango na airfryer para desfiar',detail:'Temperar coxas/peitos. Assar para depois desfiar — base do frango desfiado e frango ao molho.',equip:'💨 Airfryer 200°C · 25 min'},
-  {time:'09:20',action:'Molho de tomate base grande',detail:'Refogar cebola e alho. Dividir em porções: uma para carne moída, uma para frango desfiado, uma para o sugo.',equip:'🔥 Fogão — boca 3'},
-  {time:'09:40',action:'Carne moída no molho + sugo',detail:'Carne moída na primeira porção do molho. Macarrão cozinhando em paralelo. Parte da carne vai pro escondidinho.',equip:'🔥 Fogão — bocas 3 e 4'},
-  {time:'09:45',action:'Estrogonoff de carne',detail:'Selar carne em cubos, adicionar base de cebola/alho, extrato e creme de leite. Fogo médio 25 min.',equip:'🔥 Fogão — boca 5'},
+  {time:'09:05',action:'Frango na airfryer para desfiar',detail:'Temperar coxas/peitos com sal, pimenta e azeite. Assar para desfiar — base do frango desfiado, frango ao molho e panqueca.',equip:'💨 Airfryer 200°C · 25 min'},
+  {time:'09:20',action:'Molho de tomate de pelati — panelão',detail:'Refogar cebola e alho no azeite. Adicionar tomate pelati amassado. Cozinhar 15 min. Dividir em porções: carne moída, frango desfiado, sugo, panqueca.',equip:'🔥 Fogão — boca 3'},
+  {time:'09:40',action:'Carne moída no molho + macarrão',detail:'Carne moída na porção do pelati. Macarrão cozinhando em paralelo. Parte da carne vai pro escondidinho.',equip:'🔥 Fogão — bocas 3 e 4'},
+  {time:'09:45',action:'Estrogonoff de carne com ricota',detail:'Selar acém em cubos no azeite, adicionar base de cebola/alho, depois creme de ricota light. Fogo médio-baixo 25 min.',equip:'🔥 Fogão — boca 5'},
   {time:'10:00',action:'Quibe no forno',detail:'Montar a forma de quibe (trigo + carne + temperos) e assar.',equip:'🟧 Forno 200°C · 35 min'},
-  {time:'10:15',action:'Desfiar frango + molhos',detail:'Desfiar frango assado. Adicionar ao molho base. Parte vira galinhada (misturar com arroz já pronto).',equip:'🏠 Mesa + fogão boca 1'},
-  {time:'10:45',action:'Batata-doce na airfryer + escondidinho',detail:'Assar batata-doce na airfryer. Montar escondidinho em refratário e gratinar no forno.',equip:'💨 Airfryer + 🟧 Forno'},
-  {time:'11:15',action:'Panquecas',detail:'Massa de panqueca (farinha + leite + ovos). Fritar, rechear com frango ou carne moída e enrolar.',equip:'🔥 Fogão — bocas 1 e 2'},
+  {time:'10:15',action:'Desfiar frango + montar molhos',detail:'Desfiar frango assado. Parte vai ao pelati base (frango ao molho e desfiado). Parte vira recheio de panqueca. Parte vira galinhada com arroz já pronto.',equip:'🏠 Mesa + fogão boca 1'},
+  {time:'10:45',action:'Batata-doce na airfryer + escondidinho',detail:'Assar batata-doce na airfryer. Montar escondidinho em refratário (purê + carne moída) e gratinar no forno.',equip:'💨 Airfryer + 🟧 Forno'},
+  {time:'11:15',action:'Panquecas',detail:'Massa no liquidificador (farinha + leite + ovos). Fritar, rechear com frango ou carne moída + pelati e enrolar. Cobrir com pelati e queijo.',equip:'🔥 Fogão — bocas 1 e 2'},
   {time:'11:45',action:'Legumes da Brenda',detail:'Cozinhar abobrinha, cenoura e brócolis no vapor ou airfryer. Porções para ~10 refeições.',equip:'💨 Airfryer ou vapor'},
   {time:'12:15',action:'Porcionamento e montagem',detail:'Gabriel: arroz + proteína. Brenda: legumes + proteína. Etiquetar: Nome · Prato · S1/S2 · A/J.',equip:'🏠 Mesa de trabalho'},
   {time:'12:45',action:'Organizar freezer',detail:'Prateleira 1 = Semana 1. Prateleira 2 = Semana 2. Prateleira 3 = reservas. Arroz e feijão → geladeira.',equip:'🧊 Freezer + geladeira'},
@@ -1284,28 +1288,94 @@ function renderCardapio() {
   el.innerHTML=html;
 }
 
-// ── COMPRAS ─────────────────────────────────────────────────
+// ── COMPRAS — dinâmico (Opção A) ─────────────────────────────
 function buildShopList() {
-  const haveItems=Object.entries(state.inventory).filter(([k,v])=>v.have).map(([k])=>k.toLowerCase());
-  let totalNeed=0,totalHave=0;
-  let html='',textLines=['🛒 Lista de compras — Meal Prep Gabriel & Brenda\n'];
-  Object.entries(SHOP_DATA).forEach(([cat,items])=>{
-    const needed=[],haved=[];
-    items.forEach(item=>{
-      const have=haveItems.some(h=>h.includes(item.key));
-      if(have) haved.push(item); else needed.push(item);
+  // 1. Somar ingredientes de todas as marmitas selecionadas
+  const totais = {}; // key → {nome, qtd, unit, categoria}
+
+  function catDeKey(key) {
+    if (['frango_peito','frango_coxa','acem','carne_moida','carne_coxao'].includes(key)) return 'Proteínas';
+    if (['macarrao','arroz','farinha','leite','batata_doce','batata_inglesa','trigo_quibe'].includes(key)) return 'Carboidratos & base';
+    if (['pelati','cenoura','abobrinha'].includes(key)) return 'Hortifruti & tomate';
+    if (['ricota','queijo','ovo'].includes(key)) return 'Laticínios';
+    return 'Outros';
+  }
+
+  Object.entries(state.selecaoMarmitas).forEach(([idStr, sel]) => {
+    const prato = PRATOS.find(p => p.id === parseInt(idStr));
+    if (!prato) return;
+    const totalPorcoes = (sel.g||0) + (sel.b||0);
+    if (totalPorcoes === 0) return;
+    const ingrs = INGR_POR_PORCAO[prato.nome];
+    if (!ingrs) return;
+    ingrs.forEach(ingr => {
+      if (!totais[ingr.key]) {
+        totais[ingr.key] = {nome:ingr.nome, qtd:0, unit:ingr.unit, categoria:catDeKey(ingr.key)};
+      }
+      totais[ingr.key].qtd += ingr.qtd * totalPorcoes;
     });
-    totalNeed+=needed.length; totalHave+=haved.length;
-    html+=`<div class="card shop-section"><div class="shop-section-title">${cat}</div>`;
-    needed.forEach(item=>{html+=`<div class="shop-item"><span class="shop-item-name">${item.name}</span><span class="shop-item-qty">${item.qty}</span></div>`;});
-    haved.forEach(item=>{html+=`<div class="shop-item have"><span class="shop-item-name">${item.name}</span><span class="shop-item-qty">✓ em casa</span></div>`;});
-    html+=`</div>`;
-    if(needed.length>0){textLines.push(cat.toUpperCase());needed.forEach(i=>textLines.push(`• ${i.name} — ${i.qty}`));textLines.push('');}
   });
-  document.getElementById('shop-output').innerHTML=html;
-  document.getElementById('shop-text-area').textContent=textLines.join('\n');
-  document.getElementById('shop-count').textContent=totalNeed;
-  document.getElementById('shop-have').textContent=totalHave;
+
+  // 2. Formatar quantidades
+  function formatar(qtd, unit) {
+    if (unit === 'g') {
+      if (qtd >= 1000) return (qtd/1000).toFixed(1).replace('.0','') + ' kg';
+      return Math.ceil(qtd) + ' g';
+    }
+    if (unit === 'ml') {
+      if (qtd >= 1000) return (qtd/1000).toFixed(1).replace('.0','') + ' L';
+      return Math.ceil(qtd) + ' ml';
+    }
+    if (unit === 'lata') {
+      return Math.ceil(qtd) + ' lata' + (Math.ceil(qtd) > 1 ? 's' : '') + ' (400g)';
+    }
+    if (unit === 'unid') {
+      return Math.ceil(qtd) + ' unid.';
+    }
+    return qtd.toFixed(1) + ' ' + unit;
+  }
+
+  // 3. Agrupar por categoria
+  const categorias = {};
+  Object.values(totais).forEach(item => {
+    if (!categorias[item.categoria]) categorias[item.categoria] = [];
+    categorias[item.categoria].push({nome:item.nome, qty:formatar(item.qtd, item.unit), key:item.nome.toLowerCase()});
+  });
+
+  // 4. Adicionar fixos
+  const catFixos = 'Itens fixos';
+  categorias[catFixos] = SHOP_FIXOS.map(f => ({nome:f.nome, qty:f.qty, key:f.key}));
+
+  // 5. Cruzar com inventário
+  const haveItems = Object.entries(state.inventory).filter(([k,v])=>v.have).map(([k])=>k.toLowerCase());
+  let totalNeed = 0, totalHave = 0;
+  let html = '', textLines = ['🛒 Lista de compras — Meal Prep Gabriel & Brenda\n'];
+
+  const ordemCats = ['Proteínas','Carboidratos & base','Hortifruti & tomate','Laticínios','Itens fixos','Outros'];
+  ordemCats.forEach(cat => {
+    const items = categorias[cat];
+    if (!items || items.length === 0) return;
+    const needed = [], haved = [];
+    items.forEach(item => {
+      const have = haveItems.some(h => h.includes(item.key));
+      if (have) haved.push(item); else needed.push(item);
+    });
+    totalNeed += needed.length; totalHave += haved.length;
+    html += `<div class="card shop-section"><div class="shop-section-title">${cat}</div>`;
+    needed.forEach(item => { html += `<div class="shop-item"><span class="shop-item-name">${item.nome}</span><span class="shop-item-qty">${item.qty}</span></div>`; });
+    haved.forEach(item => { html += `<div class="shop-item have"><span class="shop-item-name">${item.nome}</span><span class="shop-item-qty">✓ em casa</span></div>`; });
+    html += '</div>';
+    if (needed.length > 0) { textLines.push(cat.toUpperCase()); needed.forEach(i => textLines.push(`• ${i.nome} — ${i.qty}`)); textLines.push(''); }
+  });
+
+  if (Object.keys(totais).length === 0) {
+    html = '<div class="alert alert-warn">⚠️ Nenhuma marmita selecionada ainda. Volte em Marmitas e defina as quantidades.</div>';
+  }
+
+  document.getElementById('shop-output').innerHTML = html;
+  document.getElementById('shop-text-area').textContent = textLines.join('\n');
+  document.getElementById('shop-count').textContent = totalNeed;
+  document.getElementById('shop-have').textContent = totalHave;
 }
 function buildShopAndGo() { buildShopList(); goStep(4); }
 function switchShopTab(tab) {
